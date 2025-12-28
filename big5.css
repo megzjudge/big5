@@ -1,463 +1,284 @@
-* {
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	box-sizing: border-box;
+:root{
+  --me-1: linear-gradient(135deg, rgba(3, 40, 45, 1) 0%, rgba(10, 126, 140, 1) 100%);
+  --me-2: linear-gradient(135deg, rgba(40, 45, 3, 1) 0%, rgba(126, 140, 10, 1) 100%);
+  --women-1: linear-gradient(135deg, #2D0332 0%, #8C0A7E 100%);
+  --women-2: linear-gradient(135deg, #3A052F 0%, #D278BE 100%);
+  --men-1: linear-gradient(135deg, #2D1403 0%, #8C3A0A 100%);
+  --men-2: linear-gradient(135deg, #3A1C05 0%, #E6B946 100%);
+  --scroll-track: rgba(0,0,0,0.28);
+  --scroll-thumb: #0A7E8C;
+  --scroll-thumb-dark: #03282D;
+  --me-dur: 3s;
+  --avg-dur: 3s;
+  --gap: 0.25s;
 }
 
-body {
-	background: #1d2724;
-	scroll-behavior: smooth;
-	font-size: calc(13px + 0.390625vw);
-}
+/* =========================
+   HEADER
+   ========================= */
 
 header img {
-	border-radius: 250px;
-  	box-shadow: 3px 3px 10px #000000;
-  	max-width: 100%;
-	padding: 30px 30px 30px 30px;
+  border-radius: 250px;
+  box-shadow: 3px 3px 10px #000000;
+  max-width: 100%;
+  padding: 30px 30px 30px 30px;
 }
 
 header {
-	margin: 50px 50px 50px 50px;
-	text-align: center;
-}
-
-a, a:link, a:visited, a:hover, a:active {
-	text-decoration: none;
-	color: #FFFFFF;
-	letter-spacing: 2px;
-	font-weight: 600;
-	font-size: calc(13px + 0.390625vw);
-	text-shadow: 3px 3px 5px #3b3b3b;
-}
-
-@font-face {
-	font-family: 'Somebody Else';
-	src: url('fonts/Somebody_Else.otf');
-	font-style: normal;
-}
-
-.textblock {
-	font-family: Arial, fantasy;
-	margin: 180px auto;
-	color: #ffffff;
-	padding: 5%;
-	border-radius: 50px;
-	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-	width: 70%;
-	overflow: hidden;
-	background: rgb(101,135,125);
-	background: -moz-radial-gradient(circle, rgba(101,135,125,1) 0%, rgba(70,95,87,1) 40%, rgba(29,39,36,1) 75%);
-	background: -webkit-radial-gradient(circle, rgba(101,135,125,1) 0%, rgba(70,95,87,1) 40%, rgba(29,39,36,1) 75%);
-	background: radial-gradient(circle, rgba(101,135,125,1) 0%, rgba(70,95,87,1) 40%, rgba(29,39,36,1) 75%);
-}
-
-.grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 10px;
-	grid-template-rows: 1fr 1fr;
-	justify-content: center;
-	align-content: center;
-	padding-bottom: 80px;
-}
-
-.textblock img {
-	margin: 50px 0px 50px 0px;
-	aspect-ratio: 16/9;
-}
-
-footer {
-	font-family: 'Somebody Else', fantasy;
-	letter-spacing: 5px;
-	font-weight: 900;
-	font-size: calc(20px + 0.390625vw);
-	text-align: center;
-	bottom: 0%;
-	color: #0a7e8c;
-	width: 75%;
-	margin: 30px auto auto auto;
-	padding: 30px 30px 30px 30px;
+  margin: 50px 50px 50px 50px;
+  text-align: center;
 }
 
 h1 {
-	font-family: 'Somebody Else', Arial, fantasy;
-	color: #FFFFFF;
-	text-align: center;
-	font-weight: bold;
-	font-size: calc(45px + 0.390625vw);
-	margin: 130px 50px 50px 50px;
+  font-family: 'Somebody Else', Arial, fantasy;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: bold;
+  font-size: calc(45px + 0.390625vw);
+  padding-top: 50px;
 }
 
-h2 {
-	font-family: 'Somebody Else', Arial, fantasy;
-	color: #FFFFFF;
-	text-align: center;
-	font-weight: bold;
-	font-size: calc(45px + 0.390625vw);
-}
-
-h3 {
-	text-align: center;
-	font-weight: bold;
-	padding: 50px 0px 50px 0px;
-	font-size: calc(13px + 0.390625vw);
-}
+/* =========================
+   TEXT
+   ========================= */
 
 h5 {
-	margin: 5px;
-}
-
-.italic {
-	font-style: italic;
-	text-align: center;
-	padding: 0px 0px 50px 0px;
-	font-size: calc(13px + 0.390625vw);
-}
-
-main {
-	text-align: center; /*align images*/
-}
-
-.hidden {
-	margin: 80px 0px 80px 0px;
-}
-
-p {
-	text-align: left;
-	margin: 0px 0px 40px 0px;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: calc(10px + 0.390625vw);
 }
 
 a, a:link, a:visited, a:hover, a:active {
-	text-decoration: none;
-	color: #FFFFFF;
-	letter-spacing: 2px;
-	font-weight: 600;
-	font-size: calc(13px + 0.390625vw);
-	text-shadow: 3px 3px 5px #3b3b3b;
+  text-decoration: none;
+  color: var(--scroll-thumb);
+  text-shadow: 3px 3px 5px #3b3b3b;
 }
+
+@font-face {
+  font-family: 'Somebody Else';
+  src: url('fonts/Somebody_Else.otf');
+  font-style: normal;
+}
+
+/* =========================
+   TOP BUTTON
+   ========================= */
 
 .top {
-	position: fixed;
-	bottom: 20px;
-	padding: 10px 10px 10px 10px;
-	background: #65877d;
-	border-radius: 100px;
-	font-size: calc(13px + 0.390625vw);
-	box-shadow: 3px 3px 10px #000000;
-	right: 20px;
-	bottom: 25px;
+  position: fixed;
+  bottom: 20px;
+  padding: 10px 10px 10px 10px;
+  background: var(--me-1);
+  border-radius: 100px;
+  font-size: calc(13px + 0.390625vw);
+  box-shadow: 3px 3px 10px #000000;
+  right: 35px;
+  bottom: 15px;
 }
 
-iframe {
-	width: 55%;
-	aspect-ratio: 16/9;
-	padding-top: 30px;
+/* =========================
+   SECTIONS
+   ========================= */
+
+html, body{
+  height: 100%;
+  overflow: hidden;
+  background: #1d2724;
+  font-size: calc(13px + 0.390625vw);
 }
 
-hr {
-	border: 1px solid linear-gradient(135deg, rgba(3, 40, 45, 1)0%, rgba(10, 126, 140, 1)100%);
-	margin-top: 50px;
-	margin-bottom: 50px;
+.snap-wrap{
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
 }
 
-.aspect {
-	width: 500px;
-	margin: 60px auto;
-	color: #ffffff;
-	padding: 20px;
-	padding-bottom: 50px;
-	border-radius: 50px;
-	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-	font-size: calc(13px + 0.390625vw);
+.snap-wrap:active {
+  scrollbar-color: #7E8C0A rgba(0,0,0,0.28);
 }
 
-.aspect li {
-	margin: 20px 0;
-	padding: 10px;
+.snap-wrap::-webkit-scrollbar{
+  width: 12px;
+}
+
+.snap-wrap::-webkit-scrollbar-track{
+  background: var(--scroll-track);
+  border-radius: 12px;
+}
+
+.snap-wrap::-webkit-scrollbar-thumb{
+  background: linear-gradient(135deg, var(--scroll-thumb-dark) 0%, var(--scroll-thumb) 100%);
+  border-radius: 12px;
+  border: 3px solid rgba(0,0,0,0.25);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.snap-wrap::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(135deg, #282D03 0%, #7E8C0A 100%);
+}
+
+.snap-wrap .page {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.snap-wrap .grid {
+  display: block;
+  padding-bottom: 0;
+}
+
+.snap-wrap .page + .page {
+  margin-top: 40px;
+}
+
+/* =========================
+   BAR SYSTEM
+   ========================= */
+
+.bar-label{
+  position: relative;
+}
+
+.bar-label::after{
+  content: attr(data-pct);
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: rgba(255,255,255,0.9);
+  z-index: 6;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.65);
+
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.page.done .bar-label::after{
+  opacity: 1;
 }
 
 .bar1, .bar2 {
-	background: #353b48;
-	display: block;
-	height: 20px;
-	border: 1px solid rgba(0, 0, 0, 0.3);
-	border-radius: 10px;
-	overflow: hidden;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: #353b48;
+  display: block;
+  height: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-bottom: 10px;
 }
 
 .bar1:hover, .bar2:hover {
-	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-.bar1 span {
-	height: 20px;
-	float: left;
-	background: linear-gradient(135deg, rgba(3, 40, 45, 1)0%, rgba(10, 126, 140, 1)100%);
+.bar1 .fill, .bar2 .fill {
+  display: block;
+  height: 20px;
+  width: 0%;
+  border-radius: 10px;
 }
 
-.bar2 span {
-	height: 20px;
-	float: left;
-	background: linear-gradient(135deg, rgba(40, 45, 3, 1)0%, rgba(126, 140, 10, 1)100%);
+.bar1 .fill.me { background: var(--me-1); }
+.bar2 .fill.me { background: var(--me-2); }
+
+.bar1 .fill.men { background: var(--men-1); }
+.bar2 .fill.men { background: var(--men-2); }
+
+.bar1 .fill.women { background: var(--women-1); }
+.bar2 .fill.women { background: var(--women-2); }
+
+.bar-label { position: relative; }
+
+.bar-label::before {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.85);
+  z-index: 5;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
-.conscientiousness {
-	width: 63%;
-	animation: conscientiousness 3s;
+.mebar::before { content: "me"; }
+.menbar::before { content: "men average"; }
+.womenbar::before { content: "women average"; }
+
+@keyframes fill-to {
+  from { width: 0%; }
+  to   { width: var(--to); }
 }
 
-@keyframes conscientiousness {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 63%;
-	}
-}
+.fill.me.extraversion      { --to: 89%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.openness          { --to: 94%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.conscientiousness { --to: 63%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.neuroticism       { --to: 64%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.agreeableness     { --to: 20%; animation: fill-to var(--me-dur) ease forwards; }
 
-.industriousness {
-	width: 88%;
-	animation: industriousness 3s;
-}
+.fill.me.assertiveness   { --to: 99%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.enthusiasm      { --to: 36%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.intellect       { --to: 94%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.aesthetics      { --to: 84%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.industriousness { --to: 88%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.orderliness     { --to: 25%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.volatility      { --to: 86%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.withdrawal      { --to: 31%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.compassion      { --to: 48%; animation: fill-to var(--me-dur) ease forwards; }
+.fill.me.politeness      { --to: 7%;  animation: fill-to var(--me-dur) ease forwards; }
 
-@keyframes industriousness {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 88%;
-	}
-}
+.fill.men   { animation-delay: calc(var(--me-dur) + var(--gap)); }
+.fill.women { animation-delay: calc(var(--me-dur) + var(--gap) + var(--avg-dur) + var(--gap)); }
 
-.orderliness {
-	width: 25%;
-	animation: orderliness 3s;
-}
+.fill.men.assertiveness-men     { --to: 52%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.assertiveness-women { --to: 48%; animation: fill-to var(--avg-dur) ease forwards; }
 
-@keyframes orderliness {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 25%;
-	}
-}
+.fill.men.enthusiasm-men        { --to: 45%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.enthusiasm-women    { --to: 55%; animation: fill-to var(--avg-dur) ease forwards; }
 
-.openness {
-	width: 94%;
-	animation: openness 3s;
-}
+.fill.men.industriousness-men     { --to: 51.5%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.industriousness-women { --to: 49.5%; animation: fill-to var(--avg-dur) ease forwards; }
 
-@keyframes openness {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 94%;
-	}
-}
+.fill.men.orderliness-men     { --to: 45.5%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.orderliness-women { --to: 54.5%; animation: fill-to var(--avg-dur) ease forwards; }
 
-.intellect {
-	width: 94%;
-	animation: intellect 3s;
-}
+.fill.men.intellect-men     { --to: 44.5%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.intellect-women { --to: 56.5%; animation: fill-to var(--avg-dur) ease forwards; }
 
-@keyframes intellect {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 94%;
-	}
-}
+.fill.men.aesthetics-men     { --to: 55%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.aesthetics-women { --to: 45%; animation: fill-to var(--avg-dur) ease forwards; }
 
-.aesthetics {
-	width: 84%;
-	animation: aesthetics 3s;
-}
+.fill.men.compassion-men     { --to: 39%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.compassion-women { --to: 61%; animation: fill-to var(--avg-dur) ease forwards; }
 
-@keyframes aesthetics {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 84%;
-	}
-}
+.fill.men.politeness-men     { --to: 41%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.politeness-women { --to: 59%; animation: fill-to var(--avg-dur) ease forwards; }
 
-.extraversion {
-	width: 89%;
-	animation: extraversion 3s;
-}
+.fill.men.volatility-men     { --to: 42.5%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.volatility-women { --to: 57.5%; animation: fill-to var(--avg-dur) ease forwards; }
 
-@keyframes extraversion {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 89%;
-	}
-}
+.fill.men.withdrawal-men     { --to: 40%; animation: fill-to var(--avg-dur) ease forwards; }
+.fill.women.withdrawal-women { --to: 60%; animation: fill-to var(--avg-dur) ease forwards; }
 
-.assertiveness {
-	width: 99%;
-	animation: assertiveness 3s;
-}
+/* =========================
+   MOBILE
+   ========================= */
 
-@keyframes assertiveness {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 99%;
-	}
-}
-
-.enthusiasm {
-	width: 36%;
-	animation: enthusiasm 3s;
-}
-
-@keyframes enthusiasm {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 36%;
-	}
-}
-
-.agreeableness {
-	width: 20%;
-	animation: agreeableness 3s;
-}
-
-@keyframes agreeableness {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 20%;
-	}
-}
-
-.compassion {
-	width: 48%;
-	animation: compassion 3s;
-}
-
-@keyframes compassion {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 48%;
-	}
-}
-
-.politeness {
-	width: 7%;
-	animation: politeness 3s;
-}
-
-@keyframes politeness {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 7%;
-	}
-}
-
-.neuroticism {
-	width: 64%;
-	animation: neuroticism 3s;
-}
-
-@keyframes neuroticism {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 64%;
-	}
-}
-
-.volatility {
-	width: 86%;
-	animation: volatility 3s;
-}
-
-@keyframes volatility {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 86%;
-	}
-}
-
-.withdrawal {
-	width: 31%;
-	animation: withdrawal 3s;
-}
-
-@keyframes withdrawal {
-	0% {
-		width: 0%;
-	}
-	100% {
-		width: 31%;
-	}
-}
-
-@media (max-width: 1440px) {
-	.grid {
-    		grid-template-columns: 1fr;
-  	}
-	.bar1, .bar2 {
-		width: 80vw;
-	}
-	.aspect {
-		display: grid;
-		justify-content: center;
-		align-content: center;
-	}
-	.textblock {
-		width: 90%;
-		margin: 0 auto;
-		margin: 180px auto;
-	}
-	.textblock img {
-		width: 90%;
-		aspect-ratio: 16/9;
-	}
-	.h2 {
-		font-size: 150px;
-	}
-}
-
-@media (max-width: 768px) {
-	.hidden {
-		display: none;
-	}
-	iframe {
-		width: 80%;
-		aspect-ratio: 16/9;
-	}	
-}
-
-@page {
-	size: A4;
-	margin: 0;
-}
-
-@media print {
-  html, body {
-	width: 210mm;
-	height: 297mm;
-}}
