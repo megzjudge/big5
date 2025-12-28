@@ -61,6 +61,14 @@ a, a:link, a:visited, a:hover, a:active {
 }
 
 /* =========================
+   IMAGES
+   ========================= */
+
+img {
+  max-width: 100%;
+}
+
+/* =========================
    TOP BUTTON
    ========================= */
 
@@ -80,14 +88,14 @@ a, a:link, a:visited, a:hover, a:active {
    SECTIONS
    ========================= */
 
-html, body{
+html, body {
   height: 100%;
   overflow: hidden;
   background: #1d2724;
   font-size: calc(13px + 0.390625vw);
 }
 
-.snap-wrap{
+.snap-wrap {
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -96,22 +104,23 @@ html, body{
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+
 }
 
 .snap-wrap:active {
   scrollbar-color: #7E8C0A rgba(0,0,0,0.28);
 }
 
-.snap-wrap::-webkit-scrollbar{
+.snap-wrap::-webkit-scrollbar {
   width: 12px;
 }
 
-.snap-wrap::-webkit-scrollbar-track{
+.snap-wrap::-webkit-scrollbar-track {
   background: var(--scroll-track);
   border-radius: 12px;
 }
 
-.snap-wrap::-webkit-scrollbar-thumb{
+.snap-wrap::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, var(--scroll-thumb-dark) 0%, var(--scroll-thumb) 100%);
   border-radius: 12px;
   border: 3px solid rgba(0,0,0,0.25);
@@ -123,13 +132,15 @@ html, body{
 }
 
 .snap-wrap .page {
+  height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
+  padding: 40px 0;
+  box-sizing: border-box;
 }
 
 .snap-wrap .grid {
@@ -137,8 +148,8 @@ html, body{
   padding-bottom: 0;
 }
 
-.snap-wrap .page + .page {
-  margin-top: 40px;
+.snap-wrap .page {
+  scroll-snap-stop: normal;
 }
 
 /* =========================
@@ -185,6 +196,11 @@ html, body{
 
 .bar1:hover, .bar2:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.page:not(.active) .fill{
+  animation: none !important;
+  width: 0% !important;
 }
 
 .bar1 .fill, .bar2 .fill {
