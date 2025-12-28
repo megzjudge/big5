@@ -1,27 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
+  
+  /* =========================
+     ZOOM
+     ========================= */
+
+  (function () {
+    const scroller =
+      document.querySelector('.snap-wrap') ||
+      document.querySelector('.scroll-sections') ||
+      document.scrollingElement ||
+      document.documentElement;
+
+    const EPS = 0.01;
+
+    function isZoomed() {
+      if (!window.visualViewport) return false;
+      return Math.abs(window.visualViewport.scale - 1) > EPS;
+    }
+
+    function syncZoomState() {
+      scroller.classList.toggle('zoomed', isZoomed());
+    }
+
+    syncZoomState();
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncZoomState);
+      window.visualViewport.addEventListener('scroll', syncZoomState);
+    }
+
+    window.addEventListener('resize', syncZoomState);
+  })();
+
+  /* =========================
+     BARS
+     ========================= */
+     
   const wrap = document.querySelector('.snap-wrap');
   const pages = Array.from(document.querySelectorAll('.page'));
 
-  if (!wrap) {
-    console.warn('No .snap-wrap found');
-    return;
-  }
-  if (pages.length === 0) {
-    console.warn('No .page sections found');
-    return;
-  }
+  if (!wrap || pages.length === 0) return;
 
   const setActivePage = (page) => {
-    // deactivate others (CSS will hard-reset their fills to 0)
     pages.forEach(p => {
       if (p !== page) p.classList.remove('active', 'done');
     });
 
-    // (re)activate this page
     page.classList.add('active');
     page.classList.remove('done');
 
-    // count only fills that actually animate
     const fills = Array.from(page.querySelectorAll('.fill')).filter(el => {
       const name = getComputedStyle(el).animationName;
       return name && name !== 'none';
@@ -42,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fills.forEach(f => f.addEventListener('animationend', onEnd, { once: true }));
   };
 
-  // Ensure first page animates immediately (important with strict thresholds)
   setActivePage(pages[0]);
 
   const io = new IntersectionObserver((entries) => {
@@ -53,15 +79,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!visible) return;
 
     const page = visible.target;
-
-    // Prevent retriggering the same page while scrolling within it
     if (page.classList.contains('active')) return;
 
     setActivePage(page);
   }, {
     root: wrap,
-    threshold: [0.35, 0.6, 0.85], // more forgiving than 0.75/0.9
-    rootMargin: '0px 0px -10% 0px' // helps pick the "current" page
+    threshold: [0.35, 0.6, 0.85],
+    rootMargin: '0px 0px -10% 0px',
   });
 
   pages.forEach(p => io.observe(p));
