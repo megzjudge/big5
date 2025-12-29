@@ -13,6 +13,12 @@
   --gap: 0.25s;
 }
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: #1d2724;
+}
+
 /* =========================
    HEADER
    ========================= */
@@ -42,16 +48,34 @@ h1 {
    TEXT
    ========================= */
 
+h2 {
+  font-family: 'Somebody Else', Arial, fantasy;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: bold;
+  font-size: calc(22px + 0.390625vw);
+}
+
 h5 {
   color: #ffffff;
   font-weight: bold;
-  font-size: calc(10px + 0.390625vw);
+  font-size: calc(14px + 0.390625vw);
 }
 
 a, a:link, a:visited, a:hover, a:active {
   text-decoration: none;
   color: var(--scroll-thumb);
   text-shadow: 3px 3px 5px #3b3b3b;
+}
+
+p {
+  color: #ffffff;
+}
+
+.pcenter {
+  text-align: center;
+  color: #ffffff;
+  font-size: calc(14px + 0.390625vw);
 }
 
 @font-face {
@@ -65,7 +89,19 @@ a, a:link, a:visited, a:hover, a:active {
    ========================= */
 
 img {
-  max-width: 100%;
+  max-width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.snap-wrap.zoomed{
+  scroll-snap-type: none;
+}
+
+.snap-wrap.zoomed .page{
+  scroll-snap-align: none;
+  scroll-snap-stop: normal;
 }
 
 /* =========================
@@ -88,13 +124,6 @@ img {
    SECTIONS
    ========================= */
 
-html, body {
-  height: 100%;
-  overflow: hidden;
-  background: #1d2724;
-  font-size: calc(13px + 0.390625vw);
-}
-
 .snap-wrap {
   height: 100vh;
   overflow-y: auto;
@@ -102,9 +131,33 @@ html, body {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+}
+
+.snap-wrap .page {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 40px 0;
+  box-sizing: border-box;
+  scroll-snap-stop: normal;
+}
+
+.snap-wrap .grid {
+  display: block;
+  padding-bottom: 0;
+}
+
+/* =========================
+   SCROLL BARS
+   ========================= */
+
+.snap-wrap {
   scrollbar-width: thin;
   scrollbar-color: var(--scroll-thumb) var(--scroll-track);
-
 }
 
 .snap-wrap:active {
@@ -131,56 +184,38 @@ html, body {
   background: linear-gradient(135deg, #282D03 0%, #7E8C0A 100%);
 }
 
-.snap-wrap .page {
-  height: 100vh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 40px 0;
-  box-sizing: border-box;
-}
-
-.snap-wrap .grid {
-  display: block;
-  padding-bottom: 0;
-}
-
-.snap-wrap .page {
-  scroll-snap-stop: normal;
-}
-
 /* =========================
-   BAR SYSTEM
+   FILL BARS
    ========================= */
 
-.bar-label{
-  position: relative;
+.bar-label::before,
+.bar-label::after{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.65);
+}
+
+.bar-label::before{
+  left: 8px;
 }
 
 .bar-label::after{
-  content: attr(data-pct);
-  position: absolute;
   right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.2px;
-  color: rgba(255,255,255,0.9);
-  z-index: 6;
-  pointer-events: none;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.65);
-
-  opacity: 0;
+  content: attr(data-pct);
+  opacity: 1;
   transition: opacity 220ms ease;
 }
 
-.page.done .bar-label::after{
-  opacity: 1;
-}
+.mebar::before{ content: "me"; }
+.menbar::before{ content: "men average"; }
+.womenbar::before{ content: "women average"; }
 
 .bar1, .bar2 {
   background: #353b48;
@@ -188,6 +223,7 @@ html, body {
   height: 20px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 10px;
+  position: relative;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -198,51 +234,28 @@ html, body {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-.page:not(.active) .fill{
-  animation: none !important;
-  width: 0% !important;
-}
-
-.bar1 .fill, .bar2 .fill {
+.bar1 .fill, .bar2 .fill{
   display: block;
-  height: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
   width: 0%;
+  z-index: 1;
   border-radius: 10px;
 }
-
-.bar1 .fill.me { background: var(--me-1); }
-.bar2 .fill.me { background: var(--me-2); }
-
-.bar1 .fill.men { background: var(--men-1); }
-.bar2 .fill.men { background: var(--men-2); }
-
-.bar1 .fill.women { background: var(--women-1); }
-.bar2 .fill.women { background: var(--women-2); }
-
-.bar-label { position: relative; }
-
-.bar-label::before {
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  color: rgba(255, 255, 255, 0.85);
-  z-index: 5;
-  pointer-events: none;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-}
-
-.mebar::before { content: "me"; }
-.menbar::before { content: "men average"; }
-.womenbar::before { content: "women average"; }
 
 @keyframes fill-to {
   from { width: 0%; }
   to   { width: var(--to); }
 }
+
+.bar1 .fill.me { background: var(--me-1); }
+.bar2 .fill.me { background: var(--me-2); }
+.bar1 .fill.men { background: var(--men-1); }
+.bar2 .fill.men { background: var(--men-2); }
+.bar1 .fill.women { background: var(--women-1); }
+.bar2 .fill.women { background: var(--women-2); }
 
 .fill.me.extraversion      { --to: 89%; animation: fill-to var(--me-dur) ease forwards; }
 .fill.me.openness          { --to: 94%; animation: fill-to var(--me-dur) ease forwards; }
