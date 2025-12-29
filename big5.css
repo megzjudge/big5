@@ -1,22 +1,20 @@
 :root{
-  --me-1: linear-gradient(135deg, rgba(3, 40, 45, 1) 0%, rgba(10, 126, 140, 1) 100%);
-  --me-2: linear-gradient(135deg, rgba(40, 45, 3, 1) 0%, rgba(126, 140, 10, 1) 100%);
-  --women-1: linear-gradient(135deg, #2D0332 0%, #8C0A7E 100%);
-  --women-2: linear-gradient(135deg, #3A052F 0%, #D278BE 100%);
-  --men-1: linear-gradient(135deg, #2D1403 0%, #8C3A0A 100%);
-  --men-2: linear-gradient(135deg, #3A1C05 0%, #E6B946 100%);
-  --scroll-track: rgba(0,0,0,0.28);
-  --scroll-thumb: #0A7E8C;
-  --scroll-thumb-dark: #03282D;
-  --me-dur: 3s;
-  --avg-dur: 3s;
-  --gap: 0.25s;
+    --me-1: #0A7E8C;
+    --me-2: #7E8C0A;
+    --women-1: #8C0A7E;
+    --men-1: #8C3A0A;
+    --scroll-track: rgba(0,0,0,0.28);
+    --scroll-thumb: #0A7E8C;
+    --scroll-thumb-dark: #03282D;
+    --me-dur: 3s;
+    --avg-dur: 3s;
+    --gap: 0.25s;
 }
 
 html, body {
-  height: 100%;
-  overflow: hidden;
-  background: #1d2724;
+    height: 100%;
+    overflow: hidden;
+    background: #1d2724;
 }
 
 /* =========================
@@ -24,24 +22,24 @@ html, body {
    ========================= */
 
 header img {
-  border-radius: 250px;
-  box-shadow: 3px 3px 10px #000000;
-  max-width: 100%;
-  padding: 30px 30px 30px 30px;
+    border-radius: 250px;
+    box-shadow: 3px 3px 10px #000000;
+    max-width: 100%;
+    padding: 30px 30px 30px 30px;
 }
 
 header {
-  margin: 50px 50px 50px 50px;
-  text-align: center;
+    margin: 50px 50px 50px 50px;
+    text-align: center;
 }
 
 h1 {
-  font-family: 'Somebody Else', Arial, fantasy;
-  color: #FFFFFF;
-  text-align: center;
-  font-weight: bold;
-  font-size: calc(45px + 0.390625vw);
-  padding-top: 50px;
+    font-family: 'Somebody Else', Arial, fantasy;
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: bold;
+    font-size: calc(45px + 0.390625vw);
+    padding-top: 50px;
 }
 
 /* =========================
@@ -49,52 +47,65 @@ h1 {
    ========================= */
 
 h2, h3 {
-  font-family: 'Somebody Else', Arial, fantasy;
-  color: #FFFFFF;
-  text-align: center;
-  font-weight: bold;
-  font-size: calc(22px + 0.390625vw);
+    font-family: 'Somebody Else', Arial, fantasy;
+    color: #0A7E8C;
+    text-align: center;
+    font-weight: bold;
+    font-size: calc(22px + 0.390625vw);
 }
 
 h5 {
-  color: #ffffff;
-  font-weight: bold;
-  font-size: calc(14px + 0.390625vw);
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    padding-left: 10px;
+    font-size: calc(12px + 0.390625vw);
 }
 
 a, a:link, a:visited, a:hover, a:active {
-  text-decoration: none;
-  color: var(--scroll-thumb);
-  text-shadow: 3px 3px 5px #3b3b3b;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 3px 3px 5px #3b3b3b;
 }
 
 p {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 .pcenter {
-  text-align: center;
-  color: #ffffff;
-  font-size: calc(14px + 0.390625vw);
+    text-align: center;
+    color: #ffffff;
+    font-size: calc(14px + 0.390625vw);
+}
+
+.plimited {
+    color: #ffffff;
+    width: 65vw;
+    display: block;
+    align-self: center;
 }
 
 li {
-  color: #ffffff;
-  font-weight: bold;
-  font-size: calc(12px + 0.390625vw);
-  list-style-type: "★";
-  list-style-position: outside;
-  padding-left: 8px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: calc(12px + 0.390625vw);
+    list-style-type: "★";
+    list-style-position: outside;
+    padding-left: 8px;
 }
 
 ul {
-  padding: 0px 40px 0px 60px;
+    display: block;
+    align-self: center;
+    width: 65vw;
+    padding: 0px 40px 0px 60px;
 }
 
 @font-face {
-  font-family: 'Somebody Else';
-  src: url('fonts/Somebody_Else.otf');
-  font-style: normal;
+    font-family: 'Somebody Else';
+    src: url('fonts/Somebody_Else.otf');
+    font-style: normal;
 }
 
 /* =========================
@@ -102,19 +113,20 @@ ul {
    ========================= */
 
 img {
-  max-width: 90%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    max-width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    align-self: center;
 }
 
 .snap-wrap.zoomed{
-  scroll-snap-type: none;
+    scroll-snap-type: none;
 }
 
 .snap-wrap.zoomed .page{
-  scroll-snap-align: none;
-  scroll-snap-stop: normal;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
 }
 
 /* =========================
@@ -122,15 +134,20 @@ img {
    ========================= */
 
 .top {
-  position: fixed;
-  bottom: 20px;
-  padding: 10px 10px 10px 10px;
-  background: var(--me-1);
-  border-radius: 100px;
-  font-size: calc(13px + 0.390625vw);
-  box-shadow: 3px 3px 10px #000000;
-  right: 35px;
-  bottom: 15px;
+    position: fixed;
+    bottom: 20px;
+    padding: 10px 10px 10px 10px;
+    background: var(--me-1);
+    border-radius: 100px;
+    font-size: calc(13px + 0.390625vw);
+    box-shadow: 3px 3px 10px #000000;
+    right: 35px;
+    bottom: 15px;
+    opacity: 0.2;
+}
+
+.top:hover {
+  opacity: 1 !important;
 }
 
 /* =========================
@@ -138,30 +155,30 @@ img {
    ========================= */
 
 .snap-wrap {
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+     height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
 .snap-wrap .page {
-  height: 100vh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 40px 0;
-  box-sizing: border-box;
-  scroll-snap-stop: normal;
+    height: 100vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 40px 0;
+    box-sizing: border-box;
+    scroll-snap-stop: normal;
 }
 
 .snap-wrap .grid {
-  display: block;
-  padding-bottom: 0;
+    display: block;
+    padding-bottom: 0;
 }
 
 /* =========================
@@ -169,173 +186,101 @@ img {
    ========================= */
 
 .snap-wrap {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) var(--scroll-track);
 }
 
 .snap-wrap:active {
-  scrollbar-color: #7E8C0A rgba(0,0,0,0.28);
+    scrollbar-color: #7E8C0A rgba(0,0,0,0.28);
 }
 
 .snap-wrap::-webkit-scrollbar {
-  width: 12px;
+    width: 12px;
 }
 
 .snap-wrap::-webkit-scrollbar-track {
-  background: var(--scroll-track);
-  border-radius: 12px;
+    background: var(--scroll-track);
+    border-radius: 12px;
 }
 
 .snap-wrap::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--scroll-thumb-dark) 0%, var(--scroll-thumb) 100%);
-  border-radius: 12px;
-  border: 3px solid rgba(0,0,0,0.25);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+    background: linear-gradient(135deg, var(--scroll-thumb-dark) 0%, var(--scroll-thumb) 100%);
+    border-radius: 12px;
+    border: 3px solid rgba(0,0,0,0.25);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
 }
 
 .snap-wrap::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(135deg, #282D03 0%, #7E8C0A 100%);
+    background: linear-gradient(135deg, #282D03 0%, #7E8C0A 100%);
 }
 
 /* =========================
-   FILL BARS
+   PROGRESS BARS
    ========================= */
 
-.bar-label::before,
-.bar-label::after{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  pointer-events: none;
-  font-weight: 800;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  color: rgba(255,255,255,0.92);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.65);
+.progress-bar,
+.progress-bar-men,
+.progress-bar-women {
+    width: 85%;
+    max-width: 400px;
+    height: 20px;
+    background-color: #202020;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px auto;
+    position: relative;
 }
 
-.bar-label::before{
-  left: 8px;
+.progress-fill,
+.progress-fill-men,
+.progress-fill-women {
+    width: 0;
+    height: 100%;
+    background-color: #0A7E8C;
+    transition: width var(--me-dur) ease-in-out;
 }
 
-.bar-label::after{
-  right: 10px;
-  content: attr(data-pct);
-  opacity: 1;
-  transition: opacity 220ms ease;
+.progress-fill-men {
+    background-color: #8C180A;
 }
 
-.mebar::before{ content: "me"; }
-.menbar::before{ content: "men mean"; }
-.womenbar::before{ content: "women mean"; }
-
-.bar1, .bar2 {
-  background: #353b48;
-  display: block;
-  height: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  margin-bottom: 10px;
+.progress-fill-women {
+    background-color: #590A8C;
 }
 
-.bar1:hover, .bar2:hover {
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+.progress-label {
+    position: absolute;
+    color: #ffffff;
+    top: 0;
+    right: -45px;
+    width: 80px;
+    text-align: left;
+    top: 2px;
+    font-size: 14px;
+    z-index: 2;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.65);
 }
 
-.bar1 .fill, .bar2 .fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 0%;
-  z-index: 1;
-  border-radius: 10px;
+.progress-bar::before,
+.progress-bar-me::before,
+.progress-bar-men::before,
+.progress-bar-women::before {
+    content: "Me";
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    z-index: 2;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.65);
 }
 
-.bar1 .fill.me { background: var(--me-1); }
-.bar2 .fill.me { background: var(--me-2); }
-.bar1 .fill.men { background: var(--men-1); }
-.bar2 .fill.men { background: var(--men-2); }
-.bar1 .fill.women { background: var(--women-1); }
-.bar2 .fill.women { background: var(--women-2); }
-
-.fill { width: 0%; }
-
-@keyframes fill-to {
-  from { width: 0%; }
-  to   { width: var(--to); }
+.progress-bar-men::before{
+    content: "Men Mean";
 }
 
-.page.play .fill.me{
-  animation: fill-to var(--me-dur) ease forwards;
+.progress-bar-women::before{
+    content: "Women Mean";
 }
-
-.page.play .fill.men{
-  animation: fill-to var(--avg-dur) ease forwards;
-  animation-delay: calc(var(--me-dur) + var(--gap));
-}
-
-.page.play .fill.women{
-  animation: fill-to var(--avg-dur) ease forwards;
-  animation-delay: calc(var(--me-dur) + var(--gap) + var(--avg-dur) + var(--gap));
-}
-
-.fill.me.extraversion      { --to: 89%; }
-.fill.me.openness          { --to: 94%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.conscientiousness { --to: 63%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.neuroticism       { --to: 64%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.agreeableness     { --to: 20%; animation: fill-to var(--me-dur) ease forwards; }
-
-.fill.me.assertiveness   { --to: 99%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.enthusiasm      { --to: 36%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.intellect       { --to: 94%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.aesthetics      { --to: 84%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.industriousness { --to: 88%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.orderliness     { --to: 25%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.volatility      { --to: 86%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.withdrawal      { --to: 31%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.compassion      { --to: 48%; animation: fill-to var(--me-dur) ease forwards; }
-.fill.me.politeness      { --to: 7%;  animation: fill-to var(--me-dur) ease forwards; }
-
-.fill.men   { animation-delay: calc(var(--me-dur) + var(--gap)); }
-.fill.women { animation-delay: calc(var(--me-dur) + var(--gap) + var(--avg-dur) + var(--gap)); }
-
-.fill.men.assertiveness-men     { --to: 52%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.assertiveness-women { --to: 48%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.enthusiasm-men        { --to: 45%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.enthusiasm-women    { --to: 55%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.industriousness-men     { --to: 51.5%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.industriousness-women { --to: 49.5%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.orderliness-men     { --to: 45.5%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.orderliness-women { --to: 54.5%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.intellect-men     { --to: 44.5%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.intellect-women { --to: 56.5%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.aesthetics-men     { --to: 55%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.aesthetics-women { --to: 45%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.compassion-men     { --to: 39%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.compassion-women { --to: 61%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.politeness-men     { --to: 41%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.politeness-women { --to: 59%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.volatility-men     { --to: 42.5%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.volatility-women { --to: 57.5%; animation: fill-to var(--avg-dur) ease forwards; }
-
-.fill.men.withdrawal-men     { --to: 40%; animation: fill-to var(--avg-dur) ease forwards; }
-.fill.women.withdrawal-women { --to: 60%; animation: fill-to var(--avg-dur) ease forwards; }
-
-/* =========================
-   MOBILE
-   ========================= */
-
