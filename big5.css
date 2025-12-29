@@ -48,7 +48,7 @@ h1 {
    TEXT
    ========================= */
 
-h2 {
+h2, h3 {
   font-family: 'Somebody Else', Arial, fantasy;
   color: #FFFFFF;
   text-align: center;
@@ -76,6 +76,19 @@ p {
   text-align: center;
   color: #ffffff;
   font-size: calc(14px + 0.390625vw);
+}
+
+li {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: calc(12px + 0.390625vw);
+  list-style-type: "★";
+  list-style-position: outside;
+  padding-left: 8px;
+}
+
+ul {
+  padding: 0px 40px 0px 60px;
 }
 
 @font-face {
@@ -214,8 +227,8 @@ img {
 }
 
 .mebar::before{ content: "me"; }
-.menbar::before{ content: "men average"; }
-.womenbar::before{ content: "women average"; }
+.menbar::before{ content: "men mean"; }
+.womenbar::before{ content: "women mean"; }
 
 .bar1, .bar2 {
   background: #353b48;
@@ -234,8 +247,7 @@ img {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-.bar1 .fill, .bar2 .fill{
-  display: block;
+.bar1 .fill, .bar2 .fill {
   position: absolute;
   left: 0;
   top: 0;
@@ -245,11 +257,6 @@ img {
   border-radius: 10px;
 }
 
-@keyframes fill-to {
-  from { width: 0%; }
-  to   { width: var(--to); }
-}
-
 .bar1 .fill.me { background: var(--me-1); }
 .bar2 .fill.me { background: var(--me-2); }
 .bar1 .fill.men { background: var(--men-1); }
@@ -257,7 +264,28 @@ img {
 .bar1 .fill.women { background: var(--women-1); }
 .bar2 .fill.women { background: var(--women-2); }
 
-.fill.me.extraversion      { --to: 89%; animation: fill-to var(--me-dur) ease forwards; }
+.fill { width: 0%; }
+
+@keyframes fill-to {
+  from { width: 0%; }
+  to   { width: var(--to); }
+}
+
+.page.play .fill.me{
+  animation: fill-to var(--me-dur) ease forwards;
+}
+
+.page.play .fill.men{
+  animation: fill-to var(--avg-dur) ease forwards;
+  animation-delay: calc(var(--me-dur) + var(--gap));
+}
+
+.page.play .fill.women{
+  animation: fill-to var(--avg-dur) ease forwards;
+  animation-delay: calc(var(--me-dur) + var(--gap) + var(--avg-dur) + var(--gap));
+}
+
+.fill.me.extraversion      { --to: 89%; }
 .fill.me.openness          { --to: 94%; animation: fill-to var(--me-dur) ease forwards; }
 .fill.me.conscientiousness { --to: 63%; animation: fill-to var(--me-dur) ease forwards; }
 .fill.me.neuroticism       { --to: 64%; animation: fill-to var(--me-dur) ease forwards; }
