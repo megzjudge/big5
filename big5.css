@@ -86,20 +86,29 @@ p {
     align-self: center;
 }
 
-li {
+.pcurvy {
     color: #ffffff;
-    font-weight: bold;
-    font-size: calc(12px + 0.390625vw);
-    list-style-type: "★";
-    list-style-position: outside;
-    padding-left: 8px;
+    width: 65vw;
+    display: block;
+    font-style: italic;
+    align-self: center;
 }
 
 ul {
-    display: block;
-    align-self: center;
-    width: 65vw;
-    padding: 0px 40px 0px 60px;
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  max-width: 70vw;
+  padding: 0 40px 0 60px;
+  list-style-position: outside;
+}
+
+li {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: calc(12px + 0.390625vw);
+  list-style-type: "★";
+  padding-left: 8px;
 }
 
 @font-face {
@@ -113,7 +122,7 @@ ul {
    ========================= */
 
 img {
-    max-width: 90%;
+    max-width: 80%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -127,6 +136,35 @@ img {
 .snap-wrap.zoomed .page{
     scroll-snap-align: none;
     scroll-snap-stop: normal;
+}
+
+/* =========================
+   VIDEOS
+   ========================= */
+
+.video-wrapper {
+  position: relative;
+  width: 80%;
+  max-width: 65vw;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media (max-width: 767px) {
+    .video-wrapper {
+    width: 100%;
+    max-width: 90vw;
+    }
 }
 
 /* =========================
