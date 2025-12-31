@@ -9,12 +9,14 @@
     --me-dur: 3s;
     --avg-dur: 3s;
     --gap: 0.25s;
+    --vh: 100vh;
 }
 
 html, body {
     height: 100%;
     overflow: hidden;
     background: #1d2724;
+    height: calc(var(--vh, 100dvh));
 }
 
 /* =========================
@@ -182,6 +184,7 @@ img {
     right: 35px;
     bottom: 15px;
     opacity: 0.2;
+    z-index: 1000;
 }
 
 .top:hover {
@@ -193,8 +196,8 @@ img {
    ========================= */
 
 .snap-wrap {
-     height: 100vh;
-    overflow-y: auto;
+    height: calc(var(--vh, 100dvh));
+    overflow-y: scroll;
     overflow-x: hidden;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
@@ -202,14 +205,14 @@ img {
 }
 
 .snap-wrap .page {
-    height: 100vh;
+    height: calc(var(--vh, 100dvh));
     scroll-snap-align: start;
     scroll-snap-stop: always;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 0 auto;
-    padding: 40px 0;
+    padding: 20px 0;
     box-sizing: border-box;
     scroll-snap-stop: normal;
 }
