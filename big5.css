@@ -26,6 +26,9 @@ html, body {
   .snap-wrap {
     scroll-snap-type: y mandatory;
   }
+  .snap-wrap .page {
+    padding: 10px 0;
+  }
 }
 
 /* =========================
