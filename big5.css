@@ -19,6 +19,15 @@ html, body {
     height: calc(var(--vh, 100dvh));
 }
 
+@media (max-width: 767px) {
+  html, body {
+    min-height: 100dvh;
+  }
+  .snap-wrap {
+    scroll-snap-type: y mandatory;
+  }
+}
+
 /* =========================
    HEADER
    ========================= */
