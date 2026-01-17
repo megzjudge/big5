@@ -337,3 +337,25 @@ img {
 .progress-bar-women::before{
     content: "Women Mean";
 }
+
+/* ================================
+   BELL CURVE (Big5)
+   ================================ */
+
+.bellCurve {
+  width: 90%;
+  max-width: 900px;
+  height: 420px;
+  margin: 26px auto 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #111;
+  box-shadow: 3px 3px 10px #000000;
+}
+
+@media (max-width: 767px) {
+  .bellCurve {
+    width: 95%;
+    height: 320px;
+  }
+}
