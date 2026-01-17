@@ -12,13 +12,53 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----------------
   const bars = document.querySelectorAll('.progress-bar, .progress-bar-men, .progress-bar-women');
 
+    // Prefill duplicates: if the same trait + bar type appears again, fill instantly
+  const seenBars = new Set();
+
+  function barKey(bar) {
+    const trait = bar.dataset.trait || "";          // you add this in HTML
+    const progress = bar.dataset.progress || "";
+    // Use the first class (progress-bar / progress-bar-men / progress-bar-women)
+    const type = (bar.classList.contains("progress-bar-men") && "men") ||
+                (bar.classList.contains("progress-bar-women") && "women") ||
+                "me";
+    return `${trait}|${type}|${progress}`;
+  }
+
+  bars.forEach(bar => {
+    const key = barKey(bar);
+    if (!key.startsWith("|")) { // only works when data-trait is present
+      if (seenBars.has(key)) {
+        const progress = parseInt(bar.dataset.progress, 10);
+        if (!isNaN(progress)) {
+          const fill =
+            bar.querySelector('[class^="progress-fill"]') ||
+            bar.querySelector('div[class*="progress-fill"]');
+
+          if (fill) fill.style.width = `${progress}%`;
+
+          const rightLabel = bar.querySelector('.progress-label');
+          if (rightLabel) rightLabel.textContent = `${progress}${getOrdinalSuffix(progress)}`;
+
+          bar.dataset.filled = "1"; // so observer won't animate it again
+        }
+      } else {
+        seenBars.add(key);
+      }
+    }
+  });
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
 
       const bar = entry.target;
-      let fill = bar.querySelector('[class^="progress-fill"]');
 
+      let fill = bar.querySelector('[class^="progress-fill"]');
+      if (bar.dataset.filled === "1") {
+        observer.unobserve(bar);
+        return;
+      }
       if (!fill) {
         fill = bar.querySelector('div[class*="progress-fill"]');
       }
@@ -128,6 +168,35 @@ function rgbaFromCssVar(varName, a, fallbackHex = "#ffffff") {
   const rgb = hexToRgb(hex);
   if (!rgb) return `rgba(255,255,255,${a})`;
   return `rgba(${rgb.r},${rgb.g},${rgb.b},${a})`;
+}
+
+function computeLabelYPositions({
+  meX,
+  menX,
+  womenX,
+  baseY,
+  xThreshold = 4,
+  bump = 0.06,
+  extraMe = 0.10
+}) {
+  const y = { me: baseY, men: baseY, women: baseY };
+
+  const isNum = (v) => typeof v === "number" && Number.isFinite(v);
+
+  const close = (a, b) => {
+    if (!isNum(a) || !isNum(b)) return false;
+    return Math.abs(a - b) < xThreshold;
+  };
+
+  const menOverlaps = close(menX, meX) || close(menX, womenX);
+  const meOverlaps  = close(meX, menX) || close(meX, womenX);
+
+  if (menOverlaps) y.men = baseY + bump;
+
+  // Me goes higher than Men when it overlaps either one
+  if (meOverlaps) y.me = baseY + bump + extraMe;
+
+  return y;
 }
 
 // ================================
@@ -249,9 +318,26 @@ function renderPercentileBellCurveAnimated(el) {
   const MEN_COLOR_0 = rgbaFromCssVar("--men-1", 0, "#8C3A0A");
   const WOMEN_COLOR_0 = rgbaFromCssVar("--women-1", 0, "#8C0A7E");
 
-  // Base (invisible) marker annotations; stagger y to reduce overlap
+  // Base (invisible) marker annotations; keep same y so they are not tiered
+  const LABEL_Y = 1.08;
+
+  // Tune these:
+  const X_OVERLAP_DESKTOP = 9.5;
+  const X_OVERLAP_MOBILE  = 19.5;
+  const BUMP_DESKTOP = 0.05;
+  const BUMP_MOBILE  = 0.10;
+
+  const labelY = computeLabelYPositions({
+    meX: meValue,
+    menX: menValue,
+    womenX: womenValue,
+    baseY: LABEL_Y,
+    xThreshold: isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP,
+    bump: isMobile ? BUMP_MOBILE : BUMP_DESKTOP
+  });
+
   const meAnnBase = {
-    x: meValue, y: 1.06, xref: "x", yref: "paper",
+    x: meValue, y: labelY.me, xref: "x", yref: "paper",
     text: `Me: ${Math.round(meValue)}${getOrdinalSuffix(Math.round(meValue))}`,
     showarrow: false,
     font: { color: ME_COLOR_0, size: 13 },
@@ -259,7 +345,7 @@ function renderPercentileBellCurveAnimated(el) {
   };
 
   const menAnnBase = !Number.isNaN(menValue) ? {
-    x: menValue, y: 1.02, xref: "x", yref: "paper",
+    x: menValue, y: labelY.men, xref: "x", yref: "paper",
     text: `Men: ${Math.round(menValue)}${getOrdinalSuffix(Math.round(menValue))}`,
     showarrow: false,
     font: { color: MEN_COLOR_0, size: 13 },
@@ -267,7 +353,7 @@ function renderPercentileBellCurveAnimated(el) {
   } : null;
 
   const womenAnnBase = !Number.isNaN(womenValue) ? {
-    x: womenValue, y: 0.98, xref: "x", yref: "paper",
+    x: womenValue, y: labelY.women, xref: "x", yref: "paper",
     text: `Women: ${Math.round(womenValue)}${getOrdinalSuffix(Math.round(womenValue))}`,
     showarrow: false,
     font: { color: WOMEN_COLOR_0, size: 13 },
@@ -303,7 +389,7 @@ function renderPercentileBellCurveAnimated(el) {
         type: "line",
         x0: meValue, x1: meValue,
         y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--me-2", opacity, "#7E8C0A"), width: 3, dash: "dot", layer: "above" }
+        line: { color: rgbaFromCssVar("--me-2", opacity, "#7E8C0A"), width: 3, dash: "longdashdot", layer: "above" }
       }
     ];
 
@@ -312,7 +398,7 @@ function renderPercentileBellCurveAnimated(el) {
         type: "line",
         x0: menValue, x1: menValue,
         y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--men-1", opacity, "#8C3A0A"), width: 3, dash: "dot", layer: "above" }
+        line: { color: rgbaFromCssVar("--men-1", opacity, "#8C3A0A"), width: 3, dash: "longdashdot", layer: "above" }
       });
     }
 
@@ -321,7 +407,7 @@ function renderPercentileBellCurveAnimated(el) {
         type: "line",
         x0: womenValue, x1: womenValue,
         y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--women-1", opacity, "#8C0A7E"), width: 3, dash: "dot", layer: "above" }
+        line: { color: rgbaFromCssVar("--women-1", opacity, "#8C0A7E"), width: 3, dash: "longdashdot", layer: "above" }
       });
     }
 
@@ -399,7 +485,7 @@ function renderPercentileBellCurveAnimated(el) {
     margin: {
       l: isMobile ? 20 : 70,
       r: isMobile ? 20 : 70,
-      t: isMobile ? 60 : 80,
+      t: isMobile ? 88 : 80,
       b: isMobile ? 75 : 85
     },
     autosize: true

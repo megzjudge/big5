@@ -35,13 +35,6 @@ html, body {
    HEADER
    ========================= */
 
-header img {
-    border-radius: 250px;
-    box-shadow: 3px 3px 10px #000000;
-    max-width: 100%;
-    padding: 30px 30px 30px 30px;
-}
-
 header {
     margin: 50px 50px 50px 50px;
     text-align: center;
@@ -123,6 +116,10 @@ li {
   font-size: calc(12px + 0.390625vw);
   list-style-type: "★";
   padding-left: 8px;
+}
+
+.combinations {
+    padding-bottom: 8px;
 }
 
 @font-face {
