@@ -303,7 +303,7 @@ function renderPercentileBellCurveAnimated(el) {
         type: "line",
         x0: meValue, x1: meValue,
         y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--me-2", opacity, "#7E8C0A"), width: 3, dash: "dot" }
+        line: { color: rgbaFromCssVar("--me-2", opacity, "#7E8C0A"), width: 3, dash: "dot", layer: "above" }
       }
     ];
 
@@ -312,7 +312,7 @@ function renderPercentileBellCurveAnimated(el) {
         type: "line",
         x0: menValue, x1: menValue,
         y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--men-1", opacity, "#8C3A0A"), width: 3, dash: "dash" }
+        line: { color: rgbaFromCssVar("--men-1", opacity, "#8C3A0A"), width: 3, dash: "dot", layer: "above" }
       });
     }
 
@@ -321,7 +321,7 @@ function renderPercentileBellCurveAnimated(el) {
         type: "line",
         x0: womenValue, x1: womenValue,
         y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--women-1", opacity, "#8C0A7E"), width: 3, dash: "dash" }
+        line: { color: rgbaFromCssVar("--women-1", opacity, "#8C0A7E"), width: 3, dash: "dot", layer: "above" }
       });
     }
 
