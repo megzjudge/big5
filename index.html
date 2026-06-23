@@ -48,21 +48,38 @@
 
     <main>
                 <section class="page hero" id="top">
+                    <div class="hero-blobs" aria-hidden="true">
+                        <span class="blob blob--1"></span>
+                        <span class="blob blob--2"></span>
+                        <span class="blob blob--3"></span>
+                    </div>
                     <div class="container hero-inner">
                         <img class="intro-icon" src="images/big5.svg" alt="Megan Judge Big 5 Personality Test Psychology Results">
+                        <p class="eyebrow">Personality · Percentiles · Population</p>
                         <h1>The Big Five Aspects Scale</h1>
-                        <p class="lead">Explore percentile results from Jordan Peterson&rsquo;s Big Ten model — five traits, ten aspects, compared against population averages.</p>
+                        <p class="lead">A scroll through five traits, ten aspects, bell curves, family comparisons, and the stories behind the scores — built from Jordan Peterson&rsquo;s Big Ten model.</p>
                         <div class="hero-actions">
                             <a href="https://www.understandmyself.com/personality-assessment" class="btn btn-primary" target="_blank" rel="noopener">Take the Official Test ↗</a>
-                            <a href="#results" class="btn btn-secondary">View My Results</a>
+                            <a href="#results" class="btn btn-secondary">Explore My Results</a>
                         </div>
+                        <nav class="ocean-chips" aria-label="Jump to traits">
+                            <a href="#extraversion" class="ocean-chip ocean-chip--extraversion">E · Extraversion</a>
+                            <a href="#openness" class="ocean-chip ocean-chip--openness">O · Openness</a>
+                            <a href="#conscientiousness" class="ocean-chip ocean-chip--conscientiousness">C · Conscientious</a>
+                            <a href="#agreeableness" class="ocean-chip ocean-chip--agreeableness">A · Agreeable</a>
+                            <a href="#neuroticism" class="ocean-chip ocean-chip--neuroticism">N · Neuroticism</a>
+                        </nav>
                     </div>
                 </section>
 
-                <div class="block-header container" id="results">
-                    <h2>My Results</h2>
-                    <p class="block-subtitle">Percentile scores from the <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a> Big Five Aspects Scale. Bars animate as you scroll into view.</p>
-                </div>
+                <section class="flow-zone flow-zone--results" id="results">
+                    <div class="container">
+                        <header class="zone-intro reveal">
+                            <h2>My Results</h2>
+                            <p class="zone-lead">Percentile scores from <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a>. Watch the bars fill and curves bloom as each trait comes into view.</p>
+                        </header>
+                        <div class="score-overview" id="score-overview" aria-label="Trait score summary"></div>
+                        <div class="trait-stream" id="trait-stream">
                 <section class="page" id="extraversion">
                     <h5>Extraversion 89th 🗣️</h5>
                     <div class="progress-bar" data-progress="89"><div class="progress-fill"></div><span class="progress-label">89th</span></div>
@@ -298,11 +315,17 @@
                     ></div>
                 </section>
 
-                <div class="block-header container" id="about">
-                    <h2>About the Test</h2>
-                    <p class="block-subtitle">Background on the Big Five, the Big Ten aspects model, and where these results come from.</p>
-                </div>
+                        </div>
+                    </div>
+                </section>
 
+                <section class="flow-zone flow-zone--about" id="about">
+                    <div class="container">
+                        <header class="zone-intro reveal">
+                            <h2>About the Test</h2>
+                            <p class="zone-lead">Background on the Big Five, the Big Ten aspects model, and where these results come from.</p>
+                        </header>
+                        <div class="about-cards" id="about-cards">
                 <section class="page">
                     <h2>Explanation</h2>
 			        <a href="images/testing.png" target="_blank"><img src="images/testing.png" alt="Big 5 Testing"></a>
@@ -323,11 +346,17 @@
                     <p class="plimited">The understandmyself test version also gives comparisons to all other test takers for the average. Ie, average % for women, average % for men, so you can see how different you are from the general population of hundreds and thousands of test takers - many people, like me, have bought it for family members and etc so the pool is varied which is where I am pulling those statistics from in the bars.</p>
                 </section>
 
-                <div class="block-header container" id="traits">
-                    <h2>Trait Profiles</h2>
-                    <p class="block-subtitle">What each score means — descriptions, images, and how traits show up in personality.</p>
-                </div>
+                        </div>
+                    </div>
+                </section>
 
+                <section class="flow-zone flow-zone--traits" id="traits">
+                    <div class="container">
+                        <header class="zone-intro reveal">
+                            <h2>Trait Profiles</h2>
+                            <p class="zone-lead">Tap a trait to unfold what each score means — images, descriptions, and how it shows up in personality.</p>
+                        </header>
+                        <div class="traits-stack" id="traits-stack">
                 <section class="page">
                     <h2>Conscientiousness 💼</h2>
                     <img src="images/conscientiousness.jpg" alt="Conscientiousness">
@@ -520,7 +549,8 @@
                         </ul>
                     </section>
 
-                <section class="page page--combinations">
+                        </div>
+                        <article class="combinations-card card reveal page page--combinations">
                     <h3>Combinations</h3>
                         <ul>
                             <li class="combinations">Low Withdrawal + Low Politeness =
@@ -538,18 +568,17 @@
                             <li class="combinations">Average Compassion + Low Politeness =
                             <br>Will fight for your feelings but also has good Self defense against you.</li>
                         </ul>
+                        </article>
+                    </div>
                 </section>
 
-                <div class="block-header container" id="videos">
-                    <h2>Videos</h2>
-                    <p class="block-subtitle">Clips from Jordan Peterson explaining traits relevant to these results. Embedded with start and end timestamps.</p>
-                </div>
-
-                <section class="page">
-                    <h3>Videos</h3>
-                        <p class="pcenter">If you watch these videos within the website they are embedded to both stop and start at timestamps. If you open them in a new window, be aware, the end timer no longer works.</p>
-                </section>
-
+                <section class="flow-zone flow-zone--videos" id="videos">
+                    <div class="container">
+                        <header class="zone-intro reveal">
+                            <h2>Videos</h2>
+                            <p class="zone-lead">Clips from Jordan Peterson on traits that match these results. Embedded with start and end timestamps — open in a new tab and the end timer won&rsquo;t apply.</p>
+                        </header>
+                        <div class="video-grid" id="video-grid">
                 <section class="page">
                     <h3>Mix of Traits</h3>
                         <div class="video-wrapper">
@@ -683,12 +712,17 @@
                             <br>(Politeness 7th)</p>
                 </section>
 
-                <div class="block-header container" id="comparison">
-                    <h2>Family Comparison</h2>
-                    <p class="block-subtitle">Openness scores compared across family members and population averages.</p>
-                </div>
+                        </div>
+                    </div>
+                </section>
 
-                <section class="page page--comparison">
+                <section class="flow-zone flow-zone--comparison" id="comparison">
+                    <div class="container">
+                        <header class="zone-intro reveal">
+                            <h2>Family Comparison</h2>
+                            <p class="zone-lead">Openness scores compared across family members and population averages.</p>
+                        </header>
+                        <div class="comparison-card card reveal page page--comparison">
                     <h5>Openness to Experience Comparison</h5>
                   
                     <h5>Mother</h5>
@@ -716,7 +750,10 @@
                     <div class="progress-bar-women comparison-avg" data-trait="intellect" data-progress="45"><div class="progress-fill-women"></div><span class="progress-label">45th</span></div>
                     <div class="progress-bar-women comparison-avg" data-trait="aesthetics" data-progress="46"><div class="progress-fill-women"></div><span class="progress-label">46th</span></div>
 					
+                        </div>
+                    </div>
                 </section>
+
     </main>
 
     <footer class="site-footer">
@@ -730,6 +767,7 @@
         </div>
     </footer>
     <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+    <script src="layout.js" defer></script>
     <script src="script.js" defer></script>
 </body>
 </html>
