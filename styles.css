@@ -354,9 +354,9 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 10px;
     min-width: 100px;
-    padding: 14px 16px;
+    padding: 14px 16px 16px;
     border-radius: var(--radius-sm);
     text-decoration: none;
     border-bottom: none;
@@ -376,13 +376,24 @@ main {
 }
 
 .score-pill__emoji { font-size: 1.4rem; }
-.score-pill__name { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85; }
+.score-pill__name {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
 .score-pill__value {
     font-family: 'Somebody Else', Arial, fantasy;
     font-size: 1.35rem;
     color: #fff;
     letter-spacing: 0.14em;
     padding-left: 0.08em;
+    line-height: 1.15;
+    margin-top: 4px;
 }
 
 .score-pill--extraversion { background: rgba(232, 93, 76, 0.12); border-color: rgba(232, 93, 76, 0.3); }
@@ -463,15 +474,11 @@ main {
     flex-direction: column;
 }
 
-.chart-card h5 {
-    margin-top: 0;
-}
-
 .chart-card .bellCurve {
     width: 100%;
     height: clamp(240px, 32vw, 300px);
     min-height: 240px;
-    margin-top: 8px;
+    margin-top: 0;
     flex: 0 0 auto;
     opacity: 0;
     transition: opacity 0.45s ease;

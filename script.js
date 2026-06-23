@@ -208,12 +208,12 @@ function computeLabelYPositions({
     return Math.abs(a - b) < xThreshold;
   };
 
-  const menOverlaps = close(menX, meX) || close(menX, womenX);
-  const meOverlaps  = close(meX, menX) || close(meX, womenX);
+  const womenOverlaps = close(womenX, meX) || close(womenX, menX);
 
   if (menOverlaps) y.men = baseY + bump;
+  if (womenOverlaps) y.women = baseY + bump * 1.8;
 
-  // Me goes higher than Men when it overlaps either one
+  // Me goes higher than others when it overlaps either one
   if (meOverlaps) y.me = baseY + bump + extraMe;
 
   return y;
@@ -308,8 +308,9 @@ function renderPercentileBellCurveAnimated(el) {
     });
   }
 
-  // White strip reserved below the plot (y domain lifts curve above it)
-  const bandStripHeight = isCompact ? 0.2 : 0.14;
+  // Bottom band beneath the plot (same dark tone as the curve area)
+  const bandStripHeight = isCompact ? 0.18 : 0.14;
+  const plotBg = '#0e1211';
 
   function makeBandStrip() {
     return {
@@ -320,7 +321,7 @@ function renderPercentileBellCurveAnimated(el) {
       x1: 1,
       y0: 0,
       y1: bandStripHeight,
-      fillcolor: '#eef2f1',
+      fillcolor: plotBg,
       line: { width: 0 },
       layer: 'below',
     };
@@ -333,7 +334,7 @@ function renderPercentileBellCurveAnimated(el) {
       { x: 70, text: '50–90th' },
       { x: 95, text: '>90th' },
     ];
-    const bandY = bandStripHeight * 0.5;
+    const bandY = bandStripHeight * 0.52;
 
     return bands.map((a) => ({
       x: a.x,
@@ -342,12 +343,32 @@ function renderPercentileBellCurveAnimated(el) {
       yref: 'paper',
       text: a.text,
       showarrow: false,
-      font: { size: isCompact ? 10 : 11, color: '#4f5d62' },
+      font: { size: isCompact ? 10 : 11, color: '#8a9699' },
       align: 'center',
+      cliponaxis: false,
     }));
   }
 
   const bandAnnotations = makeBandAnnotations();
+
+  function makeTitleAnnotation() {
+    if (!isCompact) return null;
+
+    return {
+      x: 0.03,
+      y: 1,
+      xref: 'paper',
+      yref: 'paper',
+      xanchor: 'left',
+      yanchor: 'top',
+      text: `<b>${title}</b>`,
+      showarrow: false,
+      font: { size: 12, color: '#ffffff' },
+      align: 'left',
+    };
+  }
+
+  const titleAnnotation = makeTitleAnnotation();
 
   const ME_COLOR = rgbaFromCssVar('--me-2', 1, '#7E8C0A');
   const MEN_COLOR = rgbaFromCssVar('--men-1', 1, '#8C3A0A');
@@ -355,28 +376,37 @@ function renderPercentileBellCurveAnimated(el) {
 
   const X_OVERLAP_DESKTOP = 9.5;
   const X_OVERLAP_MOBILE = 19.5;
-  const labelSize = isCompact ? 11 : 13;
-  const MARKER_BASE_Y = isCompact ? 1.08 : 1.06;
+  const labelSize = isCompact ? 10 : 13;
+  const markerBaseY = yMax * (isCompact ? 1.04 : 1.06);
+  const markerBump = yMax * (isCompact ? 0.07 : 0.05);
+  const markerExtraMe = yMax * (isCompact ? 0.11 : 0.09);
 
   const labelY = computeLabelYPositions({
     meX: meValue,
     menX: menValue,
     womenX: womenValue,
-    baseY: MARKER_BASE_Y,
-    xThreshold: isCompact ? 12 : (isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP),
-    bump: isCompact ? 0.07 : 0.06,
-    extraMe: isCompact ? 0.12 : 0.10,
+    baseY: markerBaseY,
+    xThreshold: isCompact ? 11 : (isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP),
+    bump: markerBump,
+    extraMe: markerExtraMe,
   });
+
+  function markerAnnotation(base, color) {
+    return {
+      ...base,
+      cliponaxis: false,
+      font: { color, size: labelSize },
+    };
+  }
 
   const meAnnBase = {
     x: meValue,
     y: labelY.me,
     xref: 'x',
-    yref: 'paper',
+    yref: 'y',
     yanchor: 'bottom',
     text: `Me: ${Math.round(meValue)}${getOrdinalSuffix(Math.round(meValue))}`,
     showarrow: false,
-    font: { color: ME_COLOR, size: labelSize },
     align: 'center',
   };
 
@@ -384,11 +414,10 @@ function renderPercentileBellCurveAnimated(el) {
     x: menValue,
     y: labelY.men,
     xref: 'x',
-    yref: 'paper',
+    yref: 'y',
     yanchor: 'bottom',
     text: `Men: ${Math.round(menValue)}${getOrdinalSuffix(Math.round(menValue))}`,
     showarrow: false,
-    font: { color: MEN_COLOR, size: labelSize },
     align: 'center',
   } : null;
 
@@ -396,11 +425,10 @@ function renderPercentileBellCurveAnimated(el) {
     x: womenValue,
     y: labelY.women,
     xref: 'x',
-    yref: 'paper',
+    yref: 'y',
     yanchor: 'bottom',
     text: `Women: ${Math.round(womenValue)}${getOrdinalSuffix(Math.round(womenValue))}`,
     showarrow: false,
-    font: { color: WOMEN_COLOR, size: labelSize },
     align: 'center',
   } : null;
 
@@ -456,26 +484,23 @@ function renderPercentileBellCurveAnimated(el) {
 
   function makeMarkerAnnotations(opacity = 1) {
     const anns = [
-      {
-        ...meAnnBase,
-        font: { ...meAnnBase.font, color: rgbaFromCssVar('--me-2', opacity, '#7E8C0A') },
-      },
+      markerAnnotation(meAnnBase, rgbaFromCssVar('--me-2', opacity, '#7E8C0A')),
     ];
 
     if (menAnnBase) {
-      anns.push({
-        ...menAnnBase,
-        font: { ...menAnnBase.font, color: rgbaFromCssVar('--men-1', opacity, '#8C3A0A') },
-      });
+      anns.push(markerAnnotation(menAnnBase, rgbaFromCssVar('--men-1', opacity, '#8C3A0A')));
     }
 
     if (womenAnnBase) {
-      anns.push({
-        ...womenAnnBase,
-        font: { ...womenAnnBase.font, color: rgbaFromCssVar('--women-1', opacity, '#8C0A7E') },
-      });
+      anns.push(markerAnnotation(womenAnnBase, rgbaFromCssVar('--women-1', opacity, '#8C0A7E')));
     }
 
+    return anns;
+  }
+
+  function allAnnotations(markerOpacity = 1) {
+    const anns = [...bandAnnotations, ...makeMarkerAnnotations(markerOpacity)];
+    if (titleAnnotation) anns.unshift(titleAnnotation);
     return anns;
   }
 
@@ -505,7 +530,7 @@ function renderPercentileBellCurveAnimated(el) {
 
     const shapes = [makeBandStrip(), ...makeMarkerLines(opacity)];
 
-    const frameAnns = [...bandAnnotations, ...makeMarkerAnnotations(opacity)];
+    const frameAnns = allAnnotations(opacity);
 
     frames.push({
       data: frameData,
@@ -517,12 +542,20 @@ function renderPercentileBellCurveAnimated(el) {
   }
 
   const finalShapes = [makeBandStrip(), ...makeMarkerLines(1)];
-  const finalAnnotations = [...bandAnnotations, ...makeMarkerAnnotations(1)];
+  const finalAnnotations = allAnnotations(1);
 
   const layout = {
-    title: { text: title, font: { size: isCompact ? 14 : 18 } },
-    paper_bgcolor: 'transparent',
-    plot_bgcolor: '#0e1211',
+    title: isCompact
+      ? undefined
+      : {
+          text: title,
+          font: { size: 18, color: '#ffffff' },
+          x: 0,
+          xref: 'paper',
+          xanchor: 'left',
+        },
+    paper_bgcolor: plotBg,
+    plot_bgcolor: plotBg,
     xaxis: {
       title: isCompact ? undefined : { text: 'Percentile (th)', standoff: 30 },
       range: [0, 100],
@@ -530,6 +563,8 @@ function renderPercentileBellCurveAnimated(el) {
       showgrid: false,
       tickvals: isCompact ? [0, 25, 50, 75, 100] : [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
       tickfont: { size: isCompact ? 10 : 12, color: '#8a9699' },
+      tickcolor: '#3a4548',
+      linecolor: '#3a4548',
     },
     yaxis: {
       title: isCompact ? undefined : 'Population Likelihood',
@@ -540,7 +575,7 @@ function renderPercentileBellCurveAnimated(el) {
     },
     showlegend: false,
     margin: isCompact
-      ? { l: 10, r: 10, t: 50, b: 2 }
+      ? { l: 28, r: 28, t: 28, b: 2 }
       : {
           l: isMobile ? 20 : 70,
           r: isMobile ? 20 : 70,
@@ -578,7 +613,7 @@ function renderPercentileBellCurveAnimated(el) {
 
   const layoutAnimated = {
     ...layout,
-    annotations: [...bandAnnotations, ...makeMarkerAnnotations(0)],
+    annotations: allAnnotations(0),
     shapes: [makeBandStrip(), ...makeMarkerLines(0)],
   };
 

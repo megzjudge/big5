@@ -138,6 +138,7 @@ function groupTraitPanels() {
 
     pages.slice(1).forEach((page) => {
       page.querySelectorAll('.progress-bar, .progress-bar-men, .progress-bar-women').forEach((bar) => bar.remove());
+      page.querySelector(':scope > h5')?.remove();
 
       const chartCard = document.createElement('div');
       chartCard.className = 'chart-card card';
