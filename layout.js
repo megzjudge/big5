@@ -52,7 +52,7 @@ function initBackgroundGlows() {
 }
 
 function initReveal() {
-  const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .trait-chapter, .flow-zone');
+  const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .trait-chapter, .flow-zone, .about-panel');
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -156,12 +156,7 @@ function groupTraitPanels() {
 }
 
 function polishAboutCards() {
-  const mount = document.getElementById('about-cards');
-  if (!mount) return;
-
-  mount.querySelectorAll('.page').forEach((section) => {
-    section.classList.add('about-card', 'card', 'reveal');
-  });
+  // About section is authored as .about-panel markup in index.html
 }
 
 function parseProfileTitle(raw) {

@@ -35,14 +35,13 @@
 
     <header class="site-header">
         <div class="container header-inner">
-            <a href="#top" class="logo">Big Five Aspects</a>
+            <a href="#top" class="logo">The Big Five Aspects Scale</a>
             <nav class="nav">
                 <a href="#about" class="nav-link">About</a>
                 <a href="https://www.understandmyself.com/personality-assessment" class="nav-link" target="_blank" rel="noopener">Take the Test ↗</a>
                 <a href="#results" class="nav-link">Results</a>
                 <a href="#combinations" class="nav-link">Combinations</a>
                 <a href="#traits" class="nav-link">Traits</a>
-                <a href="https://github.com/megzjudge/big5" class="nav-link" target="_blank" rel="noopener">GitHub ↗</a>
             </nav>
         </div>
     </header>
@@ -73,11 +72,82 @@
                     </div>
                 </section>
 
+                <section class="flow-zone flow-zone--about" id="about">
+                    <div class="container">
+                        <header class="zone-intro reveal">
+                            <h2>About the Test</h2>
+                            <p class="zone-lead">OCEAN at a glance — what the facets mean, where to take it, and how to read a percentile score.</p>
+                        </header>
+                        <div class="about-stage" id="about-cards">
+                            <article class="about-panel about-panel--model card reveal">
+                                <header class="about-panel__head">
+                                    <span class="about-panel__tag">The model</span>
+                                    <h3>Five traits, ten aspects</h3>
+                                </header>
+                                <details class="about-diagram">
+                                    <summary class="about-diagram__summary">
+                                        <span class="about-diagram__label">Correlation diagram</span>
+                                        <span class="about-diagram__hint">Tap to expand</span>
+                                        <span class="about-diagram__chev" aria-hidden="true">+</span>
+                                    </summary>
+                                    <div class="about-diagram__body">
+                                        <figure class="about-figure">
+                                            <a href="images/testing.png" target="_blank" rel="noopener">
+                                                <img src="images/testing.png" alt="Diagram of Big Five traits and their aspect correlations">
+                                            </a>
+                                            <figcaption class="about-source">
+                                                <a href="https://www.jordanbpeterson.com/docs/230/2014/15DeYoung.pdf" target="_blank" rel="noopener">Source</a>
+                                            </figcaption>
+                                        </figure>
+                                    </div>
+                                </details>
+                                <p class="about-callout">1.0 = 100% correlation, 0.7 = 70% correlation, and so on. −1.0 would be an equally strong inverse tie — gain one, lose the other.</p>
+                            </article>
+
+                            <div class="about-stage__row">
+                                <article class="about-panel about-panel--where card reveal">
+                                    <header class="about-panel__head">
+                                        <span class="about-panel__tag">Where</span>
+                                        <h3>Take the test</h3>
+                                    </header>
+                                    <p class="about-panel__text">The <a href="https://en.wikipedia.org/wiki/Big_Five_personality_traits" target="_blank" rel="noopener">Big Five</a> (OCEAN) is the personality framework psychologists still reach for by default — developed in the 1980s and refined ever since. These results use the <strong>Big Ten</strong> aspects model: each of the five traits split into two measurable facets (and beyond that, the literature talks in 2-5-10-30 levels of detail).</p>
+                                    <p class="about-panel__text">I took Jordan Peterson&rsquo;s version on <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a> (~$10) — it keeps your history, pairs with a partner for a joint report, and tracks population averages. Free alternatives exist everywhere; Jonathan Haidt&rsquo;s <a href="https://yourmorals.org/" target="_blank" rel="noopener">YourMorals</a> is a solid Big Five option after the first questionnaire.</p>
+                                    <ul class="about-links">
+                                        <li><a href="https://www.researchgate.net/profile/Jordan-Peterson-9" target="_blank" rel="noopener">Jordan Peterson ↗</a></li>
+                                        <li><a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself ↗</a></li>
+                                        <li><a href="https://yourmorals.org/" target="_blank" rel="noopener">YourMorals (free) ↗</a></li>
+                                    </ul>
+                                </article>
+
+                                <article class="about-panel about-panel--how card reveal">
+                                    <header class="about-panel__head">
+                                        <span class="about-panel__tag">Scoring</span>
+                                        <h3>Reading your results</h3>
+                                    </header>
+                                    <p class="about-panel__text">Five broad domains, two aspects each. A <strong>higher</strong> percentile means that facet shows up more in your personality; lower means it plays a quieter role. Write-ups run from Exceptionally High down to Exceptionally Low.</p>
+                                    <div class="about-scale" aria-label="Score bands">
+                                        <span class="about-scale__chip">Exceptionally High</span>
+                                        <span class="about-scale__chip">Very High</span>
+                                        <span class="about-scale__chip">High</span>
+                                        <span class="about-scale__chip about-scale__chip--mid">Average</span>
+                                        <span class="about-scale__chip">Low</span>
+                                        <span class="about-scale__chip">Very Low</span>
+                                    </div>
+                                    <p class="about-panel__text">Understand Myself also benchmarks you against everyone else who has taken the test — men&rsquo;s mean, women&rsquo;s mean, and the full pool. That&rsquo;s where the comparison bars on this site come from; family and friends in my circle have added variety to that sample.</p>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="flow-zone flow-zone--results" id="results">
                     <div class="container">
                         <header class="zone-intro reveal">
                             <h2>My Results</h2>
-                            <p class="zone-lead">Percentile scores from <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a>. Watch the bars fill and curves bloom as each trait comes into view.</p>
+                            <p class="zone-lead zone-lead--stacked">
+                                <span class="zone-lead__line">Percentile scores from <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a>.</span>
+                                <span class="zone-lead__line">Watch the bars fill and curves bloom as each trait comes into view.</span>
+                            </p>
                         </header>
                         <div class="score-overview" id="score-overview" aria-label="Trait score summary"></div>
                         <div class="trait-stream" id="trait-stream">
@@ -314,37 +384,6 @@
                         data-men="41"
                         data-women="59"
                     ></div>
-                </section>
-
-                        </div>
-                    </div>
-                </section>
-
-                <section class="flow-zone flow-zone--about" id="about">
-                    <div class="container">
-                        <header class="zone-intro reveal">
-                            <h2>About the Test</h2>
-                            <p class="zone-lead">Background on the Big Five, the Big Ten aspects model, and where these results come from.</p>
-                        </header>
-                        <div class="about-cards" id="about-cards">
-                <section class="page">
-                    <h2>Explanation</h2>
-			        <a href="images/testing.png" target="_blank"><img src="images/testing.png" alt="Big 5 Testing"></a>
-                    <p class="pcenter"><a href="https://www.jordanbpeterson.com/docs/230/2014/15DeYoung.pdf" target="_blank">Source</a></p>
-                    <p class="pcenter">1.0 = 100% correlation, 0.7 = 70% correlation, etc.
-                    <br>-1.0 would also be an extremely strong correlation, meaning its definitely tied to it in opposition, having one loses the other.</p>
-                </section>
-
-                <section class="page">
-                    <h2>Test - Where</h2>
-                    <p class="plimited">The <a href="https://en.wikipedia.org/wiki/Big_Five_personality_traits" target="_blank">Big 5 Personality Test</a>, also called OCEAN, is a core psychology test which would be given to you by a psychologists if you wanted a personality test conducted. It is the default test used today by psychologists since when it was developed in the 1980s. These results I am showing use the Big 10 model, which is an "extended version" of the main big 5, there is the big 2-5-10-30.</p>
-                    <p class="plimited">The test I took was made by <a href="https://www.researchgate.net/profile/Jordan-Peterson-9" target="_blank">Jordan Peterson</a> and is available for like $10 on his <a href="https://www.understandmyself.com/personality-assessment" target="_blank">website</a>. It can be found free all over the internet, but his version of the test as the big 10 model is my preferred personally and the website keeps your records, you can pair your account with your partners and it gives you a secondary report, etc. A great free version of the big 5 is available after the first personality test on the social scientist Jonathan Haidt's <a href="https://yourmorals.org/" target="_blank">website</a> also.</p>
-                </section>
-
-                <section class="page">
-                    <h2>Test - About</h2>
-                    <p class="plimited">The test is fundamentally split into <b>5 areas</b>, which have <b>2 sections</b> each. A <b>higher</b> percentage means the default trait exhibits more in the personality, a <b>lower</b> percentage means the person uses this feature less in their psyche. The descriptions are split into Exceptionally High, Very High, Moderately High, High, Average, Low, Moderately Low, Very Low, and Exceptionally Low for how each trait enacts in a person.</p>
-                    <p class="plimited">The understandmyself test version also gives comparisons to all other test takers for the average. Ie, average % for women, average % for men, so you can see how different you are from the general population of hundreds and thousands of test takers - many people, like me, have bought it for family members and etc so the pool is varied which is where I am pulling those statistics from in the bars.</p>
                 </section>
 
                         </div>

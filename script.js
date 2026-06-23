@@ -308,8 +308,8 @@ function renderPercentileBellCurveAnimated(el) {
     });
   }
 
-  // White strip + band labels beneath the curve
-  const bandStripHeight = isCompact ? 0.22 : 0.16;
+  // White strip reserved below the plot (y domain lifts curve above it)
+  const bandStripHeight = isCompact ? 0.2 : 0.14;
 
   function makeBandStrip() {
     return {
@@ -320,8 +320,8 @@ function renderPercentileBellCurveAnimated(el) {
       x1: 1,
       y0: 0,
       y1: bandStripHeight,
-      fillcolor: '#f2f4f3',
-      line: { color: 'rgba(0, 0, 0, 0.07)', width: 1 },
+      fillcolor: '#eef2f1',
+      line: { width: 0 },
       layer: 'below',
     };
   }
@@ -333,7 +333,7 @@ function renderPercentileBellCurveAnimated(el) {
       { x: 70, text: '50–90th' },
       { x: 95, text: '>90th' },
     ];
-    const bandY = bandStripHeight * 0.52;
+    const bandY = bandStripHeight * 0.5;
 
     return bands.map((a) => ({
       x: a.x,
@@ -342,7 +342,7 @@ function renderPercentileBellCurveAnimated(el) {
       yref: 'paper',
       text: a.text,
       showarrow: false,
-      font: { size: isCompact ? 9 : 11, color: '#4f5d62' },
+      font: { size: isCompact ? 10 : 11, color: '#4f5d62' },
       align: 'center',
     }));
   }
@@ -355,16 +355,17 @@ function renderPercentileBellCurveAnimated(el) {
 
   const X_OVERLAP_DESKTOP = 9.5;
   const X_OVERLAP_MOBILE = 19.5;
-  const labelSize = isCompact ? 10 : 13;
-  const MARKER_BASE_Y = isCompact ? 1.04 : 1.06;
+  const labelSize = isCompact ? 11 : 13;
+  const MARKER_BASE_Y = isCompact ? 1.08 : 1.06;
 
   const labelY = computeLabelYPositions({
     meX: meValue,
     menX: menValue,
     womenX: womenValue,
     baseY: MARKER_BASE_Y,
-    xThreshold: isCompact ? 14 : (isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP),
-    bump: isCompact ? 0.05 : 0.06,
+    xThreshold: isCompact ? 12 : (isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP),
+    bump: isCompact ? 0.07 : 0.06,
+    extraMe: isCompact ? 0.12 : 0.10,
   });
 
   const meAnnBase = {
@@ -519,26 +520,27 @@ function renderPercentileBellCurveAnimated(el) {
   const finalAnnotations = [...bandAnnotations, ...makeMarkerAnnotations(1)];
 
   const layout = {
-    title: { text: title, font: { size: isCompact ? 13 : 18 } },
+    title: { text: title, font: { size: isCompact ? 14 : 18 } },
     paper_bgcolor: 'transparent',
-    plot_bgcolor: 'transparent',
+    plot_bgcolor: '#0e1211',
     xaxis: {
       title: isCompact ? undefined : { text: 'Percentile (th)', standoff: 30 },
       range: [0, 100],
       zeroline: false,
       showgrid: false,
       tickvals: isCompact ? [0, 25, 50, 75, 100] : [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-      tickfont: { size: isCompact ? 9 : 12, color: '#6a7578' },
+      tickfont: { size: isCompact ? 10 : 12, color: '#8a9699' },
     },
     yaxis: {
       title: isCompact ? undefined : 'Population Likelihood',
+      domain: [bandStripHeight, 1],
       showticklabels: false,
       zeroline: false,
       showgrid: false,
     },
     showlegend: false,
     margin: isCompact
-      ? { l: 8, r: 8, t: 46, b: 4 }
+      ? { l: 10, r: 10, t: 50, b: 2 }
       : {
           l: isMobile ? 20 : 70,
           r: isMobile ? 20 : 70,
