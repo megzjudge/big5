@@ -8,6 +8,174 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // ----------------
+  // Viewport height (mobile browser chrome)
+  // ----------------
+  function setViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  setViewportHeight();
+  window.addEventListener('resize', setViewportHeight);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', setViewportHeight);
+  }
+
+  const scroller = document.querySelector('.snap-wrap');
+  const pages = scroller ? [...scroller.querySelectorAll('.page')] : [];
+
+  // ----------------
+  // Scroll rail (fixed to screen edge)
+  // ----------------
+  const railThumb = document.querySelector('.scroll-rail__thumb');
+
+  function updateScrollRail() {
+    if (!scroller || !railThumb) return;
+    const { scrollTop, scrollHeight, clientHeight } = scroller;
+    const maxScroll = scrollHeight - clientHeight;
+    if (maxScroll <= 0) {
+      railThumb.style.height = '100%';
+      railThumb.style.top = '0';
+      return;
+    }
+    const ratio = clientHeight / scrollHeight;
+    const thumbHeight = Math.max(ratio * clientHeight, 24);
+    const maxTop = clientHeight - thumbHeight;
+    const top = (scrollTop / maxScroll) * maxTop;
+    railThumb.style.height = `${thumbHeight}px`;
+    railThumb.style.top = `${top}px`;
+  }
+
+  // ----------------
+  // Active section + dot nav
+  // ----------------
+  const dotsNav = document.querySelector('.section-dots');
+  const KEY_SECTIONS = ['top', 'extraversion', 'openness', 'conscientiousness', 'neuroticism', 'agreeableness'];
+
+  if (dotsNav && pages.length) {
+    KEY_SECTIONS.forEach((id) => {
+      const page = document.getElementById(id);
+      if (!page) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'section-dot';
+      btn.title = id.charAt(0).toUpperCase() + id.slice(1);
+      btn.addEventListener('click', () => {
+        page.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      dotsNav.appendChild(btn);
+    });
+  }
+
+  let activeIndex = 0;
+
+  function updateActiveSection() {
+    if (!scroller || !pages.length) return;
+
+    const scrollMid = scroller.scrollTop + scroller.clientHeight * 0.5;
+    let nearest = 0;
+    let nearestDist = Infinity;
+
+    pages.forEach((page, i) => {
+      const pageMid = page.offsetTop + page.offsetHeight * 0.5;
+      const dist = Math.abs(scrollMid - pageMid);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearest = i;
+      }
+    });
+
+    if (nearest !== activeIndex) {
+      activeIndex = nearest;
+      pages.forEach((p, i) => p.classList.toggle('is-active', i === nearest));
+      document.querySelectorAll('.section-dot').forEach((dot, i) => {
+        const page = pages[nearest];
+        const pageId = page?.id;
+        const dotSection = KEY_SECTIONS[i];
+        dot.classList.toggle('is-active', dotSection === pageId);
+      });
+    }
+
+    updateScrollRail();
+  }
+
+  if (scroller) {
+    scroller.addEventListener('scroll', updateActiveSection, { passive: true });
+    updateActiveSection();
+
+    document.querySelector('.top')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      scroller.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      const id = link.getAttribute('href').slice(1);
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        scroller.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+      });
+    });
+  }
+
+  // ----------------
+  // Mobile snap guard — harder to skip sections
+  // ----------------
+  const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+  if (scroller && isTouchDevice) {
+    let snapTimer = null;
+    let isSnapping = false;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+
+    function snapToNearest() {
+      if (isSnapping || scroller.classList.contains('zoomed')) return;
+
+      const scrollTop = scroller.scrollTop;
+      const viewH = scroller.clientHeight;
+      let targetPage = pages[0];
+      let minDist = Infinity;
+
+      pages.forEach((page) => {
+        const pageTop = page.offsetTop;
+        const dist = Math.abs(scrollTop - pageTop);
+        if (dist < minDist) {
+          minDist = dist;
+          targetPage = page;
+        }
+      });
+
+      const targetTop = targetPage.offsetTop;
+      if (Math.abs(scrollTop - targetTop) > 2) {
+        isSnapping = true;
+        scroller.scrollTo({ top: targetTop, behavior: 'auto' });
+        requestAnimationFrame(() => { isSnapping = false; });
+      }
+    }
+
+    scroller.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+    }, { passive: true });
+
+    scroller.addEventListener('touchend', () => {
+      clearTimeout(snapTimer);
+      const elapsed = Date.now() - touchStartTime;
+      // Quick flicks still snap, but only after momentum settles
+      const delay = elapsed < 120 ? 280 : 120;
+      snapTimer = setTimeout(snapToNearest, delay);
+    }, { passive: true });
+
+    scroller.addEventListener('scroll', () => {
+      if (isSnapping) return;
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(snapToNearest, 180);
+    }, { passive: true });
+  }
+
+  // ----------------
   // Progress bars
   // ----------------
   const bars = document.querySelectorAll('.progress-bar, .progress-bar-men, .progress-bar-women');
