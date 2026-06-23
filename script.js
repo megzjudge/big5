@@ -312,71 +312,71 @@ function renderPercentileBellCurveAnimated(el) {
     });
   }
 
-  // Band labels (kept simple; you can color them later if desired)
-  const bandAnnotations = isCompact
-    ? [
-        { x: 5,  text: "<10th",   yOffset: -28 },
-        { x: 30, text: "10–50th", yOffset: -22 },
-        { x: 70, text: "50–90th", yOffset: -22 },
-        { x: 95, text: ">90th",   yOffset: -28 }
-      ].map(a => ({
-        x: a.x, y: 0, xref: "x", yref: "paper",
-        text: a.text, showarrow: false,
-        yshift: a.yOffset,
-        font: { size: 10 },
-        align: "center"
-      }))
-    : isMobile
-    ? [
-        { x: 5,  text: "<10th",   yOffset: -50 },
-        { x: 30, text: "10–50th", yOffset: -35 },
-        { x: 70, text: "50–90th", yOffset: -35 },
-        { x: 95, text: ">90th",   yOffset: -50 }
-      ].map(a => ({
-        x: a.x, y: 0, xref: "x", yref: "paper",
-        text: a.text, showarrow: false,
-        yshift: a.yOffset,
-        font: { size: 12 },
-        align: "center"
-      }))
-    : [
-        { x: 5,  text: "<10th" },
-        { x: 30, text: "10–50th" },
-        { x: 70, text: "50–90th" },
-        { x: 95, text: ">90th" }
-      ].map(a => ({
-        x: a.x, y: -0.14, xref: "x", yref: "paper",
-        text: a.text, showarrow: false,
-        font: { size: 12 },
-        align: "center"
+  // Band labels — single row below the x-axis
+  function makeBandAnnotations() {
+    const bands = [
+      { x: 5, text: '<10th' },
+      { x: 30, text: '10–50th' },
+      { x: 70, text: '50–90th' },
+      { x: 95, text: '>90th' },
+    ];
+
+    if (isCompact || isMobile) {
+      const yshift = isCompact ? 16 : 20;
+      return bands.map((a) => ({
+        x: a.x,
+        y: 0,
+        xref: 'x',
+        yref: 'paper',
+        yanchor: 'top',
+        text: a.text,
+        showarrow: false,
+        yshift,
+        font: { size: isCompact ? 9 : 10 },
+        align: 'center',
       }));
+    }
+
+    return bands.map((a) => ({
+      x: a.x,
+      y: -0.2,
+      xref: 'x',
+      yref: 'paper',
+      text: a.text,
+      showarrow: false,
+      font: { size: 12 },
+      align: 'center',
+    }));
+  }
+
+  const bandAnnotations = makeBandAnnotations();
 
   // Marker colors from your CSS variables
   const ME_COLOR_0 = rgbaFromCssVar("--me-2", 0, "#7E8C0A");
   const MEN_COLOR_0 = rgbaFromCssVar("--men-1", 0, "#8C3A0A");
   const WOMEN_COLOR_0 = rgbaFromCssVar("--women-1", 0, "#8C0A7E");
 
-  // Base (invisible) marker annotations; keep same y so they are not tiered
-  const LABEL_Y = isCompact ? 1.02 : 1.08;
+  // Marker labels above the curve (top margin, not over the fill)
+  const MARKER_BASE_Y = isCompact ? 1.2 : 1.14;
 
-  // Tune these:
   const X_OVERLAP_DESKTOP = 9.5;
   const X_OVERLAP_MOBILE  = 19.5;
   const BUMP_DESKTOP = 0.05;
-  const BUMP_MOBILE  = 0.10;
+  const BUMP_MOBILE  = 0.08;
   const labelSize = isCompact ? 10 : 13;
 
   const labelY = computeLabelYPositions({
     meX: meValue,
     menX: menValue,
     womenX: womenValue,
-    baseY: LABEL_Y,
+    baseY: MARKER_BASE_Y,
     xThreshold: isCompact ? 14 : (isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP),
-    bump: isCompact ? 0.06 : (isMobile ? BUMP_MOBILE : BUMP_DESKTOP)
+    bump: isCompact ? 0.05 : (isMobile ? BUMP_MOBILE : BUMP_DESKTOP)
   });
 
   const meAnnBase = {
     x: meValue, y: labelY.me, xref: "x", yref: "paper",
+    yanchor: "bottom",
     text: `Me: ${Math.round(meValue)}${getOrdinalSuffix(Math.round(meValue))}`,
     showarrow: false,
     font: { color: ME_COLOR_0, size: labelSize },
@@ -385,6 +385,7 @@ function renderPercentileBellCurveAnimated(el) {
 
   const menAnnBase = !Number.isNaN(menValue) ? {
     x: menValue, y: labelY.men, xref: "x", yref: "paper",
+    yanchor: "bottom",
     text: `Men: ${Math.round(menValue)}${getOrdinalSuffix(Math.round(menValue))}`,
     showarrow: false,
     font: { color: MEN_COLOR_0, size: labelSize },
@@ -393,6 +394,7 @@ function renderPercentileBellCurveAnimated(el) {
 
   const womenAnnBase = !Number.isNaN(womenValue) ? {
     x: womenValue, y: labelY.women, xref: "x", yref: "paper",
+    yanchor: "bottom",
     text: `Women: ${Math.round(womenValue)}${getOrdinalSuffix(Math.round(womenValue))}`,
     showarrow: false,
     font: { color: WOMEN_COLOR_0, size: labelSize },
@@ -559,7 +561,7 @@ function renderPercentileBellCurveAnimated(el) {
     },
     showlegend: false,
     margin: isCompact
-      ? { l: 8, r: 8, t: 44, b: 32 }
+      ? { l: 8, r: 8, t: 52, b: 38 }
       : {
           l: isMobile ? 20 : 70,
           r: isMobile ? 20 : 70,

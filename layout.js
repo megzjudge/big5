@@ -1,5 +1,6 @@
 // Flow layout — groups flat sections into trait panels, accordions, and cards
 document.addEventListener('DOMContentLoaded', () => {
+  initBackgroundGlows();
   buildScoreOverview();
   groupTraitPanels();
   polishAboutCards();
@@ -15,6 +16,40 @@ const TRAITS = [
   { id: 'neuroticism', label: 'Neuroticism', emoji: '💢' },
   { id: 'agreeableness', label: 'Agreeableness', emoji: '✅' },
 ];
+
+function initBackgroundGlows() {
+  const mount = document.querySelector('.bg-glow');
+  if (!mount) return;
+
+  const palette = [
+    { rgb: '10, 126, 140', alpha: 0.16 },
+    { rgb: '140, 10, 126', alpha: 0.13 },
+    { rgb: '126, 140, 10', alpha: 0.11 },
+    { rgb: '140, 58, 10', alpha: 0.10 },
+    { rgb: '10, 90, 100', alpha: 0.12 },
+    { rgb: '100, 10, 90', alpha: 0.09 },
+  ];
+
+  const blobs = [];
+  const count = 14 + Math.floor(Math.random() * 8);
+
+  for (let i = 0; i < count; i++) {
+    const color = palette[Math.floor(Math.random() * palette.length)];
+    const alpha = color.alpha * (0.65 + Math.random() * 0.7);
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    const w = 28 + Math.random() * 55;
+    const h = 22 + Math.random() * 48;
+    blobs.push(
+      `radial-gradient(ellipse ${w.toFixed(1)}% ${h.toFixed(1)}% at ${x.toFixed(1)}% ${y.toFixed(1)}%, rgba(${color.rgb}, ${alpha.toFixed(3)}), transparent 52%)`
+    );
+  }
+
+  mount.style.background = [
+    ...blobs,
+    'linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 100%)',
+  ].join(', ');
+}
 
 function initReveal() {
   const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .flow-zone');

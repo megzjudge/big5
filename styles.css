@@ -53,11 +53,8 @@ body {
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background:
-        radial-gradient(ellipse 90% 70% at 10% 0%, var(--glow-teal), transparent 50%),
-        radial-gradient(ellipse 60% 50% at 95% 20%, rgba(140, 10, 126, 0.15), transparent 45%),
-        radial-gradient(ellipse 70% 60% at 50% 100%, rgba(126, 140, 10, 0.12), transparent 50%),
-        linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 100%);
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 100%);
 }
 
 .container {
@@ -255,6 +252,12 @@ body {
 .ocean-chip--agreeableness { background: rgba(126, 140, 10, 0.15); color: #d4e07a; border-color: rgba(126, 140, 10, 0.35); }
 .ocean-chip--neuroticism { background: rgba(140, 10, 126, 0.15); color: #e8a0df; border-color: rgba(140, 10, 126, 0.35); }
 
+.ocean-chip--extraversion:visited { color: #ffb4a8; }
+.ocean-chip--openness:visited { color: #9ed4da; }
+.ocean-chip--conscientiousness:visited { color: #f0d878; }
+.ocean-chip--agreeableness:visited { color: #d4e07a; }
+.ocean-chip--neuroticism:visited { color: #e8a0df; }
+
 /* ─── Flow zones ─── */
 main {
     position: relative;
@@ -288,8 +291,16 @@ main {
     line-height: 1.6;
 }
 
-.zone-lead a { color: var(--link); }
-.zone-lead a:hover { color: var(--link-hover); }
+.zone-lead a,
+.zone-lead a:visited {
+    color: var(--link);
+    border-bottom: 1px solid rgba(212, 232, 138, 0.45);
+}
+
+.zone-lead a:hover {
+    color: var(--link-hover);
+    border-bottom-color: var(--me-2);
+}
 
 /* ─── Reveal animation ─── */
 .reveal {
@@ -332,13 +343,19 @@ main {
     border-radius: var(--radius-sm);
     text-decoration: none;
     border-bottom: none;
+    color: rgba(255, 255, 255, 0.88);
     transition: transform 0.15s, box-shadow 0.15s;
     border: 1px solid transparent;
+}
+
+.score-pill:visited {
+    color: rgba(255, 255, 255, 0.88);
 }
 
 .score-pill:hover {
     transform: translateY(-3px) scale(1.02);
     border-bottom: none;
+    color: #fff;
 }
 
 .score-pill__emoji { font-size: 1.4rem; }
@@ -612,22 +629,47 @@ main {
 }
 
 /* ─── Comparison ─── */
+.flow-zone--comparison {
+    padding-bottom: clamp(48px, 8vh, 72px);
+    opacity: 0.92;
+}
+
+.zone-intro--subtle h2 {
+    font-size: clamp(1.35rem, 3vw, 1.65rem);
+    opacity: 0.88;
+}
+
+.zone-intro--subtle .zone-lead {
+    font-size: 0.88rem;
+    opacity: 0.75;
+}
+
 .comparison-card h5:first-of-type {
     margin-top: 0;
 }
 
 /* ─── Footer ─── */
 .site-footer {
-    border-top: 1px solid var(--surface-border);
-    background: rgba(0, 0, 0, 0.3);
-    padding: 48px 0;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    margin-top: clamp(32px, 6vh, 56px);
+    border-top: 1px solid rgba(10, 126, 140, 0.35);
+    background:
+        linear-gradient(180deg, rgba(10, 126, 140, 0.08) 0%, rgba(0, 0, 0, 0.55) 40%),
+        rgba(8, 12, 11, 0.92);
+    backdrop-filter: blur(10px);
+    padding: clamp(48px, 8vh, 72px) 0 clamp(40px, 6vh, 56px);
     text-align: center;
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35);
 }
 
 .footer-inner p {
     max-width: 40rem;
     margin: 0 auto 16px;
-    color: var(--text-soft);
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.95rem;
+    line-height: 1.65;
 }
 
 .footer-actions {
@@ -635,13 +677,13 @@ main {
     flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
-    margin: 24px 0;
+    margin: 28px 0 8px;
 }
 
 .footer-copy {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.45);
-    margin-top: 20px !important;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.62);
+    margin-top: 24px !important;
 }
 
 /* ─── Typography ─── */
@@ -681,7 +723,8 @@ h5 {
     opacity: 0.9;
 }
 
-a:not(.btn):not(.nav-link):not(.logo):not(.ocean-chip):not(.score-pill) {
+a:not(.btn):not(.nav-link):not(.logo):not(.ocean-chip):not(.score-pill),
+a:not(.btn):not(.nav-link):not(.logo):not(.ocean-chip):not(.score-pill):visited {
     color: var(--link);
     font-weight: 600;
     text-decoration: none;
