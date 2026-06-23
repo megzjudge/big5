@@ -49,18 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // Active section + dot nav
   // ----------------
   const dotsNav = document.querySelector('.section-dots');
-  const KEY_SECTIONS = ['top', 'extraversion', 'openness', 'conscientiousness', 'neuroticism', 'agreeableness'];
+  // Dot colours 1–16 per page index; page 17+ uses colour 4
+  const DOT_COLORS = [1, 2, 3, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3];
+
+  function dotColorForIndex(index) {
+    const fromBottom = pages.length - index;
+    if (fromBottom >= 3 && fromBottom <= 15) return 5;
+    if (index < DOT_COLORS.length) return DOT_COLORS[index];
+    return 4;
+  }
 
   if (dotsNav && pages.length) {
-    KEY_SECTIONS.forEach((id) => {
-      const page = document.getElementById(id);
-      if (!page) return;
+    pages.forEach((page, i) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'section-dot';
-      btn.title = id.charAt(0).toUpperCase() + id.slice(1);
+      btn.className = `section-dot section-dot--c${dotColorForIndex(i)}`;
+      const label = page.id
+        ? page.id.charAt(0).toUpperCase() + page.id.slice(1)
+        : `Section ${i + 1}`;
+      btn.title = label;
+      btn.setAttribute('aria-label', label);
       btn.addEventListener('click', () => {
-        page.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        scroller.scrollTo({ top: page.offsetTop, behavior: 'smooth' });
       });
       dotsNav.appendChild(btn);
     });
@@ -88,11 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
       activeIndex = nearest;
       pages.forEach((p, i) => p.classList.toggle('is-active', i === nearest));
       document.querySelectorAll('.section-dot').forEach((dot, i) => {
-        const page = pages[nearest];
-        const pageId = page?.id;
-        const dotSection = KEY_SECTIONS[i];
-        dot.classList.toggle('is-active', dotSection === pageId);
+        dot.classList.toggle('is-active', i === nearest);
       });
+
+      const activeDot = dotsNav?.querySelector('.section-dot.is-active');
+      activeDot?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
 
     updateScrollRail();
