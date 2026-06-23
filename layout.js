@@ -52,7 +52,7 @@ function initBackgroundGlows() {
 }
 
 function initReveal() {
-  const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .flow-zone');
+  const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .trait-chapter, .flow-zone');
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -137,6 +137,8 @@ function groupTraitPanels() {
     charts.className = 'trait-panel__charts';
 
     pages.slice(1).forEach((page) => {
+      page.querySelectorAll('.progress-bar, .progress-bar-men, .progress-bar-women').forEach((bar) => bar.remove());
+
       const chartCard = document.createElement('div');
       chartCard.className = 'chart-card card';
       while (page.firstChild) chartCard.appendChild(page.firstChild);
@@ -162,34 +164,108 @@ function polishAboutCards() {
   });
 }
 
+function parseProfileTitle(raw) {
+  const emoji = (raw.match(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu) || []).join('');
+  const text = raw.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim();
+  return { text, emoji };
+}
+
+function inferTraitSlug(title) {
+  const t = title.toLowerCase();
+  if (/extraversion|assertive|enthusiasm/.test(t)) return 'extraversion';
+  if (/openness|intellect|aesthetic/.test(t)) return 'openness';
+  if (/conscientious|industrious|orderliness/.test(t)) return 'conscientiousness';
+  if (/neurotic|volatil|withdrawal/.test(t)) return 'neuroticism';
+  if (/agreeab|compassion|polite/.test(t)) return 'agreeableness';
+  return 'openness';
+}
+
+function wrapProfileImage(body, variant) {
+  const img = body.querySelector(':scope > img');
+  if (!img) return;
+
+  const figure = document.createElement('figure');
+  figure.className = `profile-fold__figure${variant === 'hero' ? ' profile-fold__figure--hero' : ''}`;
+  body.insertBefore(figure, img);
+  figure.appendChild(img);
+}
+
+function buildProfileFold(section) {
+  const h2 = section.querySelector(':scope > h2');
+  const h3 = section.querySelector(':scope > h3');
+  const rawTitle = h2?.textContent?.trim() || h3?.textContent?.trim() || 'Profile';
+  const { text, emoji } = parseProfileTitle(rawTitle);
+  const isTraitRoot = Boolean(h2 && !h3 && section.querySelector('img') && !section.querySelector('ul'));
+  const trait = inferTraitSlug(text);
+
+  const details = document.createElement('details');
+  details.className = `profile-fold profile-fold--${trait}${isTraitRoot ? ' profile-fold--root' : ' profile-fold--aspect'}`;
+  details.dataset.trait = trait;
+  if (isTraitRoot) details.open = true;
+
+  const summary = document.createElement('summary');
+  summary.className = 'profile-fold__summary';
+  summary.innerHTML = `
+    <span class="profile-fold__marker" aria-hidden="true"></span>
+    <span class="profile-fold__glyph" aria-hidden="true">${emoji || (isTraitRoot ? '◎' : '·')}</span>
+    <span class="profile-fold__headings">
+      <span class="profile-fold__kicker">${isTraitRoot ? 'Core trait' : 'Aspect'}</span>
+      <span class="profile-fold__title">${text}</span>
+    </span>
+    <span class="profile-fold__toggle" aria-hidden="true">
+      <span class="profile-fold__toggle-open">Read</span>
+      <span class="profile-fold__toggle-close">Close</span>
+    </span>
+  `;
+
+  const body = document.createElement('div');
+  body.className = 'profile-fold__body';
+
+  if (h2) h2.remove();
+  while (section.firstChild) body.appendChild(section.firstChild);
+
+  wrapProfileImage(body, isTraitRoot ? 'hero' : 'thumb');
+
+  details.append(summary, body);
+  return details;
+}
+
 function makeProfileAccordions() {
   const mount = document.getElementById('traits-stack');
   if (!mount) return;
 
   const sections = [...mount.querySelectorAll('.page')];
+  const chapters = [];
+  let aspectMount = null;
+
   sections.forEach((section) => {
-    const h2 = section.querySelector(':scope > h2');
-    const h3 = section.querySelector(':scope > h3');
-    const title = h2?.textContent?.trim() || h3?.textContent?.trim() || 'Profile';
-    const isTraitRoot = h2 && !h3 && section.querySelector('img') && !section.querySelector('ul');
+    const fold = buildProfileFold(section);
+    const isRoot = fold.classList.contains('profile-fold--root');
 
-    const details = document.createElement('details');
-    details.className = `profile-fold profile-fold reveal${isTraitRoot ? ' profile-fold--root' : ''}`;
-    if (isTraitRoot) details.open = true;
+    if (isRoot) {
+      const chapter = document.createElement('article');
+      chapter.className = `trait-chapter trait-chapter--${fold.dataset.trait} reveal`;
+      chapter.appendChild(fold);
 
-    const summary = document.createElement('summary');
-    summary.className = 'profile-fold__summary';
-    summary.innerHTML = `<span class="profile-fold__title">${title}</span><span class="profile-fold__chev" aria-hidden="true">+</span>`;
+      aspectMount = document.createElement('div');
+      aspectMount.className = 'trait-chapter__aspects';
+      chapter.appendChild(aspectMount);
 
-    const body = document.createElement('div');
-    body.className = 'profile-fold__body';
-
-    if (h2) h2.remove();
-    while (section.firstChild) body.appendChild(section.firstChild);
-
-    details.append(summary, body);
-    section.replaceWith(details);
+      chapters.push(chapter);
+    } else {
+      fold.classList.add('reveal');
+      if (aspectMount) {
+        aspectMount.appendChild(fold);
+      } else {
+        const solo = document.createElement('article');
+        solo.className = 'trait-chapter trait-chapter--solo reveal';
+        solo.appendChild(fold);
+        chapters.push(solo);
+      }
+    }
   });
+
+  mount.replaceChildren(...chapters);
 }
 
 function wrapVideoCards() {

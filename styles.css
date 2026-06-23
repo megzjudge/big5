@@ -495,77 +495,330 @@ main {
     text-align: left;
 }
 
-/* ─── Profile accordions ─── */
+/* ─── Trait profile chapters ─── */
 .traits-stack {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: clamp(28px, 5vh, 44px);
 }
 
-.profile-fold {
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--surface-border);
-    background: var(--surface);
-    overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s;
+.trait-chapter {
+    position: relative;
+    padding-left: 20px;
 }
 
-.profile-fold[open] {
-    border-color: rgba(10, 126, 140, 0.4);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+.trait-chapter::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--chapter-accent, var(--me-1)), transparent 92%);
+    opacity: 0.55;
 }
 
-.profile-fold--root {
-    border-color: rgba(10, 126, 140, 0.35);
-}
+.trait-chapter--extraversion { --chapter-accent: var(--trait-extraversion); }
+.trait-chapter--openness { --chapter-accent: var(--trait-openness); }
+.trait-chapter--conscientiousness { --chapter-accent: var(--trait-conscientiousness); }
+.trait-chapter--neuroticism { --chapter-accent: var(--trait-neuroticism); }
+.trait-chapter--agreeableness { --chapter-accent: var(--trait-agreeableness); }
 
-.profile-fold__summary {
+.trait-chapter__aspects {
     display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    padding-left: 8px;
+}
+
+/* Root fold — chapter cover */
+.profile-fold--root {
+    border: none;
+    background: transparent;
+}
+
+.profile-fold--root > .profile-fold__summary {
+    position: relative;
+    padding: 20px 22px;
+    border-radius: calc(var(--radius) + 2px);
+    background:
+        linear-gradient(135deg, color-mix(in srgb, var(--chapter-accent) 22%, transparent), transparent 58%),
+        rgba(0, 0, 0, 0.45);
+    border: 1px solid color-mix(in srgb, var(--chapter-accent) 40%, transparent);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+}
+
+.profile-fold--root > .profile-fold__summary::after {
+    content: "";
+    position: absolute;
+    right: -20%;
+    top: -40%;
+    width: 55%;
+    height: 180%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--chapter-accent) 35%, transparent), transparent 68%);
+    pointer-events: none;
+}
+
+.profile-fold--root[open] > .profile-fold__summary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-color: transparent;
+}
+
+.profile-fold--root > .profile-fold__body {
+    margin-top: -1px;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--chapter-accent) 35%, transparent);
+    border-top: none;
+    border-radius: 0 0 calc(var(--radius) + 2px) calc(var(--radius) + 2px);
+    background: rgba(0, 0, 0, 0.38);
+    overflow: hidden;
+}
+
+/* Aspect fold — slim timeline cards */
+.profile-fold--aspect {
+    border: none;
+    background: transparent;
+}
+
+.profile-fold--aspect > .profile-fold__summary {
+    padding: 12px 14px 12px 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.profile-fold--aspect[open] > .profile-fold__summary {
+    background: color-mix(in srgb, var(--chapter-accent) 12%, rgba(0, 0, 0, 0.35));
+    border-color: color-mix(in srgb, var(--chapter-accent) 35%, transparent);
+}
+
+.profile-fold--aspect > .profile-fold__body {
+    margin: 6px 0 4px 12px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.32);
+    border: 1px dashed color-mix(in srgb, var(--chapter-accent) 28%, transparent);
+}
+
+/* Shared summary row */
+.profile-fold__summary {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
     gap: 12px;
-    padding: 16px 20px;
     cursor: pointer;
     list-style: none;
-    font-family: 'Somebody Else', Arial, fantasy;
-    font-size: 1.05rem;
-    color: var(--me-1);
     user-select: none;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
 
 .profile-fold__summary::-webkit-details-marker { display: none; }
 
-.profile-fold__chev {
-    font-size: 1.2rem;
-    font-weight: 300;
-    transition: transform 0.25s;
-    opacity: 0.6;
+.profile-fold__summary:hover {
+    transform: translateX(3px);
 }
 
-.profile-fold[open] .profile-fold__chev {
-    transform: rotate(45deg);
+.profile-fold__marker {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--chapter-accent, var(--me-1));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--chapter-accent) 25%, transparent);
+    flex-shrink: 0;
 }
 
+.profile-fold--root .profile-fold__marker {
+    width: 12px;
+    height: 12px;
+}
+
+.profile-fold[open] .profile-fold__marker {
+    box-shadow: 0 0 12px color-mix(in srgb, var(--chapter-accent) 55%, transparent);
+}
+
+.profile-fold__glyph {
+    font-size: 1.35rem;
+    line-height: 1;
+    width: 1.6rem;
+    text-align: center;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.profile-fold--aspect .profile-fold__glyph {
+    font-size: 1rem;
+    opacity: 0.85;
+}
+
+.profile-fold__headings {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    text-align: left;
+}
+
+.profile-fold__kicker {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--chapter-accent) 70%, #fff);
+    opacity: 0.9;
+}
+
+.profile-fold__title {
+    font-family: 'Somebody Else', Arial, fantasy;
+    font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+    color: #fff;
+    line-height: 1.15;
+}
+
+.profile-fold--aspect .profile-fold__title {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+}
+
+.profile-fold__toggle {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--chapter-accent) 45%, transparent);
+    color: color-mix(in srgb, var(--chapter-accent) 80%, #fff);
+    background: rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+}
+
+.profile-fold__toggle-close { display: none; }
+
+.profile-fold[open] .profile-fold__toggle-open { display: none; }
+.profile-fold[open] .profile-fold__toggle-close { display: inline; }
+
+.profile-fold[open] .profile-fold__toggle {
+    background: color-mix(in srgb, var(--chapter-accent) 22%, rgba(0, 0, 0, 0.4));
+}
+
+/* Body content */
 .profile-fold__body {
-    padding: 0 20px 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    animation: profile-unfold 0.35s ease;
+}
+
+.profile-fold__body br {
+    display: none;
+}
+
+@keyframes profile-unfold {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-fold__figure {
+    margin: 0;
+    overflow: hidden;
+}
+
+.profile-fold__figure--hero {
+    max-height: 220px;
+}
+
+.profile-fold__figure--hero img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+    mask-image: linear-gradient(180deg, #000 72%, transparent);
+}
+
+.profile-fold--aspect .profile-fold__body {
+    display: grid;
+    gap: 14px;
+}
+
+@media (min-width: 640px) {
+    .profile-fold--aspect .profile-fold__body:has(.profile-fold__figure) {
+        grid-template-columns: minmax(120px, 34%) 1fr;
+        align-items: start;
+    }
+}
+
+.profile-fold__figure:not(.profile-fold__figure--hero) img {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .profile-fold__body h3 {
     text-align: left;
-    font-size: 1rem;
-    margin-top: 16px;
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--chapter-accent) 65%, #fff);
+    margin: 18px 18px 0;
 }
 
-.profile-fold__body img {
-    margin-top: 12px;
+.profile-fold--aspect .profile-fold__body h3 {
+    margin: 0;
+    grid-column: 1 / -1;
+}
+
+.profile-fold--root .profile-fold__body h3 {
+    margin-top: 20px;
+}
+
+.profile-fold__body .pcenter,
+.profile-fold__body .plimited {
+    max-width: none;
+    text-align: left;
+    padding: 0 18px;
+    font-size: 0.9rem;
 }
 
 .profile-fold__body ul {
-    margin: 12px 0 0;
-    padding-left: 20px;
+    margin: 10px 18px 18px;
+    padding: 14px 16px 14px 28px;
     max-width: none;
-    width: 100%;
+    width: auto;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border-left: 3px solid color-mix(in srgb, var(--chapter-accent) 50%, transparent);
+}
+
+.profile-fold__body li {
+    list-style-type: "— ";
+    padding-left: 6px;
+    margin-bottom: 6px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.profile-fold--extraversion { --chapter-accent: var(--trait-extraversion); }
+.profile-fold--openness { --chapter-accent: var(--trait-openness); }
+.profile-fold--conscientiousness { --chapter-accent: var(--trait-conscientiousness); }
+.profile-fold--neuroticism { --chapter-accent: var(--trait-neuroticism); }
+.profile-fold--agreeableness { --chapter-accent: var(--trait-agreeableness); }
+
+@media (max-width: 520px) {
+    .trait-chapter { padding-left: 14px; }
+
+    .profile-fold__summary {
+        grid-template-columns: auto 1fr auto;
+        gap: 10px;
+    }
+
+    .profile-fold__glyph { display: none; }
+
+    .profile-fold__toggle {
+        padding: 5px 9px;
+        font-size: 0.62rem;
+    }
 }
 
 .flow-zone--combinations { background: rgba(140, 10, 126, 0.04); }

@@ -119,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Trait panels: bars first, bell curves deferred so Plotly doesn't fight CSS transitions
   const PANEL_BAR_LEAD_MS = 0;
   const CHART_CARD_STAGGER_MS = 550;
-  const CURVE_AFTER_BAR_MS = 400;
 
   const panelObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -139,12 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const cardDelay = 500 + cardIndex * CHART_CARD_STAGGER_MS;
 
         setTimeout(() => {
-          card.querySelectorAll('.progress-bar, .progress-bar-men, .progress-bar-women')
-            .forEach(fillBar);
-
           const curve = card.querySelector('.bellCurve');
           if (curve && curve.dataset.rendered !== '1') {
-            setTimeout(() => renderPercentileBellCurveAnimated(curve), CURVE_AFTER_BAR_MS);
+            renderPercentileBellCurveAnimated(curve);
           }
         }, cardDelay);
       });
@@ -312,7 +308,24 @@ function renderPercentileBellCurveAnimated(el) {
     });
   }
 
-  // Band labels — single row below the x-axis
+  // White strip + band labels beneath the curve
+  const bandStripHeight = isCompact ? 0.22 : 0.16;
+
+  function makeBandStrip() {
+    return {
+      type: 'rect',
+      xref: 'paper',
+      yref: 'paper',
+      x0: 0,
+      x1: 1,
+      y0: 0,
+      y1: bandStripHeight,
+      fillcolor: '#f2f4f3',
+      line: { color: 'rgba(0, 0, 0, 0.07)', width: 1 },
+      layer: 'below',
+    };
+  }
+
   function makeBandAnnotations() {
     const bands = [
       { x: 5, text: '<10th' },
@@ -320,50 +333,30 @@ function renderPercentileBellCurveAnimated(el) {
       { x: 70, text: '50–90th' },
       { x: 95, text: '>90th' },
     ];
-
-    if (isCompact || isMobile) {
-      const yshift = isCompact ? 16 : 20;
-      return bands.map((a) => ({
-        x: a.x,
-        y: 0,
-        xref: 'x',
-        yref: 'paper',
-        yanchor: 'top',
-        text: a.text,
-        showarrow: false,
-        yshift,
-        font: { size: isCompact ? 9 : 10 },
-        align: 'center',
-      }));
-    }
+    const bandY = bandStripHeight * 0.52;
 
     return bands.map((a) => ({
       x: a.x,
-      y: -0.2,
+      y: bandY,
       xref: 'x',
       yref: 'paper',
       text: a.text,
       showarrow: false,
-      font: { size: 12 },
+      font: { size: isCompact ? 9 : 11, color: '#4f5d62' },
       align: 'center',
     }));
   }
 
   const bandAnnotations = makeBandAnnotations();
 
-  // Marker colors from your CSS variables
-  const ME_COLOR_0 = rgbaFromCssVar("--me-2", 0, "#7E8C0A");
-  const MEN_COLOR_0 = rgbaFromCssVar("--men-1", 0, "#8C3A0A");
-  const WOMEN_COLOR_0 = rgbaFromCssVar("--women-1", 0, "#8C0A7E");
-
-  // Marker labels above the curve (top margin, not over the fill)
-  const MARKER_BASE_Y = isCompact ? 1.2 : 1.14;
+  const ME_COLOR = rgbaFromCssVar('--me-2', 1, '#7E8C0A');
+  const MEN_COLOR = rgbaFromCssVar('--men-1', 1, '#8C3A0A');
+  const WOMEN_COLOR = rgbaFromCssVar('--women-1', 1, '#8C0A7E');
 
   const X_OVERLAP_DESKTOP = 9.5;
-  const X_OVERLAP_MOBILE  = 19.5;
-  const BUMP_DESKTOP = 0.05;
-  const BUMP_MOBILE  = 0.08;
+  const X_OVERLAP_MOBILE = 19.5;
   const labelSize = isCompact ? 10 : 13;
+  const MARKER_BASE_Y = isCompact ? 1.04 : 1.06;
 
   const labelY = computeLabelYPositions({
     meX: meValue,
@@ -371,35 +364,119 @@ function renderPercentileBellCurveAnimated(el) {
     womenX: womenValue,
     baseY: MARKER_BASE_Y,
     xThreshold: isCompact ? 14 : (isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP),
-    bump: isCompact ? 0.05 : (isMobile ? BUMP_MOBILE : BUMP_DESKTOP)
+    bump: isCompact ? 0.05 : 0.06,
   });
 
   const meAnnBase = {
-    x: meValue, y: labelY.me, xref: "x", yref: "paper",
-    yanchor: "bottom",
+    x: meValue,
+    y: labelY.me,
+    xref: 'x',
+    yref: 'paper',
+    yanchor: 'bottom',
     text: `Me: ${Math.round(meValue)}${getOrdinalSuffix(Math.round(meValue))}`,
     showarrow: false,
-    font: { color: ME_COLOR_0, size: labelSize },
-    align: "center"
+    font: { color: ME_COLOR, size: labelSize },
+    align: 'center',
   };
 
   const menAnnBase = !Number.isNaN(menValue) ? {
-    x: menValue, y: labelY.men, xref: "x", yref: "paper",
-    yanchor: "bottom",
+    x: menValue,
+    y: labelY.men,
+    xref: 'x',
+    yref: 'paper',
+    yanchor: 'bottom',
     text: `Men: ${Math.round(menValue)}${getOrdinalSuffix(Math.round(menValue))}`,
     showarrow: false,
-    font: { color: MEN_COLOR_0, size: labelSize },
-    align: "center"
+    font: { color: MEN_COLOR, size: labelSize },
+    align: 'center',
   } : null;
 
   const womenAnnBase = !Number.isNaN(womenValue) ? {
-    x: womenValue, y: labelY.women, xref: "x", yref: "paper",
-    yanchor: "bottom",
+    x: womenValue,
+    y: labelY.women,
+    xref: 'x',
+    yref: 'paper',
+    yanchor: 'bottom',
     text: `Women: ${Math.round(womenValue)}${getOrdinalSuffix(Math.round(womenValue))}`,
     showarrow: false,
-    font: { color: WOMEN_COLOR_0, size: labelSize },
-    align: "center"
+    font: { color: WOMEN_COLOR, size: labelSize },
+    align: 'center',
   } : null;
+
+  function makeMarkerLines(opacity = 1) {
+    const lines = [{
+      type: 'line',
+      x0: meValue,
+      x1: meValue,
+      y0: 0,
+      y1: yMax,
+      line: {
+        color: rgbaFromCssVar('--me-2', opacity, '#7E8C0A'),
+        width: isCompact ? 2 : 3,
+        dash: 'longdashdot',
+        layer: 'above',
+      },
+    }];
+
+    if (!Number.isNaN(menValue)) {
+      lines.push({
+        type: 'line',
+        x0: menValue,
+        x1: menValue,
+        y0: 0,
+        y1: yMax,
+        line: {
+          color: rgbaFromCssVar('--men-1', opacity, '#8C3A0A'),
+          width: isCompact ? 2 : 3,
+          dash: 'longdashdot',
+          layer: 'above',
+        },
+      });
+    }
+
+    if (!Number.isNaN(womenValue)) {
+      lines.push({
+        type: 'line',
+        x0: womenValue,
+        x1: womenValue,
+        y0: 0,
+        y1: yMax,
+        line: {
+          color: rgbaFromCssVar('--women-1', opacity, '#8C0A7E'),
+          width: isCompact ? 2 : 3,
+          dash: 'longdashdot',
+          layer: 'above',
+        },
+      });
+    }
+
+    return lines;
+  }
+
+  function makeMarkerAnnotations(opacity = 1) {
+    const anns = [
+      {
+        ...meAnnBase,
+        font: { ...meAnnBase.font, color: rgbaFromCssVar('--me-2', opacity, '#7E8C0A') },
+      },
+    ];
+
+    if (menAnnBase) {
+      anns.push({
+        ...menAnnBase,
+        font: { ...menAnnBase.font, color: rgbaFromCssVar('--men-1', opacity, '#8C3A0A') },
+      });
+    }
+
+    if (womenAnnBase) {
+      anns.push({
+        ...womenAnnBase,
+        font: { ...womenAnnBase.font, color: rgbaFromCssVar('--women-1', opacity, '#8C0A7E') },
+      });
+    }
+
+    return anns;
+  }
 
   // Animate curve from center out
   const meanIdx = x.findIndex(v => v >= mean);
@@ -425,44 +502,9 @@ function renderPercentileBellCurveAnimated(el) {
       return { y: newY };
     });
 
-    const shapes = [
-      {
-        type: "line",
-        x0: meValue, x1: meValue,
-        y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--me-2", opacity, "#7E8C0A"), width: 3, dash: "longdashdot", layer: "above" }
-      }
-    ];
+    const shapes = [makeBandStrip(), ...makeMarkerLines(opacity)];
 
-    if (!Number.isNaN(menValue)) {
-      shapes.push({
-        type: "line",
-        x0: menValue, x1: menValue,
-        y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--men-1", opacity, "#8C3A0A"), width: 3, dash: "longdashdot", layer: "above" }
-      });
-    }
-
-    if (!Number.isNaN(womenValue)) {
-      shapes.push({
-        type: "line",
-        x0: womenValue, x1: womenValue,
-        y0: 0, y1: yMax,
-        line: { color: rgbaFromCssVar("--women-1", opacity, "#8C0A7E"), width: 3, dash: "longdashdot", layer: "above" }
-      });
-    }
-
-    const frameAnns = [
-      ...bandAnnotations,
-      { ...meAnnBase, font: { ...meAnnBase.font, color: rgbaFromCssVar("--me-2", opacity, "#7E8C0A") } }
-    ];
-
-    if (menAnnBase) {
-      frameAnns.push({ ...menAnnBase, font: { ...menAnnBase.font, color: rgbaFromCssVar("--men-1", opacity, "#8C3A0A") } });
-    }
-    if (womenAnnBase) {
-      frameAnns.push({ ...womenAnnBase, font: { ...womenAnnBase.font, color: rgbaFromCssVar("--women-1", opacity, "#8C0A7E") } });
-    }
+    const frameAnns = [...bandAnnotations, ...makeMarkerAnnotations(opacity)];
 
     frames.push({
       data: frameData,
@@ -473,102 +515,37 @@ function renderPercentileBellCurveAnimated(el) {
     });
   }
 
-  // Initial layout: invisible markers (opacity 0), curve starts at y=0 and is animated via frames
-  const initialShapes = [
-    {
-      type: "line",
-      x0: meValue, x1: meValue,
-      y0: 0, y1: yMax,
-      line: { color: rgbaFromCssVar("--me-2", 0, "#7E8C0A"), width: 3, dash: "dot" }
-    }
-  ];
-
-  if (!Number.isNaN(menValue)) {
-    initialShapes.push({
-      type: "line",
-      x0: menValue, x1: menValue,
-      y0: 0, y1: yMax,
-      line: { color: rgbaFromCssVar("--men-1", 0, "#8C3A0A"), width: 3, dash: "dash" }
-    });
-  }
-
-  if (!Number.isNaN(womenValue)) {
-    initialShapes.push({
-      type: "line",
-      x0: womenValue, x1: womenValue,
-      y0: 0, y1: yMax,
-      line: { color: rgbaFromCssVar("--women-1", 0, "#8C0A7E"), width: 3, dash: "dash" }
-    });
-  }
-
-  const initialAnnotations = [...bandAnnotations, meAnnBase];
-  if (menAnnBase) initialAnnotations.push(menAnnBase);
-  if (womenAnnBase) initialAnnotations.push(womenAnnBase);
-
-  const finalShapes = [
-    {
-      type: "line",
-      x0: meValue, x1: meValue,
-      y0: 0, y1: yMax,
-      line: { color: ME_COLOR_0, width: 2, dash: "longdashdot", layer: "above" }
-    }
-  ];
-
-  if (!Number.isNaN(menValue)) {
-    finalShapes.push({
-      type: "line",
-      x0: menValue, x1: menValue,
-      y0: 0, y1: yMax,
-      line: { color: MEN_COLOR_0, width: 2, dash: "longdashdot", layer: "above" }
-    });
-  }
-
-  if (!Number.isNaN(womenValue)) {
-    finalShapes.push({
-      type: "line",
-      x0: womenValue, x1: womenValue,
-      y0: 0, y1: yMax,
-      line: { color: WOMEN_COLOR_0, width: 2, dash: "longdashdot", layer: "above" }
-    });
-  }
-
-  const finalAnnotations = [
-    ...bandAnnotations,
-    { ...meAnnBase, font: { ...meAnnBase.font, color: ME_COLOR_0 } }
-  ];
-  if (menAnnBase) {
-    finalAnnotations.push({ ...menAnnBase, font: { ...menAnnBase.font, color: MEN_COLOR_0 } });
-  }
-  if (womenAnnBase) {
-    finalAnnotations.push({ ...womenAnnBase, font: { ...womenAnnBase.font, color: WOMEN_COLOR_0 } });
-  }
+  const finalShapes = [makeBandStrip(), ...makeMarkerLines(1)];
+  const finalAnnotations = [...bandAnnotations, ...makeMarkerAnnotations(1)];
 
   const layout = {
     title: { text: title, font: { size: isCompact ? 13 : 18 } },
+    paper_bgcolor: 'transparent',
+    plot_bgcolor: 'transparent',
     xaxis: {
-      title: isCompact ? undefined : { text: "Percentile (th)", standoff: 30 },
+      title: isCompact ? undefined : { text: 'Percentile (th)', standoff: 30 },
       range: [0, 100],
       zeroline: false,
       showgrid: false,
-      tickvals: isCompact ? [0, 25, 50, 75, 100] : [0,10,20,30,40,50,60,70,80,90,100],
-      tickfont: { size: isCompact ? 9 : 12 }
+      tickvals: isCompact ? [0, 25, 50, 75, 100] : [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+      tickfont: { size: isCompact ? 9 : 12, color: '#6a7578' },
     },
     yaxis: {
-      title: isCompact ? undefined : "Population Likelihood",
+      title: isCompact ? undefined : 'Population Likelihood',
       showticklabels: false,
       zeroline: false,
-      showgrid: false
+      showgrid: false,
     },
     showlegend: false,
     margin: isCompact
-      ? { l: 8, r: 8, t: 52, b: 38 }
+      ? { l: 8, r: 8, t: 46, b: 4 }
       : {
           l: isMobile ? 20 : 70,
           r: isMobile ? 20 : 70,
           t: isMobile ? 88 : 80,
-          b: isMobile ? 75 : 85
+          b: isMobile ? 8 : 12,
         },
-    autosize: true
+    autosize: true,
   };
 
   function markCurveReady() {
@@ -599,8 +576,8 @@ function renderPercentileBellCurveAnimated(el) {
 
   const layoutAnimated = {
     ...layout,
-    annotations: initialAnnotations,
-    shapes: initialShapes
+    annotations: [...bandAnnotations, ...makeMarkerAnnotations(0)],
+    shapes: [makeBandStrip(), ...makeMarkerLines(0)],
   };
 
   Plotly.newPlot(el, traces, layoutAnimated, {
