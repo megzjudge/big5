@@ -229,7 +229,8 @@ function renderPercentileBellCurveAnimated(el) {
   const stdDev = 15;
 
   const isMobile = window.innerWidth <= 768;
-  const minX = 0, maxX = 100, steps = isMobile ? 260 : 1000;
+  const isCompact = !!el.closest('.chart-card');
+  const minX = 0, maxX = 100, steps = isMobile || isCompact ? 260 : 1000;
 
   const x = [];
   const y = [];
@@ -292,7 +293,20 @@ function renderPercentileBellCurveAnimated(el) {
   }
 
   // Band labels (kept simple; you can color them later if desired)
-  const bandAnnotations = isMobile
+  const bandAnnotations = isCompact
+    ? [
+        { x: 5,  text: "<10th",   yOffset: -28 },
+        { x: 30, text: "10–50th", yOffset: -22 },
+        { x: 70, text: "50–90th", yOffset: -22 },
+        { x: 95, text: ">90th",   yOffset: -28 }
+      ].map(a => ({
+        x: a.x, y: 0, xref: "x", yref: "paper",
+        text: a.text, showarrow: false,
+        yshift: a.yOffset,
+        font: { size: 10 },
+        align: "center"
+      }))
+    : isMobile
     ? [
         { x: 5,  text: "<10th",   yOffset: -50 },
         { x: 30, text: "10–50th", yOffset: -35 },
@@ -323,28 +337,29 @@ function renderPercentileBellCurveAnimated(el) {
   const WOMEN_COLOR_0 = rgbaFromCssVar("--women-1", 0, "#8C0A7E");
 
   // Base (invisible) marker annotations; keep same y so they are not tiered
-  const LABEL_Y = 1.08;
+  const LABEL_Y = isCompact ? 1.02 : 1.08;
 
   // Tune these:
   const X_OVERLAP_DESKTOP = 9.5;
   const X_OVERLAP_MOBILE  = 19.5;
   const BUMP_DESKTOP = 0.05;
   const BUMP_MOBILE  = 0.10;
+  const labelSize = isCompact ? 10 : 13;
 
   const labelY = computeLabelYPositions({
     meX: meValue,
     menX: menValue,
     womenX: womenValue,
     baseY: LABEL_Y,
-    xThreshold: isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP,
-    bump: isMobile ? BUMP_MOBILE : BUMP_DESKTOP
+    xThreshold: isCompact ? 14 : (isMobile ? X_OVERLAP_MOBILE : X_OVERLAP_DESKTOP),
+    bump: isCompact ? 0.06 : (isMobile ? BUMP_MOBILE : BUMP_DESKTOP)
   });
 
   const meAnnBase = {
     x: meValue, y: labelY.me, xref: "x", yref: "paper",
     text: `Me: ${Math.round(meValue)}${getOrdinalSuffix(Math.round(meValue))}`,
     showarrow: false,
-    font: { color: ME_COLOR_0, size: 13 },
+    font: { color: ME_COLOR_0, size: labelSize },
     align: "center"
   };
 
@@ -352,7 +367,7 @@ function renderPercentileBellCurveAnimated(el) {
     x: menValue, y: labelY.men, xref: "x", yref: "paper",
     text: `Men: ${Math.round(menValue)}${getOrdinalSuffix(Math.round(menValue))}`,
     showarrow: false,
-    font: { color: MEN_COLOR_0, size: 13 },
+    font: { color: MEN_COLOR_0, size: labelSize },
     align: "center"
   } : null;
 
@@ -360,7 +375,7 @@ function renderPercentileBellCurveAnimated(el) {
     x: womenValue, y: labelY.women, xref: "x", yref: "paper",
     text: `Women: ${Math.round(womenValue)}${getOrdinalSuffix(Math.round(womenValue))}`,
     showarrow: false,
-    font: { color: WOMEN_COLOR_0, size: 13 },
+    font: { color: WOMEN_COLOR_0, size: labelSize },
     align: "center"
   } : null;
 
@@ -469,16 +484,17 @@ function renderPercentileBellCurveAnimated(el) {
   if (womenAnnBase) initialAnnotations.push(womenAnnBase);
 
   const layout = {
-    title: { text: title, font: { size: 18 } },
+    title: { text: title, font: { size: isCompact ? 13 : 18 } },
     xaxis: {
-      title: { text: "Percentile (th)", standoff: 30 },
+      title: isCompact ? undefined : { text: "Percentile (th)", standoff: 30 },
       range: [0, 100],
       zeroline: false,
       showgrid: false,
-      tickvals: [0,10,20,30,40,50,60,70,80,90,100]
+      tickvals: isCompact ? [0, 25, 50, 75, 100] : [0,10,20,30,40,50,60,70,80,90,100],
+      tickfont: { size: isCompact ? 9 : 12 }
     },
     yaxis: {
-      title: "Population Likelihood",
+      title: isCompact ? undefined : "Population Likelihood",
       showticklabels: false,
       zeroline: false,
       showgrid: false
@@ -486,12 +502,14 @@ function renderPercentileBellCurveAnimated(el) {
     showlegend: false,
     annotations: initialAnnotations,
     shapes: initialShapes,
-    margin: {
-      l: isMobile ? 20 : 70,
-      r: isMobile ? 20 : 70,
-      t: isMobile ? 88 : 80,
-      b: isMobile ? 75 : 85
-    },
+    margin: isCompact
+      ? { l: 8, r: 8, t: 44, b: 32 }
+      : {
+          l: isMobile ? 20 : 70,
+          r: isMobile ? 20 : 70,
+          t: isMobile ? 88 : 80,
+          b: isMobile ? 75 : 85
+        },
     autosize: true
   };
 
@@ -502,6 +520,8 @@ function renderPercentileBellCurveAnimated(el) {
     Plotly.animate(el, frames, {
       frame: { duration: 10, redraw: true },
       transition: { duration: 0 }
+    }).then(() => {
+      if (isCompact) Plotly.Plots.resize(el);
     });
   });
 
