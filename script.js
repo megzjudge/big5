@@ -43,6 +43,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   syncComparisonAverages();
 
+  function fillBar(bar) {
+    if (!bar || bar.dataset.filled === '1') return;
+
+    const fill =
+      bar.querySelector('[class^="progress-fill"]') ||
+      bar.querySelector('div[class*="progress-fill"]');
+    const rightLabel = bar.querySelector('.progress-label');
+    const progress = parseInt(bar.dataset.progress, 10);
+
+    if (!isNaN(progress)) {
+      if (fill) fill.style.width = `${progress}%`;
+      if (rightLabel) {
+        rightLabel.textContent = `${progress}${getOrdinalSuffix(progress)}`;
+      }
+    }
+
+    bar.dataset.filled = '1';
+  }
+
   // ----------------
   // Progress bars
   // ----------------
@@ -76,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const rightLabel = bar.querySelector('.progress-label');
           if (rightLabel) rightLabel.textContent = `${progress}${getOrdinalSuffix(progress)}`;
 
-          bar.dataset.filled = "1"; // so observer won't animate it again
+          bar.dataset.filled = "1";
         }
       } else {
         seenBars.add(key);
@@ -84,54 +103,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const observer = new IntersectionObserver((entries) => {
+  const barObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-
-      const bar = entry.target;
-
-      let fill = bar.querySelector('[class^="progress-fill"]');
-      if (bar.dataset.filled === "1") {
-        observer.unobserve(bar);
-        return;
-      }
-      if (!fill) {
-        fill = bar.querySelector('div[class*="progress-fill"]');
-      }
-
-      const rightLabel = bar.querySelector('.progress-label');
-      const progress = parseInt(bar.dataset.progress, 10);
-
-      if (!isNaN(progress)) {
-        if (fill) {
-          fill.style.width = `${progress}%`;
-        }
-
-        if (rightLabel) {
-          rightLabel.textContent = `${progress}${getOrdinalSuffix(progress)}`;
-        }
-      }
-
-      observer.unobserve(bar);
+      fillBar(entry.target);
+      barObserver.unobserve(entry.target);
     });
   }, { threshold: 0.1 });
 
-  bars.forEach(bar => observer.observe(bar));
+  bars.forEach(bar => {
+    if (bar.closest('.trait-panel')) return;
+    barObserver.observe(bar);
+  });
 
-  // ----------------
-  // Bell curves (lazy render on view)
-  // ----------------
-  const curves = document.querySelectorAll(".bellCurve");
+  // Trait panels: bars first, bell curves deferred so Plotly doesn't fight CSS transitions
+  const PANEL_BAR_LEAD_MS = 0;
+  const CHART_CARD_STAGGER_MS = 550;
+  const CURVE_AFTER_BAR_MS = 400;
 
-  const curveObserver = new IntersectionObserver((entries) => {
+  const panelObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      renderPercentileBellCurveAnimated(entry.target);
-      curveObserver.unobserve(entry.target);
-    });
-  }, { threshold: 0.1 });
+      const panel = entry.target;
+      panelObserver.unobserve(panel);
 
-  curves.forEach(c => curveObserver.observe(c));
+      const overview = panel.querySelector('.trait-panel__overview');
+      if (overview) {
+        setTimeout(() => {
+          overview.querySelectorAll('.progress-bar, .progress-bar-men, .progress-bar-women')
+            .forEach(fillBar);
+        }, PANEL_BAR_LEAD_MS);
+      }
+
+      [...panel.querySelectorAll('.chart-card')].forEach((card, cardIndex) => {
+        const cardDelay = 500 + cardIndex * CHART_CARD_STAGGER_MS;
+
+        setTimeout(() => {
+          card.querySelectorAll('.progress-bar, .progress-bar-men, .progress-bar-women')
+            .forEach(fillBar);
+
+          const curve = card.querySelector('.bellCurve');
+          if (curve && curve.dataset.rendered !== '1') {
+            setTimeout(() => renderPercentileBellCurveAnimated(curve), CURVE_AFTER_BAR_MS);
+          }
+        }, cardDelay);
+      });
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+  document.querySelectorAll('.trait-panel').forEach((panel) => panelObserver.observe(panel));
 });
 
 function getOrdinalSuffix(n) {
@@ -483,6 +503,44 @@ function renderPercentileBellCurveAnimated(el) {
   if (menAnnBase) initialAnnotations.push(menAnnBase);
   if (womenAnnBase) initialAnnotations.push(womenAnnBase);
 
+  const finalShapes = [
+    {
+      type: "line",
+      x0: meValue, x1: meValue,
+      y0: 0, y1: yMax,
+      line: { color: ME_COLOR_0, width: 2, dash: "longdashdot", layer: "above" }
+    }
+  ];
+
+  if (!Number.isNaN(menValue)) {
+    finalShapes.push({
+      type: "line",
+      x0: menValue, x1: menValue,
+      y0: 0, y1: yMax,
+      line: { color: MEN_COLOR_0, width: 2, dash: "longdashdot", layer: "above" }
+    });
+  }
+
+  if (!Number.isNaN(womenValue)) {
+    finalShapes.push({
+      type: "line",
+      x0: womenValue, x1: womenValue,
+      y0: 0, y1: yMax,
+      line: { color: WOMEN_COLOR_0, width: 2, dash: "longdashdot", layer: "above" }
+    });
+  }
+
+  const finalAnnotations = [
+    ...bandAnnotations,
+    { ...meAnnBase, font: { ...meAnnBase.font, color: ME_COLOR_0 } }
+  ];
+  if (menAnnBase) {
+    finalAnnotations.push({ ...menAnnBase, font: { ...menAnnBase.font, color: MEN_COLOR_0 } });
+  }
+  if (womenAnnBase) {
+    finalAnnotations.push({ ...womenAnnBase, font: { ...womenAnnBase.font, color: WOMEN_COLOR_0 } });
+  }
+
   const layout = {
     title: { text: title, font: { size: isCompact ? 13 : 18 } },
     xaxis: {
@@ -500,8 +558,6 @@ function renderPercentileBellCurveAnimated(el) {
       showgrid: false
     },
     showlegend: false,
-    annotations: initialAnnotations,
-    shapes: initialShapes,
     margin: isCompact
       ? { l: 8, r: 8, t: 44, b: 32 }
       : {
@@ -513,16 +569,46 @@ function renderPercentileBellCurveAnimated(el) {
     autosize: true
   };
 
-  Plotly.newPlot(el, traces, layout, {
+  function markCurveReady() {
+    requestAnimationFrame(() => el.classList.add('is-ready'));
+  }
+
+  if (isCompact) {
+    const staticTraces = traceStarts.map((start, tIdx) => ({
+      ...traces[tIdx],
+      y: traces[tIdx].x.map((_, idx) => y[start + idx])
+    }));
+
+    Plotly.newPlot(el, staticTraces, {
+      ...layout,
+      annotations: finalAnnotations,
+      shapes: finalShapes
+    }, {
+      displayModeBar: false,
+      responsive: true
+    }).then(() => {
+      Plotly.Plots.resize(el);
+      markCurveReady();
+    });
+
+    el.dataset.rendered = "1";
+    return;
+  }
+
+  const layoutAnimated = {
+    ...layout,
+    annotations: initialAnnotations,
+    shapes: initialShapes
+  };
+
+  Plotly.newPlot(el, traces, layoutAnimated, {
     displayModeBar: false,
     responsive: true
   }).then(() => {
     Plotly.animate(el, frames, {
-      frame: { duration: 10, redraw: true },
+      frame: { duration: 16, redraw: true },
       transition: { duration: 0 }
-    }).then(() => {
-      if (isCompact) Plotly.Plots.resize(el);
-    });
+    }).then(markCurveReady);
   });
 
   el.dataset.rendered = "1";

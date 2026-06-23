@@ -11,6 +11,8 @@
     --surface-border: rgba(10, 126, 140, 0.2);
     --glow-teal: rgba(10, 126, 140, 0.4);
     --text-soft: rgba(255, 255, 255, 0.78);
+    --link: #d4e88a;
+    --link-hover: #f0f8c8;
     --radius: 16px;
     --radius-sm: 10px;
     --trait-extraversion: #e85d4c;
@@ -286,7 +288,8 @@ main {
     line-height: 1.6;
 }
 
-.zone-lead a { color: #9ed4da; }
+.zone-lead a { color: var(--link); }
+.zone-lead a:hover { color: var(--link-hover); }
 
 /* ─── Reveal animation ─── */
 .reveal {
@@ -431,6 +434,12 @@ main {
     max-height: 180px;
     margin-top: 8px;
     flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+}
+
+.chart-card .bellCurve.is-ready {
+    opacity: 1;
 }
 
 /* Standalone / full-width bell curves (if any outside chart cards) */
@@ -442,6 +451,12 @@ main {
     overflow: hidden;
     background: #0e1211;
     border: 1px solid var(--surface-border);
+    opacity: 0;
+    transition: opacity 0.45s ease;
+}
+
+.bellCurve.is-ready {
+    opacity: 1;
 }
 
 /* ─── About cards ─── */
@@ -667,16 +682,16 @@ h5 {
 }
 
 a:not(.btn):not(.nav-link):not(.logo):not(.ocean-chip):not(.score-pill) {
-    color: #fff;
+    color: var(--link);
     font-weight: 600;
     text-decoration: none;
-    border-bottom: 1px solid rgba(10, 126, 140, 0.45);
+    border-bottom: 1px solid rgba(212, 232, 138, 0.45);
     transition: color 0.15s, border-color 0.15s;
 }
 
 a:not(.btn):not(.nav-link):not(.logo):not(.ocean-chip):not(.score-pill):hover {
-    color: #9ed4da;
-    border-bottom-color: var(--me-1);
+    color: var(--link-hover);
+    border-bottom-color: var(--me-2);
 }
 
 p { color: var(--text-soft); }
