@@ -32,27 +32,37 @@
 
 <body>
     <div class="bg-glow" aria-hidden="true"></div>
-    <aside class="scroll-rail" aria-hidden="true">
-        <div class="scroll-rail__track">
-            <div class="scroll-rail__thumb"></div>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="#top" class="logo">Big Five Aspects</a>
+            <nav class="nav">
+                <a href="#about" class="nav-link">About</a>
+                <a href="https://www.understandmyself.com/personality-assessment" class="nav-link" target="_blank" rel="noopener">Take the Test ↗</a>
+                <a href="#results" class="nav-link">Results</a>
+                <a href="#traits" class="nav-link">Traits</a>
+                <a href="https://github.com/megzjudge/big5" class="nav-link" target="_blank" rel="noopener">GitHub ↗</a>
+            </nav>
         </div>
-    </aside>
-    <nav class="section-dots" aria-label="Section navigation"></nav>
+    </header>
+
     <main>
-        <div class="snap-wrap">
-            <a href="#top" class="top" aria-label="Back to top">↑</a>
-            <div class="grid">
-                <section class="page" id="top">
-                    <header>
+                <section class="page hero" id="top">
+                    <div class="container hero-inner">
                         <img class="intro-icon" src="images/big5.svg" alt="Megan Judge Big 5 Personality Test Psychology Results">
                         <h1>The Big Five Aspects Scale</h1>
-                    </header>
-                    <div class="scroll-hint" aria-hidden="true">
-                        <span>Scroll</span>
-                        <span class="scroll-hint__chevron">↓</span>
+                        <p class="lead">Explore percentile results from Jordan Peterson&rsquo;s Big Ten model — five traits, ten aspects, compared against population averages.</p>
+                        <div class="hero-actions">
+                            <a href="https://www.understandmyself.com/personality-assessment" class="btn btn-primary" target="_blank" rel="noopener">Take the Official Test ↗</a>
+                            <a href="#results" class="btn btn-secondary">View My Results</a>
+                        </div>
                     </div>
                 </section>
-  
+
+                <div class="block-header container" id="results">
+                    <h2>My Results</h2>
+                    <p class="block-subtitle">Percentile scores from the <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a> Big Five Aspects Scale. Bars animate as you scroll into view.</p>
+                </div>
                 <section class="page" id="extraversion">
                     <h5>Extraversion 89th 🗣️</h5>
                     <div class="progress-bar" data-progress="89"><div class="progress-fill"></div><span class="progress-label">89th</span></div>
@@ -288,6 +298,11 @@
                     ></div>
                 </section>
 
+                <div class="block-header container" id="about">
+                    <h2>About the Test</h2>
+                    <p class="block-subtitle">Background on the Big Five, the Big Ten aspects model, and where these results come from.</p>
+                </div>
+
                 <section class="page">
                     <h2>Explanation</h2>
 			        <a href="images/testing.png" target="_blank"><img src="images/testing.png" alt="Big 5 Testing"></a>
@@ -307,6 +322,11 @@
                     <p class="plimited">The test is fundamentally split into <b>5 areas</b>, which have <b>2 sections</b> each. A <b>higher</b> percentage means the default trait exhibits more in the personality, a <b>lower</b> percentage means the person uses this feature less in their psyche. The descriptions are split into Exceptionally High, Very High, Moderately High, High, Average, Low, Moderately Low, Very Low, and Exceptionally Low for how each trait enacts in a person.</p>
                     <p class="plimited">The understandmyself test version also gives comparisons to all other test takers for the average. Ie, average % for women, average % for men, so you can see how different you are from the general population of hundreds and thousands of test takers - many people, like me, have bought it for family members and etc so the pool is varied which is where I am pulling those statistics from in the bars.</p>
                 </section>
+
+                <div class="block-header container" id="traits">
+                    <h2>Trait Profiles</h2>
+                    <p class="block-subtitle">What each score means — descriptions, images, and how traits show up in personality.</p>
+                </div>
 
                 <section class="page">
                     <h2>Conscientiousness 💼</h2>
@@ -500,7 +520,7 @@
                         </ul>
                     </section>
 
-                <section class="page">
+                <section class="page page--combinations">
                     <h3>Combinations</h3>
                         <ul>
                             <li class="combinations">Low Withdrawal + Low Politeness =
@@ -519,6 +539,11 @@
                             <br>Will fight for your feelings but also has good Self defense against you.</li>
                         </ul>
                 </section>
+
+                <div class="block-header container" id="videos">
+                    <h2>Videos</h2>
+                    <p class="block-subtitle">Clips from Jordan Peterson explaining traits relevant to these results. Embedded with start and end timestamps.</p>
+                </div>
 
                 <section class="page">
                     <h3>Videos</h3>
@@ -559,7 +584,6 @@
                             <p class="pcurvy">High in Conscientiousness (orderliness vs creativity)</p>
                             <p class="plimited">Openness to Experience 94th
                             <br>Orderliness 25th</p>
-                </section>
                 </section>
 
                 <section class="page">
@@ -659,6 +683,11 @@
                             <br>(Politeness 7th)</p>
                 </section>
 
+                <div class="block-header container" id="comparison">
+                    <h2>Family Comparison</h2>
+                    <p class="block-subtitle">Openness scores compared across family members and population averages.</p>
+                </div>
+
                 <section class="page page--comparison">
                     <h5>Openness to Experience Comparison</h5>
                   
@@ -676,16 +705,31 @@
                     <div class="progress-bar" data-trait="overall" data-progress="94"><div class="progress-fill"></div><span class="progress-label">94th</span></div>
                     <div class="progress-bar" data-trait="intellect" data-progress="94"><div class="progress-fill"></div><span class="progress-label">94th</span></div>
                     <div class="progress-bar" data-trait="aesthetics" data-progress="84"><div class="progress-fill"></div><span class="progress-label">84th</span></div>
+
+                    <h5>Men Mean</h5>
+                    <div class="progress-bar-men comparison-avg" data-trait="overall" data-progress="50"><div class="progress-fill-men"></div><span class="progress-label">50th</span></div>
+                    <div class="progress-bar-men comparison-avg" data-trait="intellect" data-progress="55"><div class="progress-fill-men"></div><span class="progress-label">55th</span></div>
+                    <div class="progress-bar-men comparison-avg" data-trait="aesthetics" data-progress="44"><div class="progress-fill-men"></div><span class="progress-label">44th</span></div>
+
+                    <h5>Women Mean</h5>
+                    <div class="progress-bar-women comparison-avg" data-trait="overall" data-progress="50"><div class="progress-fill-women"></div><span class="progress-label">50th</span></div>
+                    <div class="progress-bar-women comparison-avg" data-trait="intellect" data-progress="45"><div class="progress-fill-women"></div><span class="progress-label">45th</span></div>
+                    <div class="progress-bar-women comparison-avg" data-trait="aesthetics" data-progress="46"><div class="progress-fill-women"></div><span class="progress-label">46th</span></div>
 					
                 </section>
-
-                <section class="page">
-                    <p class="pcenter">2023 Design © Megan Judge</p>
-                </section>
-            </div>
-        </div>
-        <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
-        <script src="script.js" defer></script>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>Trait descriptions and scoring framework from Jordan Peterson&rsquo;s <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Big Five Aspects Scale</a> on <a href="https://www.understandmyself.com/" target="_blank" rel="noopener">Understand Myself</a>. Take the official test there to get your own results.</p>
+            <div class="footer-actions">
+                <a href="https://www.understandmyself.com/personality-assessment" class="btn btn-primary" target="_blank" rel="noopener">Take the Official Test ↗</a>
+                <a href="https://github.com/megzjudge/big5" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub ↗</a>
+            </div>
+            <p class="footer-copy">2023 Design © Megan Judge</p>
+        </div>
+    </footer>
+    <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

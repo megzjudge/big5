@@ -8,182 +8,40 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // ----------------
-  // Viewport height (mobile browser chrome)
+  // Comparison page — population averages from openness section
   // ----------------
-  function setViewportHeight() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }
-  setViewportHeight();
-  window.addEventListener('resize', setViewportHeight);
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', setViewportHeight);
-  }
+  function syncComparisonAverages() {
+    const source = document.getElementById('openness');
+    const comparison = document.querySelector('.page--comparison');
+    if (!source || !comparison) return;
 
-  const scroller = document.querySelector('.snap-wrap');
-  const pages = scroller ? [...scroller.querySelectorAll('.page')] : [];
-
-  // ----------------
-  // Scroll rail (fixed to screen edge)
-  // ----------------
-  const railThumb = document.querySelector('.scroll-rail__thumb');
-
-  function updateScrollRail() {
-    if (!scroller || !railThumb) return;
-    const { scrollTop, scrollHeight, clientHeight } = scroller;
-    const maxScroll = scrollHeight - clientHeight;
-    if (maxScroll <= 0) {
-      railThumb.style.height = '100%';
-      railThumb.style.top = '0';
-      return;
+    function setBar(bar, progress) {
+      if (!bar || isNaN(progress)) return;
+      bar.dataset.progress = String(progress);
+      const label = bar.querySelector('.progress-label');
+      if (label) label.textContent = `${progress}${getOrdinalSuffix(progress)}`;
     }
-    const ratio = clientHeight / scrollHeight;
-    const thumbHeight = Math.max(ratio * clientHeight, 24);
-    const maxTop = clientHeight - thumbHeight;
-    const top = (scrollTop / maxScroll) * maxTop;
-    railThumb.style.height = `${thumbHeight}px`;
-    railThumb.style.top = `${top}px`;
-  }
 
-  // ----------------
-  // Active section + dot nav
-  // ----------------
-  const dotsNav = document.querySelector('.section-dots');
-  // Dot colours 1–16 per page index; page 17+ uses colour 4
-  const DOT_COLORS = [1, 2, 3, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3];
+    ['men', 'women'].forEach((gender) => {
+      const cls = gender === 'men' ? 'progress-bar-men' : 'progress-bar-women';
+      const intellectSrc = source.querySelector(`.${cls}[data-trait="intellect"]`);
+      const aestheticsSrc = source.querySelector(`.${cls}[data-trait="aesthetics"]`);
+      const intellect = parseInt(intellectSrc?.dataset.progress, 10);
+      const aesthetics = parseInt(aestheticsSrc?.dataset.progress, 10);
 
-  function dotColorForIndex(index) {
-    const fromBottom = pages.length - index;
-    if (fromBottom >= 3 && fromBottom <= 15) return 5;
-    if (index < DOT_COLORS.length) return DOT_COLORS[index];
-    return 4;
-  }
+      setBar(comparison.querySelector(`.comparison-avg.${cls}[data-trait="intellect"]`), intellect);
+      setBar(comparison.querySelector(`.comparison-avg.${cls}[data-trait="aesthetics"]`), aesthetics);
 
-  if (dotsNav && pages.length) {
-    pages.forEach((page, i) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = `section-dot section-dot--c${dotColorForIndex(i)}`;
-      const label = page.id
-        ? page.id.charAt(0).toUpperCase() + page.id.slice(1)
-        : `Section ${i + 1}`;
-      btn.title = label;
-      btn.setAttribute('aria-label', label);
-      btn.addEventListener('click', () => {
-        scroller.scrollTo({ top: page.offsetTop, behavior: 'smooth' });
-      });
-      dotsNav.appendChild(btn);
-    });
-  }
-
-  let activeIndex = 0;
-
-  function updateActiveSection() {
-    if (!scroller || !pages.length) return;
-
-    const scrollMid = scroller.scrollTop + scroller.clientHeight * 0.5;
-    let nearest = 0;
-    let nearestDist = Infinity;
-
-    pages.forEach((page, i) => {
-      const pageMid = page.offsetTop + page.offsetHeight * 0.5;
-      const dist = Math.abs(scrollMid - pageMid);
-      if (dist < nearestDist) {
-        nearestDist = dist;
-        nearest = i;
+      if (!isNaN(intellect) && !isNaN(aesthetics)) {
+        setBar(
+          comparison.querySelector(`.comparison-avg.${cls}[data-trait="overall"]`),
+          Math.round((intellect + aesthetics) / 2)
+        );
       }
     });
-
-    if (nearest !== activeIndex) {
-      activeIndex = nearest;
-      pages.forEach((p, i) => p.classList.toggle('is-active', i === nearest));
-      document.querySelectorAll('.section-dot').forEach((dot, i) => {
-        dot.classList.toggle('is-active', i === nearest);
-      });
-
-      const activeDot = dotsNav?.querySelector('.section-dot.is-active');
-      activeDot?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }
-
-    updateScrollRail();
   }
 
-  if (scroller) {
-    scroller.addEventListener('scroll', updateActiveSection, { passive: true });
-    updateActiveSection();
-
-    document.querySelector('.top')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      scroller.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      const id = link.getAttribute('href').slice(1);
-      if (!id) return;
-      const target = document.getElementById(id);
-      if (!target) return;
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        scroller.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
-      });
-    });
-  }
-
-  // ----------------
-  // Mobile snap guard — harder to skip sections
-  // ----------------
-  const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-
-  if (scroller && isTouchDevice) {
-    let snapTimer = null;
-    let isSnapping = false;
-    let touchStartY = 0;
-    let touchStartTime = 0;
-
-    function snapToNearest() {
-      if (isSnapping || scroller.classList.contains('zoomed')) return;
-
-      const scrollTop = scroller.scrollTop;
-      const viewH = scroller.clientHeight;
-      let targetPage = pages[0];
-      let minDist = Infinity;
-
-      pages.forEach((page) => {
-        const pageTop = page.offsetTop;
-        const dist = Math.abs(scrollTop - pageTop);
-        if (dist < minDist) {
-          minDist = dist;
-          targetPage = page;
-        }
-      });
-
-      const targetTop = targetPage.offsetTop;
-      if (Math.abs(scrollTop - targetTop) > 2) {
-        isSnapping = true;
-        scroller.scrollTo({ top: targetTop, behavior: 'auto' });
-        requestAnimationFrame(() => { isSnapping = false; });
-      }
-    }
-
-    scroller.addEventListener('touchstart', (e) => {
-      touchStartY = e.touches[0].clientY;
-      touchStartTime = Date.now();
-    }, { passive: true });
-
-    scroller.addEventListener('touchend', () => {
-      clearTimeout(snapTimer);
-      const elapsed = Date.now() - touchStartTime;
-      // Quick flicks still snap, but only after momentum settles
-      const delay = elapsed < 120 ? 280 : 120;
-      snapTimer = setTimeout(snapToNearest, delay);
-    }, { passive: true });
-
-    scroller.addEventListener('scroll', () => {
-      if (isSnapping) return;
-      clearTimeout(snapTimer);
-      snapTimer = setTimeout(snapToNearest, 180);
-    }, { passive: true });
-  }
+  syncComparisonAverages();
 
   // ----------------
   // Progress bars
@@ -259,38 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.1 });
 
   bars.forEach(bar => observer.observe(bar));
-
-  // ----------------
-  // Zoom disables snap (mobile pinch)
-  // ----------------
-  (function () {
-    const scroller =
-      document.querySelector('.snap-wrap') ||
-      document.querySelector('.scroll-sections') ||
-      document.scrollingElement ||
-      document.documentElement;
-
-    const EPS = 0.01;
-
-    function isZoomed() {
-      return window.visualViewport
-        ? Math.abs(window.visualViewport.scale - 1) > EPS
-        : false;
-    }
-
-    function syncZoomState() {
-      scroller.classList.toggle('zoomed', isZoomed());
-    }
-
-    syncZoomState();
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', syncZoomState);
-      window.visualViewport.addEventListener('scroll', syncZoomState);
-    }
-
-    window.addEventListener('resize', syncZoomState);
-  })();
 
   // ----------------
   // Bell curves (lazy render on view)
