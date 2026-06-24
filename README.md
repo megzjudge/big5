@@ -2,8 +2,6 @@
 
 A static site that presents [Megan Judge](https://github.com/megzjudge)'s personality results from Jordan Peterson's **Big Ten** model on [Understand Myself](https://www.understandmyself.com/personality-assessment) — five OCEAN traits, ten measurable aspects, percentile scores, population benchmarks, and write-ups for what each score means.
 
-**Live site:** [big5.jdge.cc](https://big5.jdge.cc)
-
 ## What it is
 
 This is a personal results page, not a test itself. Scores come from the official Understand Myself assessment. The site turns those percentiles into something easier to explore: progress bars, animated bell curves, trait profiles, trait-combination notes, and embedded Jordan Peterson clips matched to the results.
