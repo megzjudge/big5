@@ -37,18 +37,6 @@ Plain static front end — no build step, no framework.
 
 Deployed as static files (e.g. Cloudflare Pages). See `_headers` for CSP.
 
-## Local preview
-
-Any static file server works. From the project root:
-
-```bash
-python3 -m http.server 8080
-```
-
-Then open [http://localhost:8080](http://localhost:8080).
-
-Plotly is loaded from a CDN, so you need network access for the bell curves to render.
-
 ## Customising for your own results
 
 Most editable content lives in `index.html`:
