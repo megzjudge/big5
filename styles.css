@@ -784,6 +784,19 @@ main {
     border-color: rgba(140, 10, 126, 0.28);
 }
 
+.about-panel--diagram {
+    border-color: rgba(140, 10, 126, 0.2);
+    background:
+        linear-gradient(160deg, rgba(0, 0, 0, 0.22), transparent 50%),
+        linear-gradient(135deg, rgba(140, 10, 126, 0.06), transparent 70%),
+        var(--surface);
+    padding: clamp(16px, 2.5vw, 22px);
+}
+
+.about-panel--diagram .about-diagram {
+    margin: 0;
+}
+
 .about-links {
     list-style: none;
     margin: 8px 0 0;
