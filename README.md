@@ -4,12 +4,6 @@ A static site that presents individual personality results from Jordan Peterson'
 
 ## GitHub
 
-**About description** (paste into the repo profile — 350 character limit):
-
-> Megan Judge's personal Big Five Aspects Scale site — visualising Understand Myself results across five OCEAN traits and ten facets: percentile bars, men/women bell curves, per-trait profiles, hoverable cross-trait combination cards, and curated clips. Static HTML/CSS/JS with Plotly. [big5.jdge.cc](https://big5.jdge.cc)
-
-**Website:** `https://big5.jdge.cc`
-
 **Topics:** `big-five`, `personality`, `ocean`, `psychology`, `static-site`, `understand-myself`, `plotly`
 
 ## What it is
