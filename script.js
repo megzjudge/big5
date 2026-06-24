@@ -208,6 +208,8 @@ function computeLabelYPositions({
     return Math.abs(a - b) < xThreshold;
   };
 
+  const menOverlaps = close(menX, meX) || close(menX, womenX);
+  const meOverlaps = close(meX, menX) || close(meX, womenX);
   const womenOverlaps = close(womenX, meX) || close(womenX, menX);
 
   if (menOverlaps) y.men = baseY + bump;
