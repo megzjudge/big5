@@ -331,10 +331,10 @@ function renderPercentileBellCurveAnimated(el) {
 
   function makeBandAnnotations() {
     const bands = [
-      { x: 5, text: '<10th' },
-      { x: 30, text: '10–50th' },
-      { x: 70, text: '50–90th' },
-      { x: 95, text: '>90th' },
+      { x: 12.5, text: '<10th' },
+      { x: 37.5, text: '10–50th' },
+      { x: 62.5, text: '50–90th' },
+      { x: 87.5, text: '>90th' },
     ];
     const bandY = bandStripHeight * 0.52;
 
@@ -347,6 +347,7 @@ function renderPercentileBellCurveAnimated(el) {
       showarrow: false,
       font: { size: isCompact ? 10 : 11, color: '#8a9699' },
       align: 'center',
+      xanchor: 'center',
       cliponaxis: false,
     }));
   }
@@ -356,13 +357,17 @@ function renderPercentileBellCurveAnimated(el) {
   function makeTitleAnnotation() {
     if (!isCompact) return null;
 
+    const inset = 10;
+
     return {
-      x: 0.03,
+      x: 0,
       y: 1,
       xref: 'paper',
       yref: 'paper',
       xanchor: 'left',
       yanchor: 'top',
+      xshift: inset,
+      yshift: -inset,
       text: `<b>${title}</b>`,
       showarrow: false,
       font: { size: 12, color: '#ffffff' },
@@ -378,7 +383,7 @@ function renderPercentileBellCurveAnimated(el) {
 
   const X_OVERLAP_DESKTOP = 9.5;
   const X_OVERLAP_MOBILE = 19.5;
-  const labelSize = isCompact ? 10 : 13;
+  const labelSize = isCompact ? 12 : 14;
   const markerBaseY = yMax * (isCompact ? 1.04 : 1.06);
   const markerBump = yMax * (isCompact ? 0.07 : 0.05);
   const markerExtraMe = yMax * (isCompact ? 0.11 : 0.09);
