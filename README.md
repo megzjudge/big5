@@ -1,6 +1,6 @@
 # The Big Five Aspects Scale
 
-A static site that presents [Megan Judge](https://github.com/megzjudge)'s personality results from Jordan Peterson's **Big Ten** model on [Understand Myself](https://www.understandmyself.com/personality-assessment) — five OCEAN traits, ten measurable aspects, percentile scores, population benchmarks, and write-ups for what each score means.
+A static site that presents individual personality results from Jordan Peterson's **Big Ten** model on [Understand Myself](https://www.understandmyself.com/personality-assessment) — five OCEAN traits, ten measurable aspects, percentile scores, population benchmarks, and write-ups for what each score means.
 
 ## GitHub
 
