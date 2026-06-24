@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   groupTraitPanels();
   polishAboutCards();
   makeProfileAccordions();
+  mountProfilesInTraitPanels();
   wrapVideoCards();
   initReveal();
 });
@@ -262,6 +263,30 @@ function makeProfileAccordions() {
   });
 
   mount.replaceChildren(...chapters);
+}
+
+function mountProfilesInTraitPanels() {
+  const mount = document.getElementById('traits-stack');
+  if (!mount) return;
+
+  [...mount.querySelectorAll('.trait-chapter')].forEach((chapter) => {
+    const traitId = chapter.className.match(/trait-chapter--(\w+)/)?.[1];
+    if (!traitId) return;
+
+    const panel = document.getElementById(traitId);
+    if (!panel) return;
+
+    let profiles = panel.querySelector('.trait-panel__profiles');
+    if (!profiles) {
+      profiles = document.createElement('div');
+      profiles.className = 'trait-panel__profiles';
+      panel.appendChild(profiles);
+    }
+
+    profiles.appendChild(chapter);
+  });
+
+  mount.remove();
 }
 
 function wrapVideoCards() {

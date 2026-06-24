@@ -41,7 +41,7 @@
                 <a href="https://www.understandmyself.com/personality-assessment" class="nav-link" target="_blank" rel="noopener">Take the Test ↗</a>
                 <a href="#results" class="nav-link">Results</a>
                 <a href="#combinations" class="nav-link">Combinations</a>
-                <a href="#traits" class="nav-link">Traits</a>
+                <a href="#extraversion" class="nav-link">Traits</a>
             </nav>
         </div>
     </header>
@@ -108,19 +108,24 @@
                             </article>
 
                             <div class="about-stage__row">
-                                <article class="about-panel about-panel--where card reveal">
-                                    <header class="about-panel__head">
-                                        <span class="about-panel__tag">Where</span>
-                                        <h3>Take the test</h3>
-                                    </header>
-                                    <p class="about-panel__text">The <a href="https://en.wikipedia.org/wiki/Big_Five_personality_traits" target="_blank" rel="noopener">Big Five</a> (OCEAN) is the personality framework that psychologists reach for by default — developed in the 1980s and refined ever since. These results use the <strong>Big Ten</strong> aspects model: each of the five traits split into two measurable facets - the literature talks in scales of 2, 5 (default model), 10 or 30 aspect levels of detail.</p>
-                                    <p class="about-panel__text">I took Jordan Peterson&rsquo;s version on <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a> (~$10) — it keeps your scores via a login, pairs you with your partner for a joint report, gives you 5,000 word explanation, and allows you to compare population averages to everyone else who has done the report. Free alternatives exist everywhere, but they usually cover the Big Five only, not the Big Ten aspects split and don't explain the results specific to you — and I find the ten-facet model more explanatory and Jordan's site has great explanations. Jonathan Haidt&rsquo;s <a href="https://yourmorals.org/" target="_blank" rel="noopener">YourMorals</a> is a solid free Big Five option after the first questionnaire if you want to try something without paying.</p>
-                                    <ul class="about-links">
-                                        <li><a href="https://www.researchgate.net/profile/Jordan-Peterson-9" target="_blank" rel="noopener">Jordan Peterson ↗</a></li>
-                                        <li><a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself ↗</a></li>
-                                        <li><a href="https://yourmorals.org/" target="_blank" rel="noopener">YourMorals (free) ↗</a></li>
-                                    </ul>
-                                </article>
+                                <div class="about-stage__col">
+                                    <article class="about-panel about-panel--where card reveal">
+                                        <header class="about-panel__head">
+                                            <span class="about-panel__tag">Where</span>
+                                            <h3>Take the test</h3>
+                                        </header>
+                                        <p class="about-panel__text">The <a href="https://en.wikipedia.org/wiki/Big_Five_personality_traits" target="_blank" rel="noopener">Big Five</a> (OCEAN) is the personality framework that psychologists reach for by default — developed in the 1980s and refined ever since. These results use the <strong>Big Ten</strong> aspects model: each of the five traits split into two measurable facets - the literature talks in scales of 2, 5 (default model), 10 or 30 aspect levels of detail.</p>
+                                    </article>
+
+                                    <article class="about-panel about-panel--where-note card reveal">
+                                        <p class="about-panel__text">I took Jordan Peterson&rsquo;s version on <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a> (~$10) — it keeps your scores via a login, pairs you with your partner for a joint report, gives you a 5,000 word explanation, and allows you to compare population averages to everyone else who has done the report. Free alternatives exist everywhere, but they usually cover the Big Five only, not the Big Ten aspects split and usually don&rsquo;t explain the results, or explain just the main traits in general and not specific to you — Peterson&rsquo;s makes you actually understand how the traits affect your personality. I find the ten-facet model more explanatory of personality too than the five. But the social scientist Jonathan Haidt&rsquo;s <a href="https://yourmorals.org/" target="_blank" rel="noopener">YourMorals</a> is a solid free Big Five option after the first questionnaire if you want to try something without paying.</p>
+                                        <ul class="about-links">
+                                            <li><a href="https://www.researchgate.net/profile/Jordan-Peterson-9" target="_blank" rel="noopener">Jordan Peterson ↗</a></li>
+                                            <li><a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself ↗</a></li>
+                                            <li><a href="https://yourmorals.org/" target="_blank" rel="noopener">YourMorals (free) ↗</a></li>
+                                        </ul>
+                                    </article>
+                                </div>
 
                                 <article class="about-panel about-panel--how card reveal">
                                     <header class="about-panel__head">
@@ -150,7 +155,7 @@
                             <h2>My Results</h2>
                             <p class="zone-lead zone-lead--stacked">
                                 <span class="zone-lead__line">Percentile scores from <a href="https://www.understandmyself.com/personality-assessment" target="_blank" rel="noopener">Understand Myself</a>.</span>
-                                <span class="zone-lead__line">Watch the bars fill and curves bloom as each trait comes into view.</span>
+                                <span class="zone-lead__line">Watch the bars fill and curves bloom as each trait comes into view — then unfold what each score means.</span>
                             </p>
                         </header>
                         <div class="score-overview" id="score-overview" aria-label="Trait score summary"></div>
@@ -422,13 +427,7 @@
                     </div>
                 </section>
 
-                <section class="flow-zone flow-zone--traits" id="traits">
-                    <div class="container">
-                        <header class="zone-intro reveal">
-                            <h2>Trait Profiles</h2>
-                            <p class="zone-lead">Tap a trait to unfold what each score means — images, descriptions, and how it shows up in personality.</p>
-                        </header>
-                        <div class="traits-stack" id="traits-stack">
+                <div id="traits-stack" class="traits-source" hidden aria-hidden="true">
                 <section class="page">
                     <h2>Conscientiousness 💼</h2>
                     <img src="images/conscientiousness.jpg" alt="Conscientiousness">
@@ -621,9 +620,7 @@
                         </ul>
                     </section>
 
-                        </div>
-                    </div>
-                </section>
+                </div>
 
                 <section class="flow-zone flow-zone--videos" id="videos">
                     <div class="container">

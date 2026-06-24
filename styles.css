@@ -471,6 +471,15 @@ main {
     padding: 0 20px 20px;
 }
 
+.trait-panel__profiles {
+    padding: 4px 20px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.trait-panel__profiles .trait-chapter {
+    margin-top: 16px;
+}
+
 .chart-card {
     box-shadow: none;
     background: rgba(0, 0, 0, 0.25);
@@ -521,6 +530,13 @@ main {
 .about-stage__row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 18px;
+    align-items: start;
+}
+
+.about-stage__col {
+    display: flex;
+    flex-direction: column;
     gap: 18px;
 }
 
@@ -685,6 +701,21 @@ main {
 
 .about-panel--where {
     border-color: rgba(126, 140, 10, 0.28);
+    background:
+        linear-gradient(135deg, rgba(126, 140, 10, 0.1), transparent 55%),
+        var(--surface);
+}
+
+.about-panel--where-note {
+    border-color: rgba(126, 140, 10, 0.2);
+    background:
+        linear-gradient(160deg, rgba(0, 0, 0, 0.22), transparent 50%),
+        linear-gradient(135deg, rgba(126, 140, 10, 0.06), transparent 70%),
+        var(--surface);
+}
+
+.about-panel--where-note .about-panel__text:last-of-type {
+    margin-bottom: 0;
 }
 
 .about-panel--how {
