@@ -1254,6 +1254,56 @@ main {
     line-height: 1.6;
 }
 
+.combo-card__text--hover {
+    font-size: clamp(0.92rem, 1.8vw, 1rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.combo-hover {
+    position: relative;
+    display: inline;
+    border-bottom: 1px dashed rgba(212, 232, 138, 0.45);
+    cursor: help;
+    outline: none;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.combo-hover:hover,
+.combo-hover:focus-visible {
+    color: #fff;
+    border-bottom-color: var(--link);
+}
+
+.combo-hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%);
+    padding: 8px 11px;
+    border-radius: 8px;
+    background: rgba(14, 18, 17, 0.97);
+    border: 1px solid rgba(212, 232, 138, 0.35);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    z-index: 30;
+}
+
+.combo-hover:hover::after,
+.combo-hover:focus-visible::after {
+    opacity: 1;
+    visibility: visible;
+}
+
 .comparison-subhead {
     font-size: 0.72rem;
     font-weight: 700;
