@@ -11,12 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const TRAITS = [
-  { id: 'extraversion', label: 'Extraversion', emoji: '🗣️' },
   { id: 'openness', label: 'Openness', emoji: '🏹' },
   { id: 'conscientiousness', label: 'Conscientiousness', emoji: '💼' },
-  { id: 'neuroticism', label: 'Neuroticism', emoji: '💢' },
+  { id: 'extraversion', label: 'Extraversion', emoji: '🗣️' },
   { id: 'agreeableness', label: 'Agreeableness', emoji: '✅' },
+  { id: 'neuroticism', label: 'Neuroticism', emoji: '💢' },
 ];
+
+const OCEAN_MARKS = {
+  openness: { before: '', letter: 'O', after: 'CEAN' },
+  conscientiousness: { before: 'o', letter: 'C', after: 'ean' },
+  extraversion: { before: 'oc', letter: 'E', after: 'an' },
+  agreeableness: { before: 'oce', letter: 'A', after: 'n' },
+  neuroticism: { before: 'ocea', letter: 'N', after: '' },
+};
+
+function buildOceanMark(traitId) {
+  const mark = OCEAN_MARKS[traitId];
+  if (!mark) return '';
+  return `<p class="ocean-mark ocean-mark--${traitId}" aria-hidden="true"><span class="ocean-mark__lo">${mark.before}</span><span class="ocean-mark__hi">${mark.letter}</span><span class="ocean-mark__lo">${mark.after}</span></p>`;
+}
 
 function initBackgroundGlows() {
   const mount = document.querySelector('.bg-glow');
@@ -53,7 +67,7 @@ function initBackgroundGlows() {
 }
 
 function initReveal() {
-  const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .trait-chapter, .flow-zone, .about-panel');
+  const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .trait-chapter, .flow-zone, .trait-zone, .about-panel');
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -95,9 +109,10 @@ function buildScoreOverview() {
 
 function groupTraitPanels() {
   const stream = document.getElementById('trait-stream');
-  if (!stream) return;
+  const results = document.getElementById('results');
+  if (!stream || !results) return;
 
-  const panels = [];
+  let insertAfter = results;
 
   TRAITS.forEach((trait, ti) => {
     const overview = stream.querySelector(`#${trait.id}`);
@@ -116,7 +131,6 @@ function groupTraitPanels() {
 
     const panel = document.createElement('article');
     panel.className = `trait-panel trait-panel--${trait.id} reveal`;
-    panel.id = trait.id;
 
     const head = document.createElement('header');
     head.className = 'trait-panel__head';
@@ -124,10 +138,7 @@ function groupTraitPanels() {
     const scoreMatch = mainH5?.textContent?.match(/(\d+)(?:st|nd|rd|th)/i);
     head.innerHTML = `
       <span class="trait-panel__emoji">${trait.emoji}</span>
-      <div class="trait-panel__titles">
-        <h2 class="trait-panel__title">${trait.label}</h2>
-        ${scoreMatch ? `<span class="trait-panel__score">${scoreMatch[0]}</span>` : ''}
-      </div>
+      ${scoreMatch ? `<span class="trait-panel__score trait-panel__score--solo">${scoreMatch[0]}</span>` : ''}
     `;
 
     const overviewCard = document.createElement('div');
@@ -151,10 +162,28 @@ function groupTraitPanels() {
 
     panel.append(head, overviewCard);
     if (charts.children.length) panel.append(charts);
-    panels.push(panel);
+
+    const zone = document.createElement('section');
+    zone.className = `flow-zone flow-zone--trait trait-zone trait-zone--${trait.id} reveal`;
+    zone.id = trait.id;
+
+    const container = document.createElement('div');
+    container.className = 'container';
+
+    const intro = document.createElement('header');
+    intro.className = 'trait-zone__intro reveal';
+    intro.innerHTML = `
+      ${buildOceanMark(trait.id)}
+      <h2 class="trait-zone__title">${trait.label}</h2>
+    `;
+
+    container.append(intro, panel);
+    zone.append(container);
+    insertAfter.insertAdjacentElement('afterend', zone);
+    insertAfter = zone;
   });
 
-  stream.replaceChildren(...panels);
+  stream.remove();
 }
 
 function polishAboutCards() {
@@ -273,7 +302,7 @@ function mountProfilesInTraitPanels() {
     const traitId = chapter.className.match(/trait-chapter--(\w+)/)?.[1];
     if (!traitId) return;
 
-    const panel = document.getElementById(traitId);
+    const panel = document.querySelector(`.trait-panel--${traitId}`);
     if (!panel) return;
 
     let profiles = panel.querySelector('.trait-panel__profiles');

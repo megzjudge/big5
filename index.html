@@ -41,7 +41,7 @@
                 <a href="https://www.understandmyself.com/personality-assessment" class="nav-link" target="_blank" rel="noopener">Take the Test ↗</a>
                 <a href="#results" class="nav-link">Results</a>
                 <a href="#combinations" class="nav-link">Combinations</a>
-                <a href="#extraversion" class="nav-link">Traits</a>
+                <a href="#openness" class="nav-link">Traits</a>
             </nav>
         </div>
     </header>
@@ -57,15 +57,15 @@
                         <img class="intro-icon" src="images/big5.svg" alt="Megan Judge Big 5 Personality Test Psychology Results">
                         <p class="eyebrow">Personality · Percentiles · Population</p>
                         <h1>The Big Five Aspects Scale</h1>
-                        <p class="lead">A scroll through five traits, ten aspects, bell curves, family comparisons, and the stories behind the scores — built from Jordan Peterson&rsquo;s Big Ten model.</p>
+                        <p class="lead">A scroll through five traits, ten aspects, bell curves, population benchmarks, and the stories behind the scores — built from Jordan Peterson&rsquo;s Big Ten model.</p>
                         <div class="hero-actions">
                             <a href="https://www.understandmyself.com/personality-assessment" class="btn btn-primary" target="_blank" rel="noopener">Take the Official Test ↗</a>
                             <a href="#results" class="btn btn-secondary">Explore My Results</a>
                         </div>
                         <nav class="ocean-chips" aria-label="Jump to traits">
-                            <a href="#extraversion" class="ocean-chip ocean-chip--extraversion">E · Extraversion</a>
                             <a href="#openness" class="ocean-chip ocean-chip--openness">O · Openness</a>
                             <a href="#conscientiousness" class="ocean-chip ocean-chip--conscientiousness">C · Conscientiousness</a>
+                            <a href="#extraversion" class="ocean-chip ocean-chip--extraversion">E · Extraversion</a>
                             <a href="#agreeableness" class="ocean-chip ocean-chip--agreeableness">A · Agreeableness</a>
                             <a href="#neuroticism" class="ocean-chip ocean-chip--neuroticism">N · Neuroticism</a>
                         </nav>
@@ -159,7 +159,10 @@
                             </p>
                         </header>
                         <div class="score-overview" id="score-overview" aria-label="Trait score summary"></div>
-                        <div class="trait-stream" id="trait-stream">
+                    </div>
+                </section>
+
+                <div id="trait-stream" class="traits-source" hidden aria-hidden="true">
                 <section class="page" id="extraversion">
                     <h5>Extraversion 89th 🗣️</h5>
                     <div class="progress-bar" data-progress="89"><div class="progress-fill"></div><span class="progress-label">89th</span></div>
@@ -395,9 +398,7 @@
                     ></div>
                 </section>
 
-                        </div>
-                    </div>
-                </section>
+                </div>
 
                 <section class="flow-zone flow-zone--combinations" id="combinations">
                     <div class="container">
@@ -408,20 +409,12 @@
                         <article class="combinations-card card reveal page page--combinations">
                     <h3>Trait Mixes</h3>
                         <ul>
-                            <li class="combinations">Low Withdrawal + Low Politeness =
-                            <br>Not afraid to fight for change.</li>
-                            <li class="combinations">High Assertiveness + Low Politeness =
-                            <br>Will speak even when it is uncomfortable to do so.</li>
-                            <li class="combinations">Low Enthusiasm + High Intellect/Aesthetics =
-                            <br>Driven by creativity not happiness.</li>
+                            <li class="combinations">Low Politeness + Low Withdrawal / High Assertiveness / Average Compassion =
+                            <br>Direct and confrontational — pushes for change, speaks when it&rsquo;s uncomfortable, and can fight for your side while still keeping their guard up.</li>
                             <li class="combinations">Low Enthusiasm + Low Politeness =
-                            <br>Will go against authority even if it causes personal unhappiness.</li>
-                            <li class="combinations">High Industriousness + High Intellect/Aesthetics =
-                            <br>Will work endlessly for creativity means.</li>
-                            <li class="combinations">Low Enthusiasm + High Industriousness =
-                            <br>Will work hard even if there is no happiness in doing so.</li>
-                            <li class="combinations">Average Compassion + Low Politeness =
-                            <br>Will fight for your feelings but also has good Self defense against you.</li>
+                            <br>Won&rsquo;t defer to authority; willing to go against the grain even when it costs them personally.</li>
+                            <li class="combinations">Low Enthusiasm + High Intellect, Aesthetics, or Industriousness =
+                            <br>Driven by ideas and duty, not cheer — will grind on creative work without needing happiness along the way.</li>
                         </ul>
                         </article>
                     </div>
@@ -561,7 +554,7 @@
                         <ul>
                             <li>Somewhat concerned about helping other people avoid negative emotion.</li>
                             <li>Willing to stand their ground, even when others get upset.</li>
-                            <li>Make time and do things to others, but balance that with fulfilling their own needs.</li>
+                            <li>Make time and do things for others, but balance that with fulfilling their own needs.</li>
                             <li>Have a soft side, but are not pushovers.</li>
                             <li>Reasonably sympathetic and nice, and people will sometimes turn to them for a listening ear.</li>
                             <li>Can be empathetic and caring, however they are not primarily other-oriented, so they can negotiate effectively on their own behalf.</li>
@@ -766,11 +759,11 @@
                     </div>
                 </section>
 
-                <section class="flow-zone flow-zone--comparison" id="comparison">
+                <section class="flow-zone flow-zone--comparison flow-zone--bonus" id="bonus">
                     <div class="container">
                         <header class="zone-intro reveal zone-intro--subtle">
-                            <h2>Family Comparison</h2>
-                            <p class="zone-lead">Openness scores compared across family members and population averages.</p>
+                            <h2>Bonus</h2>
+                            <p class="zone-lead">Openness scores lined up against family and site averages — tucked away for the curious.</p>
                         </header>
                         <div class="comparison-card card reveal page page--comparison">
                     <h5>Openness to Experience Comparison</h5>

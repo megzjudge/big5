@@ -284,6 +284,69 @@ main {
 }
 
 .flow-zone--results { padding-top: clamp(28px, 4vh, 40px); }
+
+.flow-zone--trait {
+    padding: clamp(36px, 7vh, 64px) 0;
+}
+
+.trait-zone__intro {
+    text-align: center;
+    margin-bottom: clamp(20px, 3vh, 32px);
+}
+
+.ocean-mark {
+    margin: 0 0 10px;
+    font-family: 'Somebody Else', Arial, fantasy;
+    font-size: clamp(2.4rem, 9vw, 4.25rem);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    text-transform: lowercase;
+}
+
+.ocean-mark__hi {
+    font-size: 1.22em;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.ocean-mark__lo {
+    opacity: 0.28;
+    font-size: 0.92em;
+}
+
+.trait-zone__title {
+    margin: 0;
+    font-family: 'Somebody Else', Arial, fantasy;
+    font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+    color: #fff;
+    font-weight: 400;
+}
+
+.trait-zone--openness {
+    background: linear-gradient(180deg, rgba(10, 126, 140, 0.08), transparent 72%);
+}
+.trait-zone--openness .ocean-mark__hi { color: var(--trait-openness); }
+
+.trait-zone--conscientiousness {
+    background: linear-gradient(180deg, rgba(201, 162, 39, 0.07), transparent 72%);
+}
+.trait-zone--conscientiousness .ocean-mark__hi { color: var(--trait-conscientiousness); }
+
+.trait-zone--extraversion {
+    background: linear-gradient(180deg, rgba(232, 93, 76, 0.08), transparent 72%);
+}
+.trait-zone--extraversion .ocean-mark__hi { color: var(--trait-extraversion); }
+
+.trait-zone--agreeableness {
+    background: linear-gradient(180deg, rgba(126, 140, 10, 0.07), transparent 72%);
+}
+.trait-zone--agreeableness .ocean-mark__hi { color: var(--trait-agreeableness); }
+
+.trait-zone--neuroticism {
+    background: linear-gradient(180deg, rgba(140, 10, 126, 0.08), transparent 72%);
+}
+.trait-zone--neuroticism .ocean-mark__hi { color: var(--trait-neuroticism); }
+
 .flow-zone--traits { background: linear-gradient(180deg, transparent, rgba(10, 126, 140, 0.04), transparent); }
 .flow-zone--videos { background: rgba(0, 0, 0, 0.12); }
 
@@ -351,7 +414,7 @@ main {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-bottom: clamp(28px, 5vh, 48px);
+    margin-bottom: 0;
 }
 
 .score-pill {
@@ -424,6 +487,7 @@ main {
 .trait-panel__head {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 16px;
     padding: 20px clamp(20px, 3vw, 28px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -450,6 +514,11 @@ main {
     font-family: 'Somebody Else', Arial, fantasy;
     font-size: 1.1rem;
     opacity: 0.7;
+}
+
+.trait-panel__score--solo {
+    font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+    opacity: 0.85;
 }
 
 .trait-panel--extraversion .trait-panel__head { background: linear-gradient(90deg, rgba(232, 93, 76, 0.2), transparent); }
@@ -1173,15 +1242,17 @@ main {
     font-size: 0.88rem;
 }
 
-/* ─── Comparison ─── */
-.flow-zone--comparison {
-    padding-bottom: clamp(48px, 8vh, 72px);
-    opacity: 0.92;
+/* ─── Comparison / Bonus ─── */
+.flow-zone--comparison,
+.flow-zone--bonus {
+    padding-top: clamp(24px, 4vh, 40px);
+    padding-bottom: clamp(32px, 5vh, 48px);
+    opacity: 0.88;
 }
 
 .zone-intro--subtle h2 {
-    font-size: clamp(1.35rem, 3vw, 1.65rem);
-    opacity: 0.88;
+    font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+    opacity: 0.72;
 }
 
 .zone-intro--subtle .zone-lead {
