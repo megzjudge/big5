@@ -67,7 +67,7 @@ function initBackgroundGlows() {
 }
 
 function initReveal() {
-  const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .trait-chapter, .flow-zone, .trait-zone, .about-panel');
+  const els = document.querySelectorAll('.reveal, .trait-panel, .card, .profile-fold, .trait-chapter, .flow-zone, .trait-zone, .about-panel, .combo-card');
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -112,7 +112,8 @@ function groupTraitPanels() {
   const results = document.getElementById('results');
   if (!stream || !results) return;
 
-  let insertAfter = results;
+  const combinations = document.getElementById('combinations');
+  let insertAfter = combinations || results;
 
   TRAITS.forEach((trait, ti) => {
     const overview = stream.querySelector(`#${trait.id}`);
@@ -138,7 +139,10 @@ function groupTraitPanels() {
     const scoreMatch = mainH5?.textContent?.match(/(\d+)(?:st|nd|rd|th)/i);
     head.innerHTML = `
       <span class="trait-panel__emoji">${trait.emoji}</span>
-      ${scoreMatch ? `<span class="trait-panel__score trait-panel__score--solo">${scoreMatch[0]}</span>` : ''}
+      <div class="trait-panel__titles">
+        <h2 class="trait-panel__title">${trait.label}</h2>
+      </div>
+      ${scoreMatch ? `<span class="trait-panel__score">${scoreMatch[0]}</span>` : ''}
     `;
 
     const overviewCard = document.createElement('div');
@@ -172,10 +176,7 @@ function groupTraitPanels() {
 
     const intro = document.createElement('header');
     intro.className = 'trait-zone__intro reveal';
-    intro.innerHTML = `
-      ${buildOceanMark(trait.id)}
-      <h2 class="trait-zone__title">${trait.label}</h2>
-    `;
+    intro.innerHTML = buildOceanMark(trait.id);
 
     container.append(intro, panel);
     zone.append(container);
