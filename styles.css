@@ -644,6 +644,11 @@ main {
     background:
         linear-gradient(135deg, rgba(10, 126, 140, 0.1), transparent 55%),
         var(--surface);
+    padding: 12px clamp(16px, 2.5vw, 22px);
+}
+
+.about-panel--model .about-panel__head {
+    margin-bottom: 0;
 }
 
 .about-diagram {
@@ -1344,7 +1349,7 @@ main {
 .video-card h3 {
     margin-top: 0;
     text-align: left;
-    font-size: 1rem;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
 }
 
 .video-card .video-wrapper {
