@@ -112,8 +112,7 @@ function groupTraitPanels() {
   const results = document.getElementById('results');
   if (!stream || !results) return;
 
-  const combinations = document.getElementById('combinations');
-  let insertAfter = combinations || results;
+  let insertAfter = results;
 
   TRAITS.forEach((trait, ti) => {
     const overview = stream.querySelector(`#${trait.id}`);
@@ -185,6 +184,11 @@ function groupTraitPanels() {
   });
 
   stream.remove();
+
+  const combinations = document.getElementById('combinations');
+  if (combinations) {
+    insertAfter.insertAdjacentElement('afterend', combinations);
+  }
 }
 
 function polishAboutCards() {
