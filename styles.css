@@ -229,20 +229,24 @@ body {
 
 .ocean-chips {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: clamp(4px, 1vw, 8px);
     justify-content: center;
-    max-width: 36rem;
+    width: 100%;
+    max-width: 52rem;
+    margin: 0 auto;
 }
 
 .ocean-chip {
-    font-size: 0.72rem;
+    font-size: clamp(0.62rem, 1.65vw, 0.72rem);
     font-weight: 700;
-    padding: 8px 12px;
+    padding: 7px clamp(8px, 1.2vw, 12px);
     border-radius: 999px;
     border: 1px solid transparent;
     text-decoration: none;
     border-bottom: none;
+    white-space: nowrap;
+    flex: 0 0 auto;
     transition: transform 0.15s, box-shadow 0.15s;
 }
 
@@ -594,9 +598,11 @@ main {
 }
 
 .about-diagram__label {
-    font-family: 'Somebody Else', Arial, fantasy;
-    font-size: 0.95rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
     color: #fff;
+    letter-spacing: 0.02em;
 }
 
 .about-diagram__hint {
@@ -1420,6 +1426,16 @@ img {
     }
 
     .hero-actions .btn { width: 100%; }
+
+    .ocean-chips {
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 0 4px 6px;
+    }
+
+    .ocean-chips::-webkit-scrollbar { display: none; }
 
     .score-pill { min-width: calc(50% - 8px); flex: 1 1 calc(50% - 8px); }
 
