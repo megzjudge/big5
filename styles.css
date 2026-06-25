@@ -1693,22 +1693,11 @@ img {
     .nav-link {
         text-align: center;
         white-space: nowrap;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: rgba(255, 255, 255, 0.82);
-        padding: 8px 6px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        transition: color 0.15s, background 0.15s, border-color 0.15s;
-    }
-
-    .nav-link:hover {
+        font-family: 'Somebody Else', Arial, fantasy;
+        font-size: 1.1rem;
+        font-weight: 400;
+        letter-spacing: 0.01em;
         color: #fff;
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 255, 255, 0.16);
     }
 
     /* Trim the gap between the header and the hero logo */
