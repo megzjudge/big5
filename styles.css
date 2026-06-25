@@ -1704,6 +1704,20 @@ img {
     /* Trim the gap between the header and the hero logo */
     .hero { min-height: auto; padding: 4px 0 44px; }
 
+    .eyebrow {
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+    }
+
+    /* Keep the About lead's authored lines unbroken — shrink to fit one line */
+    #about .zone-lead {
+        font-size: clamp(0.58rem, 2.6vw, 0.88rem);
+    }
+
+    #about .zone-lead__line {
+        white-space: nowrap;
+    }
+
     .hero-actions {
         flex-direction: column;
         width: 100%;
