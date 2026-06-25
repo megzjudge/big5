@@ -1674,7 +1674,7 @@ img {
 @media (max-width: 640px) {
     .header-inner {
         flex-direction: column;
-        padding: 10px 0;
+        padding: 16px 0 12px;
         min-height: auto;
     }
 
@@ -1688,20 +1688,21 @@ img {
         gap: 10px 8px;
         width: 100%;
         justify-content: stretch;
+        padding: 0 10px;
     }
 
     .nav-link {
         text-align: center;
         white-space: nowrap;
         font-family: 'Somebody Else', Arial, fantasy;
-        font-size: 1.1rem;
+        font-size: 0.92rem;
         font-weight: 400;
         letter-spacing: 0.01em;
         color: #fff;
     }
 
     /* Trim the gap between the header and the hero logo */
-    .hero { min-height: auto; padding: 14px 0 44px; }
+    .hero { min-height: auto; padding: 4px 0 44px; }
 
     .hero-actions {
         flex-direction: column;
