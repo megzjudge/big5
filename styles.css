@@ -1191,6 +1191,39 @@ main {
         padding: 5px 9px;
         font-size: 0.62rem;
     }
+
+    /* Let fold internals use the full width of their box on mobile */
+    .trait-chapter__aspects { padding-left: 0; }
+
+    .profile-fold--aspect > .profile-fold__body {
+        padding: 14px 12px 16px;
+    }
+
+    .profile-fold--root > .profile-fold__body {
+        padding-bottom: 16px;
+    }
+
+    .profile-fold__body h3,
+    .profile-fold--root .profile-fold__body h3 {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+
+    .profile-fold__body .pcenter,
+    .profile-fold__body .plimited {
+        padding: 0 12px;
+    }
+
+    .profile-fold__body ul {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 12px 12px 12px 22px;
+    }
+
+    .profile-fold--aspect .profile-fold__body ul {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .flow-zone--combinations {
@@ -1645,8 +1678,22 @@ img {
         min-height: auto;
     }
 
-    .logo { text-align: center; }
-    .nav { justify-content: center; }
+    /* Hide the wordmark on mobile — the nav alone carries the header */
+    .logo { display: none; }
+
+    /* Nav links break 3 across over two rows, evenly spaced */
+    .nav {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px 8px;
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .nav-link {
+        text-align: center;
+        white-space: nowrap;
+    }
 
     .hero { min-height: auto; padding: 36px 0 44px; }
 
@@ -1658,17 +1705,22 @@ img {
 
     .hero-actions .btn { width: 100%; }
 
+    /* Chips wrap to fit the screen instead of overflowing sideways */
     .ocean-chips {
-        justify-content: flex-start;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        padding: 0 4px 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-x: visible;
+        max-width: 100%;
+        padding: 0 2px;
+        gap: 6px;
     }
 
-    .ocean-chips::-webkit-scrollbar { display: none; }
+    .ocean-chip {
+        flex: 0 1 auto;
+        max-width: 100%;
+    }
 
-    .score-pill { min-width: calc(50% - 8px); flex: 1 1 calc(50% - 8px); }
+    .score-pill { min-width: calc(50% - 8px); flex: 0 1 calc(50% - 8px); }
 
     .trait-panel__charts { grid-template-columns: 1fr; }
 }
