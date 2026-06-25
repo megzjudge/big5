@@ -283,7 +283,7 @@ main {
         rgba(0, 0, 0, 0.15);
 }
 
-.flow-zone--results { padding-top: clamp(28px, 4vh, 40px); }
+.flow-zone--results { padding-top: clamp(40px, 8vh, 72px); }
 
 .flow-zone--trait {
     padding: clamp(36px, 7vh, 64px) 0;
@@ -341,7 +341,11 @@ main {
 .trait-zone--neuroticism .ocean-mark__hi { color: var(--trait-neuroticism); }
 
 .flow-zone--traits { background: linear-gradient(180deg, transparent, rgba(10, 126, 140, 0.04), transparent); }
-.flow-zone--videos { background: rgba(0, 0, 0, 0.12); }
+.flow-zone--videos {
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 16px 30px rgba(0, 0, 0, 0.38);
+}
 
 .zone-intro {
     text-align: center;
