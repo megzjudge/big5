@@ -1681,7 +1681,7 @@ img {
 @media (max-width: 640px) {
     .header-inner {
         flex-direction: column;
-        padding: 16px 0 12px;
+        padding: 16px 0 7px;
         min-height: auto;
     }
 
@@ -1709,7 +1709,20 @@ img {
     }
 
     /* Trim the gap between the header and the hero logo */
-    .hero { min-height: auto; padding: 4px 0 44px; }
+    .hero { min-height: auto; padding: 4px 0 40px; }
+
+    /* Pull the eyebrow + title up to sit closer under the icon */
+    .intro-icon {
+        max-width: min(60%, 250px);
+        margin-bottom: 0;
+    }
+
+    .hero .eyebrow {
+        margin-top: -6px;
+        margin-bottom: 8px;
+    }
+
+    .hero .lead { margin-bottom: 16px; }
 
     .eyebrow {
         font-size: 0.62rem;
@@ -1729,6 +1742,8 @@ img {
         flex-direction: column;
         width: 100%;
         max-width: 300px;
+        gap: 10px;
+        margin-bottom: 20px;
     }
 
     .hero-actions .btn { width: 100%; }
