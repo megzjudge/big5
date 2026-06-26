@@ -1724,6 +1724,9 @@ img {
 
     .hero .lead { margin-bottom: 16px; }
 
+    /* Match the break-to-heading gap to the pills-to-break gap */
+    .flow-zone--about { padding-top: 56px; }
+
     .eyebrow {
         font-size: 0.62rem;
         letter-spacing: 0.1em;
