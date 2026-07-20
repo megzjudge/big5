@@ -86,7 +86,7 @@ body {
     align-items: center;
     align-self: stretch;
     position: relative;
-    top: 12px;
+    top: 6px;
     font-family: 'Somebody Else', Arial, fantasy;
     font-size: clamp(0.82rem, 2.6vw, 1.35rem);
     line-height: 1;
